@@ -154,7 +154,9 @@ test("runner: one browser_run_code_unsafe call covers 3 widths x 2 schemes x 2 m
   await page.setContent(read("./fixtures/media.html"));
   // Same evaluation path as Playwright MCP's browser_run_code_unsafe: vm context with only `page`.
   const fn = vm.runInContext("(" + code + ")", vm.createContext({ page }));
+  const before = page.viewportSize();
   const out = JSON.parse(JSON.stringify(await fn(page)));
+  assert.deepEqual(page.viewportSize(), before);
   assert.equal(out.length, 12);
   const combos = out.map((r) => `${r.width}/${r.colorScheme}/${r.reducedMotion}`);
   assert.equal(new Set(combos).size, 12);

@@ -251,8 +251,9 @@ More checks
 
 Source: App Store Review Guidelines, section 4 and nearby (last updated 2026-10-16).
 
-Pass/fail list (App Review enforces these, so they are MUST and Blocker candidates). Release-bound only: the 4.1 and 4.2 minimum-functionality and placeholder-content checks apply only to builds the profile or the user marks as release-bound. For in-development code, report placeholders as notes in Unverified, not Blockers.
+Pass/fail list (App Review enforces these, so they are MUST and Blocker candidates). Release-bound only: the 4.2 minimum-functionality and 2.1 app-completeness checks (placeholder content, broken links or features) apply only to builds the profile or the user marks as release-bound. For in-development code, report placeholders as notes in Unverified, not Blockers. 4.1 Copycats, 4.2.6 template apps and 4.3 Spam are not gated: report them at any stage.
 - [MUST] 4 Design: products should be simple, refined, innovative, easy to use; this sets minimum standards. A degraded experience may be removed.
+- [MUST] (unverified) 2.1 App Completeness: submit final versions, with no placeholder content, broken links or incomplete features. Source: App Review Guidelines 2.1 App Completeness.
 - [MUST] 4.1 Copycats: do not copy a popular app or make minor changes to another app's name or UI.
 - [MUST] 4.2 Minimum Functionality: features, content and UI that elevate beyond a repackaged website; useful, unique or app-like. 4.2.2: not primarily marketing, ads, web clippings, aggregators or link collections. 4.2.3(ii): disclose the size of any first-launch download and prompt before downloading.
 - [MUST] 4.2.6 template apps: apps from commercial templates or app-generation services are rejected unless the content provider submits them. This anchors the slop scan in something Apple enforces.

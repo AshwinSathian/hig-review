@@ -42,6 +42,8 @@ def decode(path):
     rows, prev = [], bytearray(stride)
     for y in range(h):
         ft, line = raw[y * (stride + 1)], bytearray(raw[y * (stride + 1) + 1:(y + 1) * (stride + 1)])
+        if ft > 4:
+            sys.exit(f"corrupt PNG: filter type {ft} on row {y}")
         for i in range(stride):
             a = line[i - bpp] if i >= bpp else 0
             b, c = prev[i], prev[i - bpp] if i >= bpp else 0

@@ -1,6 +1,6 @@
 # sloppy-app answer key
 
-DO NOT SHOW THIS FILE TO THE REVIEWER during eval runs. The server in evals/cases.md serves this folder, so the file is reachable by URL; never mention it in the reviewer prompt, and score the review only after it is done.
+DO NOT SHOW THIS FILE TO THE REVIEWER during eval runs. Never mention it in the reviewer prompt, and score the review only after it is done.
 
 Product: "Swell", a tide-and-surf forecast page. Subject anchors for Elevate: tide curve, swell period, wind direction, break-by-break ratings, dawn patrol timing, NOAA buoy provenance.
 

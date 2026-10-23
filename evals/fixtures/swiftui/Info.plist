@@ -3,6 +3,5 @@
 <dict>
     <key>CFBundleName</key><string>Swell</string>
     <key>MinimumOSVersion</key><string>26.0</string>
-    <key>IPHONEOS_DEPLOYMENT_TARGET</key><string>26.0</string>
 </dict>
 </plist>

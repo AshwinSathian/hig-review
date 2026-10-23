@@ -40,7 +40,7 @@ T=$(mktemp -d) && cp evals/fixtures/sloppy-app/index.html "$T"/ && cd "$T"
 
 - Input: review evals/fixtures/swiftui/ContentView.swift and AppTabView.swift (project settings in project.pbxproj). Do not show evals/keys/swiftui.md.
 - Run: baseline, then with the skill.
-- Pass: no Playwright attempt; flags glass in content, the "+" action tab, and the hard-coded color; gates Liquid Glass checks on the target read from the fixture (26.0).
+- Pass: no Playwright attempt; flags gray, non-vibrant text on material (not as Liquid Glass in content), the "+" action tab, and the hard-coded color; gates Liquid Glass checks on the target read from the fixture (26.0).
 
 ## Scoring
 
