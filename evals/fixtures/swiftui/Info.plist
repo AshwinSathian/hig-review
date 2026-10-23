@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Snippet of the project settings the reviewer should read for the deployment target.
-     Equivalent project.pbxproj line: IPHONEOS_DEPLOYMENT_TARGET = 26.0; -->
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key><string>Swell</string>

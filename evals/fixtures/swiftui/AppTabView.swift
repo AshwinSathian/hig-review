@@ -14,7 +14,6 @@ struct AppTabView: View {
             }
             .frame(maxHeight: .infinity)
 
-            // Custom tab bar
             HStack {
                 tab("Forecast", "water.waves", 0)
                 Button { showNewSession = true } label: {

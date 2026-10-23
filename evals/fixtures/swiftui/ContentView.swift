@@ -18,7 +18,6 @@ struct ContentView: View {
                 VStack(spacing: 12) {
                     Text("Today")
                         .font(.largeTitle.bold())
-                        // Hard-coded colour used as text colour
                         .foregroundColor(Color(red: 0.31, green: 0.27, blue: 0.9))
                         .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -31,7 +30,6 @@ struct ContentView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
-                        // Glass material on content rows
                         .background(.ultraThinMaterial)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
