@@ -1,4 +1,4 @@
-Covers GOV.UK Design System and Service Manual (with NHS content guidance), IBM Carbon, Shopify Polaris, GitHub Primer, Atlassian, Adobe Spectrum: forms, validation, errors, feedback, density, motion registers, data viz, copy rules, contrast-generated palettes.
+Covers: GOV.UK Design System and Service Manual (with NHS content guidance), IBM Carbon, Shopify Polaris, GitHub Primer, Atlassian, Adobe Spectrum: forms, validation, errors, feedback, density, motion registers, data viz, copy rules, contrast-generated palettes.
 Loaded by: structure, content, accessibility
 Snapshot: 2026-10-23
 Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'. [Taste] always shows 'Taste' in reports, whatever its label.

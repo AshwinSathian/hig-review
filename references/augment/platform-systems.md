@@ -1,4 +1,4 @@
-Covers Material 3 and M3 Expressive, Fluent 2, Windows 11 app design, and the Microsoft Inclusive Design toolkit. Non-Apple; augments the HIG and never replaces it.
+Covers: Material 3 and M3 Expressive, Fluent 2, Windows 11 app design, and the Microsoft Inclusive Design toolkit. Non-Apple; augments the HIG and never replaces it.
 Loaded by: visual, interaction and motion, distinctiveness, platform fit
 Snapshot: 2026-10-23
 Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'. [Taste] always shows 'Taste' in reports, whatever its label.
