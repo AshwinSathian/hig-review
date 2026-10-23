@@ -1,0 +1,10 @@
+0x  digest's internal "check digest 0x" pointer, not a content number
+13878  webkit.org blog post id from a URL
+3709  webkit.org blog post id from a URL
+7929  webkit.org blog post id from a URL
+8840  webkit.org blog post id from a URL
+2022  year in URL/citation form; sessions cited as WWDC22 here
+2024  year in URL/citation form; sessions cited as WWDC24 here
+75  "75+ transcripts pulled" provenance count, not a design rule
+80  "80/20" progressive disclosure; kept as 80% / less-used 80%
+17pt  digest shorthand, covered by 17 pt in text

@@ -1,0 +1,8 @@
+15characters # moved to writing.md
+60 # moved to writing.md
+75characters # moved to writing.md
+8characters # moved to writing.md
+329347 # moved to writing.md
+2.4 # moved to writing.md (WCAG 2.4.4 link text)
+3.3 # moved to writing.md (WCAG 3.3.x errors and labels)
+1:1 # from the dropped Open questions section

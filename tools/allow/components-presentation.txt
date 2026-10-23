@@ -1,0 +1,31 @@
+125%  # visionOS widget scaling
+1280x  # visionOS window size
+14.5pt  # watchOS complication font size
+152x  # watchOS Smart Stack size
+154pt  # visionOS alert accessory height
+158pt  # visionOS widget size
+16  # visionOS alert corner radius; 16:9 tvOS image ratio
+16.5  # watchOS complication font size
+18%  # watchOS notification background opacity
+19.5pt  # watchOS complication font size
+1940x  # tvOS Top Shelf image
+194x  # watchOS Smart Stack size
+198x  # watchOS Smart Stack size
+2320x  # tvOS Top Shelf fallback
+268  # visionOS widget size in mm
+2pt  # watchOS complication line width
+40  # watchOS case size
+404x  # tvOS Top Shelf poster
+46  # watchOS case size
+49  # watchOS case size
+512  # tvOS Top Shelf image
+600px  # spec: web popover-to-sheet uses project's own breakpoints, no fixed number
+608  # tvOS Top Shelf image
+608x  # tvOS Top Shelf image
+69.5  # watchOS Smart Stack size
+692  # tvOS Top Shelf image
+720pt  # visionOS window size
+75  # visionOS widget scaling
+80.5  # watchOS Smart Stack size
+81.5  # watchOS Smart Stack size
+908x  # tvOS Top Shelf image
