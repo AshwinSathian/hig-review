@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swell - tide and surf forecasts</title>
+<style>
+  /* Deliberately generic. Planted problems are numbered in comments (P1-P10); bonus items marked B. */
+  :root { --ink: #1f2430; --muted: #4b5563; --line: #e5e7eb; --bg: #f8fafc; --accent: #4f46e5; }
+  * { box-sizing: border-box; }
+  /* P3: Inter font stack */
+  body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.55; font-size: 16px; }
+  /* B: no prefers-color-scheme anywhere in this file */
+  header { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; background: #fff; border-bottom: 1px solid var(--line); }
+  header .brand { font-weight: 700; font-size: 20px; }
+  header nav { display: flex; gap: 8px; }
+  header nav a { display: inline-block; padding: 12px 14px; color: var(--ink); text-decoration: none; font-size: 15px; }
+  /* P1: centered hero on indigo to violet gradient */
+  .hero { text-align: center; padding: 88px 24px; color: #fff; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); }
+  .hero h1 { font-size: 48px; line-height: 1.1; margin: 0 0 16px; }
+  .hero p { font-size: 20px; max-width: 560px; margin: 0 auto 28px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border-radius: 10px; border: 0; font: inherit; font-weight: 600; cursor: pointer; }
+  .btn-light { background: #fff; color: #3730a3; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  main { max-width: 1040px; margin: 0 auto; padding: 48px 24px; }
+  h2 { font-size: 28px; margin: 0 0 8px; }
+  section { margin-bottom: 56px; }
+  .lede { color: var(--muted); margin: 0 0 24px; }
+  /* P2: three identical feature cards; B: transition: all */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,.08); transition: all .3s ease; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+  .card .icon { font-size: 32px; margin-bottom: 8px; }
+  .card h3 { margin: 0 0 6px; font-size: 18px; }
+  .card p { margin: 0; color: var(--muted); }
+  /* P4: glass card inside main content */
+  .conditions-wrap { padding: 28px; border-radius: 18px; background: linear-gradient(120deg, #0e7490, #38bdf8); }
+  .glass { background: rgba(255,255,255,.18); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.35); border-radius: 16px; padding: 20px 24px; color: #fff; display: flex; gap: 40px; flex-wrap: wrap; }
+  .glass div b { display: block; font-size: 28px; }
+  /* P5: error banner */
+  .banner { margin: 20px 0 0; padding: 12px 16px; border-radius: 10px; background: #fee2e2; color: #7f1d1d; border: 1px solid #fecaca; }
+  /* P10b: skeleton shimmer */
+  .skel { height: 120px; border-radius: 12px; background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 15px; }
+  th { color: var(--muted); font-weight: 600; }
+  /* P9: 20x20 icon-only buttons */
+  .spots { list-style: none; margin: 0; padding: 0; background: #fff; border: 1px solid var(--line); border-radius: 12px; }
+  .spots li { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .spots li:last-child { border-bottom: 0; }
+  .spots .name { flex: 1; }
+  .spots .meta { color: var(--muted); font-size: 14px; }
+  .ib { width: 20px; height: 20px; padding: 0; border: 0; background: transparent; color: #6b7280; cursor: pointer; display: inline-grid; place-items: center; }
+  .ib svg { width: 16px; height: 16px; }
+  .tools { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
+  /* P8: placeholder-only form */
+  form { display: grid; gap: 12px; max-width: 420px; }
+  input { min-height: 44px; padding: 0 14px; border: 1px solid #cbd5e1; border-radius: 10px; font: inherit; }
+  /* P10a: toast */
+  #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #111827; color: #fff; padding: 12px 20px; border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  #toast.on { opacity: 1; }
+  footer { text-align: center; color: var(--muted); font-size: 14px; padding: 32px 24px 48px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .hero h1 { font-size: 34px; } }
+</style>
+</head>
+<body>
+<header>
+  <span class="brand">Swell</span>
+  <nav aria-label="Primary"><a href="#forecast">Forecast</a><a href="#spots">Spots</a><a href="#alerts">Alerts</a></nav>
+</header>
+
+<div class="hero" id="hero">
+  <h1>Know the swell before you wax up</h1>
+  <p>Tide, swell period and wind for 400 breaks, updated every 30 minutes.</p>
+  <a class="btn btn-light" href="#forecast">See today's forecast</a>
+</div>
+
+<main>
+  <section>
+    <h2>Why surfers use Swell</h2>
+    <p class="lede">Everything for a good session in one place.</p>
+    <div class="grid" id="features">
+      <article class="card"><div class="icon" aria-hidden="true">🌊</div><h3>Accurate forecasts</h3><p>Get reliable surf data you can count on every day.</p></article>
+      <article class="card"><div class="icon" aria-hidden="true">⚡</div><h3>Fast updates</h3><p>Get fresh numbers quickly so you never miss a window.</p></article>
+      <article class="card"><div class="icon" aria-hidden="true">🔔</div><h3>Smart alerts</h3><p>Get notified when conditions match what you want.</p></article>
+    </div>
+  </section>
+
+  <section id="forecast">
+    <h2>Ocean Beach, today</h2>
+    <p class="lede">Sunrise 6:52, high tide 11:08 (5.4 ft).</p>
+    <div class="conditions-wrap">
+      <div class="glass" id="conditions">
+        <div><b>4.2 ft</b>Swell height</div>
+        <div><b>13 s</b>Period</div>
+        <div><b>8 kt NE</b>Wind</div>
+      </div>
+    </div>
+    <div class="banner" id="live-error" role="alert">Oops! Something went wrong.</div>
+    <div class="tools">
+      <button class="btn btn-primary" id="gen" type="button">✨ Generate</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tide table</h2>
+    <p class="lede">Heights in feet, local time.</p>
+    <div id="tide-skel" class="skel" aria-hidden="true"></div>
+    <table id="tide-table" hidden>
+      <thead><tr><th>Time</th><th>Type</th><th>Height</th></tr></thead>
+      <tbody>
+        <tr><td>04:41</td><td>Low</td><td>0.6 ft</td></tr>
+        <tr><td>11:08</td><td>High</td><td>5.4 ft</td></tr>
+        <tr><td>17:19</td><td>Low</td><td>1.1 ft</td></tr>
+        <tr><td>23:30</td><td>High</td><td>4.8 ft</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="spots">
+    <h2>Your spots</h2>
+    <p class="lede">Saved breaks, ordered by today's rating.</p>
+    <ul class="spots">
+      <li><span class="name">Ocean Beach<br><span class="meta">4.2 ft at 13 s</span></span>
+        <button class="ib save" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></button>
+        <button class="ib" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v7h16v-7M12 3v12M8 7l4-4 4 4"/></svg></button>
+        <button class="ib" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button></li>
+      <li><span class="name">Pacifica Linda Mar<br><span class="meta">2.8 ft at 11 s</span></span>
+        <button class="ib save" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></button>
+        <button class="ib" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v7h16v-7M12 3v12M8 7l4-4 4 4"/></svg></button>
+        <button class="ib" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button></li>
+    </ul>
+  </section>
+
+  <section id="alerts">
+    <h2>Get a heads-up</h2>
+    <p class="lede">Tell us your home break and we will watch it.</p>
+    <form id="signup" action="#" onsubmit="return false">
+      <input type="text" name="name" placeholder="Name" autocomplete="name">
+      <input type="email" name="email" placeholder="Email" autocomplete="email">
+      <input type="text" name="break" placeholder="Home break">
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+  </section>
+</main>
+
+<div id="toast" role="status"></div>
+<footer>Swell &middot; Forecast data from NOAA buoys 46026 and 46012</footer>
+
+<script>
+  // P10b: skeleton for an instant load (<100 ms)
+  setTimeout(() => {
+    document.getElementById('tide-skel').remove();
+    document.getElementById('tide-table').hidden = false;
+  }, 80);
+  // P10a: toast "Saved!" after save
+  const toast = document.getElementById('toast');
+  document.querySelectorAll('.save').forEach((b) => b.addEventListener('click', () => {
+    toast.textContent = 'Saved!'; toast.classList.add('on');
+    setTimeout(() => toast.classList.remove('on'), 2500);
+  }));
+</script>
+</body>
+</html>
