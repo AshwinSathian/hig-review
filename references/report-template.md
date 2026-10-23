@@ -6,6 +6,8 @@ Sections, in this order. Nothing is edited before the Offer is accepted.
 
 Three lines: what was reviewed (unit, input, profile used), the verdict in one sentence, the one or two findings that matter most.
 
+Then any assumptions (inferred profile keys, including `register`), and Run notes: tools used, evidence paths, and a summary of the measurement results (the runner returns text and writes no file).
+
 ## 2. Findings
 
 | # | Finding | Where | Impact | Apple | Fix |
@@ -18,7 +20,7 @@ Three lines: what was reviewed (unit, input, profile used), the verdict in one s
 - Under the table: `waived: N` (findings matched by profile waivers, not listed).
 
 **Impact**
-- Blocker: task fails, data loss, accessibility failure, App Review rejection risk, or deceptive design.
+- Blocker: needs one of: a measured or source-confirmed WCAG A/AA failure (1.4.3 text contrast, 1.4.11 non-text contrast 3:1 for component boundaries, 2.5.8 targets after the spacing exception, 4.1.2 name/role/value such as an icon button with no accessible name), an Apple MUST, data loss, a Trust-gate item, or a task that cannot be completed in a release-stage build. Judged issues (such as placeholder-only labels where an accessible name still exists) cap at Major. With `release_stage: development`, a dead control (no handler, no visible effect) is Major plus an Unverified line saying it may be unfinished; Blocker only when `release_stage` is `release`.
 - Major: feels wrong, non-native, or generic.
 - Minor: noticeable roughness that does not hurt the task.
 - Polish: refinement; first to be grouped.
@@ -31,7 +33,7 @@ Three lines: what was reviewed (unit, input, profile used), the verdict in one s
 - Research: from non-Apple literature where Apple is silent.
 - Taste: our own anti-slop rule, not Apple's.
 
-A check labelled "adds to Apple" shows the tag of the Apple rule it adds to. A check labelled "Apple silent" shows Research (or Taste, if it is our own synthesis). A WCAG-backed web rule shows Web. A CONFLICT resolved toward Apple shows the Apple tag; resolved toward the outside source, Research; either way Fix names the resolution. A slop-cluster finding shows Taste with impact Major and sorts with the rest.
+A check labelled "adds to Apple" shows the tag of the Apple rule it adds to. A check labelled "Apple silent" shows Research (or Taste, if it is our own synthesis). A WCAG-backed web rule shows Web. A CONFLICT resolved toward Apple shows the Apple tag; resolved toward the outside source, Research; either way Fix names the resolution. A slop-cluster finding shows Taste with impact Major and sorts with the rest. A finding no rule covers shows Taste and says "reviewer judgement" in the Finding text. Copy the Apple tag verbatim from the cited reference line; never upgrade it.
 
 Examples (illustrative only, fictional "Trailhead" hiking app):
 
@@ -56,8 +58,8 @@ One of: authored / partly authored / default-assembled. Then evidence: the chann
 
 ## 6. Unverified
 
-States and behaviors not seen: stress states not driven, platforms not run, flows not reached, items recalled rather than measured. One line each, with what would verify it.
+States and behaviors not seen: stress states not driven, platforms not run, flows not reached, items recalled rather than measured. One line each, with what would verify it. For screenshot-only input, name transient feedback and timing states by kind (toasts, loading and skeleton states, hover, focus, animation, error states), never one generic line.
 
 ## 7. Offer
 
-Which findings can be fixed in code now, grouped (for example "all copy rewrites", "contrast tokens", "target sizes"), and ask before editing. Say which need design decisions first.
+Which findings can be fixed in code now, grouped (for example "all copy rewrites", "contrast tokens", "target sizes"), and ask before editing. Say which need design decisions first. Never ask for code: list, as optional, what more input (source, a running URL, a booted simulator) would let the skill verify.

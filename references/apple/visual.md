@@ -241,6 +241,7 @@ Liquid Glass is a separate functional layer (controls, navigation) floating over
 - [CONSIDER] Thicker = more opaque = better for text and fine detail; thinner = more context.
 - [SHOULD] iOS/iPadOS materials: ultraThin, thin, regular (default), thick. Vibrancy levels: labels (label, secondary, tertiary, quaternary), fills (fill, secondary, tertiary), separator (one).
 - [SHOULD] In general, avoid quaternary label on thin or ultraThin materials (too low contrast).
+- Reference: standard materials (`.ultraThinMaterial`, `.thinMaterial`, `.regularMaterial`, `.thickMaterial`) are allowed in the content layer. The (26+) MUST against Liquid Glass in content covers Liquid Glass only (`glassEffect`, glass button styles), not standard materials.
 **Platform deltas**
 - macOS has purpose-named materials (`NSVisualEffectView.Material`), a choice of when to allow vibrancy, and blending modes behind window vs within window.
 **Web (our translation)**
