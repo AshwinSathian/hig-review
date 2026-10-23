@@ -1,0 +1,4 @@
+2017  # date in a dead URL path
+2025  # "updated through 2025" site-date range in a heading
+301  # HTTP redirect code for polaris.shopify.com
+5s  # tokenizer fragment from "2025-2026" in headings
