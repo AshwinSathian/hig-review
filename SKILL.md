@@ -33,6 +33,8 @@ Settle two things before gathering anything:
 
 If either is unclear from the request, ask once, together with the profile questions in step 1. A whole-app review of a running app plus its source is the deepest form; screenshots alone are the shallowest, and the report says so.
 
+**Large apps.** If the app has more screens than one review can cover well, propose a scope: the core flows (the product's main task, sign-up or first run, purchase or settings where they exist) and the most-used screens. Confirm it in the step 1 batch. Everything left out goes in Unverified as "not reviewed".
+
 ## 1. Profile
 
 Look for `.hig-review.md` at the reviewed repo root. If it exists, read it and obey it. If it lacks keys that `references/profile-template.md` defines, infer them for this run and offer to add them at the end.
@@ -41,9 +43,15 @@ If it does not exist, bootstrap it:
 
 1. Read the repo's own design sources first, in this order: `docs/design/*`, DESIGN.md, voice, tone and direction docs, design plans, token files (CSS variables, JSON tokens, Tailwind config, asset catalog colors), any existing design audit.
 2. Then read manifests: `*.xcodeproj/project.pbxproj`, `Package.swift`, `Info.plist` (`UIAppFonts`), `app.json`/`app.config.*`, `package.json` (react, next, expo, @angular/core, vue, browserslist), framework configs, README.
-3. Fill every key in `references/profile-template.md` that the sources answer, and note the source for each.
-4. Ask every remaining gap in one batch (use AskUserQuestion when available). Typical gaps: purpose in one sentence, the feeling it should leave, audience and usage frequency, register, motion personality, humor. Do not ask for `direction`; if it is empty, the distinctiveness pass proposes options.
-5. Show the drafted file. Write `.hig-review.md` only after the user confirms its contents. If they decline, run with the draft in memory and say so in the report summary.
+3. Detect deployment targets (they decide the `(26+)` gate):
+   - Native: `IPHONEOS_DEPLOYMENT_TARGET` and `MACOSX_DEPLOYMENT_TARGET` in `project.pbxproj`; `platforms:` in `Package.swift`; `MinimumOSVersion` or `LSMinimumSystemVersion` in `Info.plist`.
+   - Expo: the `expo-build-properties` plugin entry in `app.json` or `app.config.*` (`plugins: [["expo-build-properties", {"ios": {"deploymentTarget": "…"}}]]`).
+   - Bare React Native: `platform :ios, '…'` in `ios/Podfile`, and `project.pbxproj` under `ios/`.
+4. Fill every key in `references/profile-template.md` that the sources answer, and note the source for each.
+5. Ask every remaining gap in one batch (use AskUserQuestion when available), including any deployment target not found and the scope proposal for large apps. Typical gaps: purpose in one sentence, the feeling it should leave, audience and usage frequency, register, motion personality, humor. Do not ask for `direction`; if it is empty, the distinctiveness pass proposes options. If a deployment target is still unknown after asking, skip the `(26+)` checks and add an Unverified line naming them.
+6. Show the drafted file. Write `.hig-review.md` only after the user confirms its contents. If they decline, run with the draft in memory and say so in the report summary.
+
+**No answers.** If the user is unavailable or does not answer, run from the inferred draft with safe defaults: `humor: none`; casing as inferred from existing strings, else sentence case on web and Apple's rules on native; no `direction` picked, so distinctiveness gives the verdict only and offers directions. List every assumption in the report Summary and do not write the file.
 
 The profile drives the rest: `platforms` picks the platform rules, `deployment_targets` gates `(26+)`, `density` picks the type scale (comfortable = iOS 17 pt body, dense = macOS 13 pt body), `audience` and `areas` resolve source conflicts, `voice` is the standard for every copy rewrite, `direction` is the yardstick for distinctiveness.
 
@@ -51,7 +59,7 @@ The profile drives the rest: `platforms` picks the platform rules, `deployment_t
 
 Save evidence (screenshots, measure.js output, notes) to a folder outside the reviewed repo, such as the session scratchpad, and keep the paths: findings cite them and subagents read them.
 
-**Deployment targets.** Read `IPHONEOS_DEPLOYMENT_TARGET` and `MACOSX_DEPLOYMENT_TARGET` in `project.pbxproj`, the platforms in `Package.swift`, and `expo.ios.deploymentTarget` in `app.json`. Record them in the profile. They decide the `(26+)` gate.
+**App not reachable.** If the URL does not load or the app is not running, ask the user to start it, quoting the start command if the repo shows one (`package.json` scripts, README). If it still cannot be reached, review source and any screenshots, and mark every measured check Unverified.
 
 **iPhone Duo.** System components adapt automatically. Run the Duo checks in `references/apple/principles-platforms.md` when an iOS app uses custom bars, fixed widths or odd-column grids, or the profile lists `iphone-duo`.
 
@@ -91,26 +99,32 @@ The happy state hides most problems. Cover these for every screen in the unit:
 - reduced motion
 - narrow and very wide windows
 
-When the skill can drive the app, generate them. Empty: clear the app's data or use a fresh account the user provides. Error and offline: block requests through Playwright's network or routing tools if available, otherwise ask the user how to trigger them. Long strings and pseudo-localization: replace text nodes in a throwaway `browser_evaluate` (pad by 40%, add accented characters) and screenshot; reload afterwards. RTL: set `dir="rtl"` on the root element. Increased contrast: `browser_emulate_media` with `contrast: 'more'`, and `forcedColors: 'active'` for Windows high contrast; on native, the system setting. On native, read source for empty, error and loading branches.
+When the skill can drive the app, generate them. Empty: clear the app's data or use a fresh account the user provides. Error and offline: if `browser_run_code_unsafe` exists, use it to run `page.route('**/api/**', r => r.abort())` (adjust the pattern to the app's API) or `page.context().setOffline(true)`, then undo it; this tool may need the user's approval. Otherwise ask the user how to trigger these states. Long strings and pseudo-localization: replace text nodes in a throwaway `browser_evaluate` (pad by 40%, add accented characters) and screenshot; reload afterwards. RTL: set `dir="rtl"` on the root element. Increased contrast: `browser_emulate_media` with `contrast: 'more'`, and `forcedColors: 'active'` for Windows high contrast; on native, the system setting. On native, read source for empty, error and loading branches.
 
 Anything not seen goes in the report's Unverified section with what would verify it.
 
 ## 4. Passes
 
-Run the passes in this order. Each loads only its files. Reference files are long; read the headings first (`grep -n '^## '`) and then the sections that apply to the unit. On web, and on any screen with forms or dense data, also load `references/augment/ux-research.md` and `references/augment/product-gov-systems.md`.
+Run the passes in this order. Each loads only its files. Reference files are long: read the headings first (`grep -n '^## '`), then load only the sections that apply to the unit, never whole files.
 
 | Pass | Load |
 |---|---|
 | 1. Slop scan | `references/slop-catalog.md`, `references/apple/beyond-hig.md` (App Review 4.2.6) |
 | 2. Structure | `references/apple/components-structure.md`, `references/apple/components-presentation.md`, `references/apple/patterns.md` |
-| 3. Visual | `references/apple/visual.md`, `references/augment/craft.md`, `references/apple/beyond-hig.md`, `references/augment/platform-systems.md` |
-| 4. Interaction and motion | `references/apple/inputs-tech.md`, the Motion section of `references/apple/visual.md`, `references/augment/craft.md`, `references/apple/beyond-hig.md` |
-| 5. Content | `references/writing.md`, `references/apple/beyond-hig.md` (Writing and the Apple Style Guide) |
+| 3. Visual | `references/apple/visual.md`, `references/apple/content-a11y.md` (icons, SF Symbols, app icons, branding), `references/augment/craft.md`, `references/apple/beyond-hig.md`, `references/augment/platform-systems.md` |
+| 4. Interaction and motion | `references/apple/inputs-tech.md`, the Motion section of `references/apple/visual.md`, `references/apple/patterns.md` (feedback, undo, loading), `references/apple/components-presentation.md`, `references/augment/craft.md`, `references/apple/beyond-hig.md`, `references/augment/platform-systems.md`, the motion and preferences section of `references/augment/a11y-cognition-ethics-i18n.md` |
+| 5. Content | `references/writing.md`, `references/apple/patterns.md` (onboarding, notifications, help), `references/apple/inputs-tech.md` (AI features, sign-in, paywalls), `references/apple/beyond-hig.md` (Writing and the Apple Style Guide), `references/augment/a11y-cognition-ethics-i18n.md` (localization, ethical design) |
 | 6. Accessibility | `references/apple/content-a11y.md`, `references/augment/a11y-cognition-ethics-i18n.md`, `references/apple/beyond-hig.md` (Accessibility, Nutrition Label criteria) |
-| 7. Platform fit | `references/apple/principles-platforms.md`, `references/apple/inputs-tech.md`, `references/web-mapping.md`, `references/augment/platform-systems.md` |
-| 8. Distinctiveness | `references/augment/distinctiveness.md`, `references/apple/principles-platforms.md`, `references/augment/craft.md` |
+| 7. Platform fit | `references/apple/principles-platforms.md`, `references/apple/components-structure.md`, `references/apple/inputs-tech.md`, `references/augment/platform-systems.md`, `references/augment/a11y-cognition-ethics-i18n.md` (platform accessibility beyond Apple) |
+| 8. Distinctiveness | `references/augment/distinctiveness.md`, `references/apple/principles-platforms.md`, `references/augment/craft.md`, `references/augment/platform-systems.md` |
 
-Load `references/web-mapping.md` in every pass when the target is web.
+Conditional loads:
+
+- Target is web: `references/web-mapping.md` in every pass.
+- Target is web, or the screen has forms or dense data: `references/augment/ux-research.md` in passes 2, 4, 5 and 6, and `references/augment/product-gov-systems.md` in passes 2, 5 and 6.
+- Any product with sign-up, paywall, subscription or consent flows, native included: passes 2 and 5 load the "Trust gate" section of `references/augment/ux-research.md`.
+
+**Design system only.** Run the slop scan, visual, accessibility and distinctiveness passes, plus content for component specs and their copy. Skip structure, interaction and platform fit, except the component choice rules in `references/apple/components-structure.md` and `references/apple/components-presentation.md`, applied to the component inventory.
 
 **1. Slop scan.** Fast, before the deep work. Walk `references/slop-catalog.md` section by section (AI-template, Apple-clone, Material-clone, shadcn/Tailwind-default, praised-product clone, research-blessed patterns gone generic, AI-microcopy) against the screenshots, source and measure.js `defaults`. Count tells per section with the element each sits on; the distinctiveness verdict uses the counts. App Review 4.2.6 (template-generated apps) is Apple's own rule against cookie-cutter apps; cite it for native apps that read as templates.
 
@@ -128,11 +142,11 @@ Load `references/web-mapping.md` in every pass when the target is web.
 
 **8. Distinctiveness.** Runs after passes 2 to 7, following the procedure in `references/augment/distinctiveness.md`. Gate first: for any flow with an open Blocker or Major from the Apple passes, hold pleasure-tier and expression findings for that flow and list them after the fixes. Then classify the nine expressive channels (platform default, library default, trend default, authored; at least two authored), check where expression sits by surface, count signature elements and moments against the budget for the profile's `register`, trace identity to the product's subject, and run the logo-off and competitor-swap tests. Judge against the profile's `direction`. If it is empty, propose 2 or 3 directions derived from the product's subject and audience, differing from each other on at least two channels, and ask the user to pick one; save the pick to the profile once they confirm.
 
-**Trust.** Deceptive-design hits from passes 2 and 5 are Blockers and go in the report's own Trust section, each with the element, the screen, and the honest rewrite.
+**Trust.** Deceptive-design hits from passes 2 and 5 are Blockers and go in the report's own Trust section, each with the element, the screen, and the honest rewrite. In a whole-app split, subagent D owns them (step 5).
 
 ## 5. Whole-app split
 
-For a screen, a flow, or a design system, run every pass inline. For a whole app, after steps 1 to 3, dispatch four subagents in parallel:
+For a screen, a flow, or a design system, run the passes inline. For a whole app, after steps 1 to 3, dispatch four subagents in parallel:
 
 | Subagent | Passes | Reference files |
 |---|---|---|
@@ -141,7 +155,15 @@ For a screen, a flow, or a design system, run every pass inline. For a whole app
 | C | Content | the files for pass 5 |
 | D | Accessibility, Trust gate | the files for pass 6, plus the Trust gate section of `references/augment/ux-research.md` |
 
-Give each subagent: the confirmed profile contents, the list of screens and routes, the evidence paths (screenshots, measure.js output per viewport and mode), its reference file paths, the Rules section of this file, the web-mapping file when the target is web, and the finding format (Finding, Where, Impact, Apple, Fix, evidence path). Tell it to return findings only, specific to named elements, with no report prose, and to list what it could not verify.
+Give each subagent:
+
+- the confirmed profile contents (or the draft and its assumptions),
+- the list of screens and routes in scope, and the evidence paths (screenshots, measure.js output per viewport and mode),
+- its reference file paths, the conditional loads from step 4 that apply (web-mapping, ux-research, product-gov-systems), and the instruction to read headings first and load only the sections that apply,
+- the Rules section of this file, including the Apple-column mapping,
+- the finding format (Finding, Where, Impact, Apple, Fix, evidence path) and the report cap for the unit, so it ranks and returns its strongest findings rather than every nit.
+
+Tell it to return findings only, specific to named elements, with no report prose, and to list what it could not verify. D owns Trust: A and C put any suspected deceptive-design item in a separate "for D" list with element, screen and evidence, and do not report it themselves; the main thread hands those to D, or checks them against the gate if D has already returned.
 
 The main thread runs the slop scan, then waits for all four, then runs distinctiveness with their results (it needs the open Blockers and Majors for the gate). Then merge: de-duplicate findings that share an element and cause (keep the higher impact, combine the Where), resolve tag disagreements by the Rules section, apply waivers, and cap per the report template.
 
