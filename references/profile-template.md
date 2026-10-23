@@ -17,6 +17,7 @@ deployment_targets:    # Gates Liquid Glass (26+) checks. Omit a platform not ta
   ios: ""              # Native: project.pbxproj IPHONEOS_DEPLOYMENT_TARGET, Package.swift platforms (.iOS(...)), Info.plist MinimumOSVersion. Expo: the expo-build-properties plugin (plugins: [["expo-build-properties", {"ios": {"deploymentTarget": "..."}}]]) in app.json or app.config.*. Bare React Native: ios/Podfile `platform :ios, '...'` and ios/*.xcodeproj project.pbxproj.
   macos: ""            # project.pbxproj MACOSX_DEPLOYMENT_TARGET, Package.swift platforms (.macOS(...)), Info.plist LSMinimumSystemVersion
   web: ""              # browserslist in package.json, if set
+release_stage: development  # development | beta | release. Infer from git tags, CHANGELOG, App Store metadata, package version; else ask in the bootstrap batch; default development when unknown. App Review 4.1/4.2 minimum-functionality and placeholder checks run only when release_stage is release (or the user says the build is going to App Review).
 density: comfortable   # comfortable | dense. Comfortable = iOS scale (17 pt body); dense = macOS scale (13 pt body). Infer from base font size in tokens; ask if unclear.
 brand:
   typefaces: []        # Families in use. Infer from tokens, CSS, @font-face, Info.plist UIAppFonts.
@@ -52,6 +53,7 @@ Free notes below: context the skill should know, links to brand or voice docs, a
 - `register`, `motion_personality`: set motion and emphasis expectations. A serious, relaxed tool is flagged for bouncy springs; a playful one is not flagged for personality, only for broken basics.
 - `platforms`: decides which platform-fit rules and which reference files load. Web-only profiles never get native rules.
 - `deployment_targets`: Liquid Glass (26+) checks run only where the target is 26 or later; below, they are skipped, not downgraded.
+- `release_stage`: App Review 4.1/4.2 minimum-functionality and placeholder checks run only when it is `release` (or the user says the build is going to App Review). Otherwise placeholders are notes under Unverified, not Blockers.
 - `density`: picks the type scale for web and native measurement (iOS 17 pt vs macOS 13 pt body) and row-height expectations.
 - `brand`: brand wins on display-only surfaces if accessibility passes; Apple wins in task flows. `licensed_fonts` limits font suggestions; `signature_elements` feed the distinctiveness verdict.
 - `voice`: the standard for every copy finding and rewrite. Rewrites are in this voice. `spelling` and `casing` drive consistency flags; `we_policy` and `contractions` drive pronoun and contraction flags; `humor: unset` means no humor until the user answers. `personal_voice_opt_in` stays false unless the product opts in.

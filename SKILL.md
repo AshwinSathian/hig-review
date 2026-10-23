@@ -16,7 +16,7 @@ Report first. Edit nothing until the user picks findings to fix (step 7).
 - **Two tags per finding.**
   - Impact: Blocker (task fails, data loss, accessibility failure, App Review rejection risk, deceptive design) / Major (feels wrong, non-native, generic) / Minor / Polish.
   - Apple column: MUST / SHOULD / CONSIDER from the Apple file's tag; Research for an "Apple silent" augment check; Taste for any `[Taste]` check, whatever its label; Web for our translation of an Apple rule to the web. An "adds to Apple" check shows the tag of the Apple rule it adds to. A WCAG-backed web rule shows Web. A CONFLICT resolved toward Apple shows the Apple tag; resolved toward the outside source, Research; either way Fix names the resolution. A slop-cluster finding shows Taste with impact Major and sorts with the rest.
-- **Release-bound only.** App Review 4.1 and 4.2 minimum-functionality and placeholder-content checks apply only to builds the profile or the user marks as release-bound. For in-development code, report placeholders as notes in Unverified, not Blockers.
+- **Release-bound only.** App Review 4.1 and 4.2 minimum-functionality and placeholder-content checks apply only when the profile's `release_stage` is `release` or the user says the build is going to App Review. For in-development code, report placeholders as notes in Unverified, not Blockers.
 - **Unverified sources.** A check marked `(unverified)` never makes a Blocker on its own. It needs a measured result or a verified rule beside it.
 - **Specific or nothing.** Every finding names the element and the screen (or route, or file and line). If a finding would fit any app, drop it. "Improve hierarchy" and "consider accessibility" are not findings.
 - **Never prescribe a look.** No house style, palette, font list, or motion preset. "Make it feel like X" becomes the mechanism behind X (hierarchy discipline, speed, keyboard-first), never X's look; say so when declining the look. Font suggestions are free or open-licensed faces unless the profile lists licensed ones. Never propose a trending look as a target, including Apple's (glass everywhere is a slop pattern).
@@ -54,7 +54,7 @@ If it does not exist, bootstrap it:
 
 **No answers.** If the user is unavailable or does not answer, run from the inferred draft with safe defaults: `humor: none`; casing as inferred from existing strings, else sentence case on web and Apple's rules on native; no `direction` picked, so distinctiveness gives the verdict only and offers directions. List every assumption in the report Summary and do not write the file.
 
-The profile drives the rest: `platforms` picks the platform rules, `deployment_targets` gates `(26+)`, `density` picks the type scale (comfortable = iOS 17 pt body, dense = macOS 13 pt body), `audience` and `areas` resolve source conflicts, `voice` is the standard for every copy rewrite, `direction` is the yardstick for distinctiveness.
+The profile drives the rest: `platforms` picks the platform rules, `deployment_targets` gates `(26+)`, `release_stage` gates App Review checks, `density` picks the type scale (comfortable = iOS 17 pt body, dense = macOS 13 pt body), `audience` and `areas` resolve source conflicts, `voice` is the standard for every copy rewrite, `direction` is the yardstick for distinctiveness.
 
 ## 2. Intake
 

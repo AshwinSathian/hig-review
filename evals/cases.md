@@ -1,6 +1,6 @@
 # Eval cases
 
-Each case runs in a fresh subagent. Run a baseline first (skill not available), then with the skill. Fixtures and answer keys live in evals/fixtures/. Answer keys (ANSWER-KEY.md) are for the scorer only and must never be shown or mentioned to the reviewer.
+Each case runs in a fresh subagent. Run a baseline first (skill not available), then with the skill. Fixtures live in evals/fixtures/; answer keys live in evals/keys/. Run reviewers on a temp copy of the fixture; never give them the repo path. Answer keys (evals/keys/*.md) are for the scorer only and must never be shown or mentioned to the reviewer.
 
 ## Setup
 
@@ -10,7 +10,7 @@ Serve sloppy-app (cases A, B):
 python3 -m http.server 8765 --directory evals/fixtures/sloppy-app
 ```
 
-Reviewer URL: `http://localhost:8765/index.html`. The planted problems and expected findings are in evals/fixtures/sloppy-app/ANSWER-KEY.md (10 planted problems P1-P10, plus 3 bonus items).
+Reviewer URL: `http://localhost:8765/index.html`. The planted problems and expected findings are in evals/keys/sloppy-app.md (10 planted problems P1-P10, plus 3 bonus items).
 
 Case C setup: copy sloppy-app to a temp directory containing no `.hig-review.md` and no brand docs (no README, DESIGN.md, tokens), and run the reviewer from that directory:
 
@@ -38,7 +38,7 @@ T=$(mktemp -d) && cp evals/fixtures/sloppy-app/index.html "$T"/ && cd "$T"
 
 ## Case D: SwiftUI snippet set
 
-- Input: review evals/fixtures/swiftui/ContentView.swift and AppTabView.swift (project settings in project.pbxproj). Do not show ANSWER-KEY.md.
+- Input: review evals/fixtures/swiftui/ContentView.swift and AppTabView.swift (project settings in project.pbxproj). Do not show evals/keys/swiftui.md.
 - Run: baseline, then with the skill.
 - Pass: no Playwright attempt; flags glass in content, the "+" action tab, and the hard-coded color; gates Liquid Glass checks on the target read from the fixture (26.0).
 
