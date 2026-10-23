@@ -1,5 +1,5 @@
 Covers: how Apple rules translate to web: targets, text, color and contrast, safe areas and viewport, materials and glass, forms and interaction, Apple idioms.
-Loaded by: platform fit, visual, interaction and motion, accessibility
+Loaded by: every pass on web
 Snapshot: 2026-10-23
 
 How Apple rules translate to web, fixed once and applied everywhere. Every rule here is tagged Web (our translation of an Apple rule, not Apple's words) plus a strength. Apple's principle is the default on web; research may sharpen it, and any conflict is shown. Accessibility: the strictest source wins. [MUST] is reserved for WCAG AA success criteria and for strictest-source resolutions labelled CONFLICT; everything else is [SHOULD] or [CONSIDER].

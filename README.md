@@ -48,7 +48,7 @@ The reference files are paraphrased digests of a crawl taken on 2026-10-23. Raw 
 4. Check that no number was lost: `python3 tools/check_numbers.py research/digests/<digest>.md references/<file>.md --allow tools/allow/<file>.txt`. It exits 1 and prints any number in the digest that is missing from the reference.
 5. Bump the `Snapshot:` line in each reference file you changed, and `catalog-date` in `references/slop-catalog.md` if you revised the catalog.
 
-`python3 tools/test_tools.py` tests the tools; `npm test` tests `scripts/measure.js` against fixtures in Playwright.
+`python3 tools/test_tools.py` tests the tools. To test the scripts (`measure.js` and the runner against fixtures in Playwright, plus both contrast scripts): `npm install && npx playwright install chromium && npm test`.
 
 ## What's in here
 
@@ -65,9 +65,13 @@ references/web-mapping.md      how Apple rules translate to the web
 references/profile-template.md the .hig-review.md profile and how each key is used
 references/report-template.md  report sections, tags, caps
 scripts/measure.js      in-page measurement (contrast, targets, type, motion, template tells)
+scripts/measure-runner.js  one Playwright call measuring every width, color scheme and motion setting
+scripts/png_contrast.py   contrast from a screenshot region
+scripts/contrast.py       contrast for color pairs (tokens, native color values)
+evals/                  review evals and their results
 research/digests/       source digests the references were built from
 tools/                  HIG crawl, DocC-to-markdown converter, snapshot diff, number check
-test/                   measure.js tests and fixtures
+test/                   script tests and fixtures
 docs/specs/             design spec
 ```
 
