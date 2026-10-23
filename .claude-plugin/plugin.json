@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "hig-review",
+  "displayName": "HIG Review",
+  "version": "0.1.0",
+  "description": "Reviews UI and UX against Apple's Human Interface Guidelines, with research-backed augments and an anti-slop catalog. Covers native Apple platforms and the web.",
+  "author": {"name": "Ashwin Sathian", "url": "https://ashwinsathian.com/"},
+  "repository": "https://github.com/AshwinSathian/hig-review",
+  "license": "MIT",
+  "keywords": ["hig","apple","design-review","ux","ui","accessibility","design-systems"]
+}
