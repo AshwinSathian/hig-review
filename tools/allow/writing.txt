@@ -1,0 +1,11 @@
+139  SAP Fiori URL path segment (v1-139), not a content number
+14  NN/g error-message page date 2023-05-14, provenance only
+16  App Review Guidelines update date 2026-10-16, provenance only
+20  NN/g sparkles article date 2024-09-20, provenance only
+2023  year in the NN/g page date, provenance only
+2010s  tells-catalog framing (robotic template era); lives in references/slop-catalog.md#ai-microcopy
+2020s  tells-catalog framing (trendy-generic era); lives in references/slop-catalog.md#ai-microcopy
+21  humanizing-writing tells-table entry number (#21), lives in the slop catalog
+34847317  Goodreads book id from a URL
+403  HTTP status on the SAP fetch, provenance only
+9781098174323  O'Reilly ISBN from a URL

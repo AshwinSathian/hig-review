@@ -1,6 +1,6 @@
 Covers: components that structure content, actions and navigation: charts, image/text/web views, boxes, collections, column/outline/split/tab views, disclosure, labels, lists and tables, share sheet, buttons, all menu types, menu bar, toolbars, path controls, search fields, sidebars, tab bars, token fields.
-Loaded by passes: slop scan, distinctiveness, structure, visual, interaction and motion, content, accessibility, platform fit.
-HIG snapshot: 2026-10-23
+Loaded by: structure, platform fit
+Snapshot: 2026-10-23
 
 Tags: [MUST] [SHOULD] [CONSIDER] follow the Apple strength rule in global constraints. Web lines are our translation of the principle, not Apple text; web is never flagged for lacking an Apple-only idiom, only for breaking the principle behind it. Slop tells are ours. `(26+)` marks Liquid Glass-era checks: apply only when the deployment target is iOS/iPadOS/macOS 26 or later.
 Note: parity checks (context menu vs main UI, toolbar vs menu bar, menu bar completeness) need a command inventory built first; do not judge them from one screen.
@@ -15,7 +15,7 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 - Act on the current view -> toolbar, not tab bar items.
 - Mutually exclusive related panes inside a window -> tab view (macOS, 6 or fewer) or segmented control (iOS), not a pop-up button.
 - Choose one value from a set -> pop-up button. Actions related to a button -> pull-down (3 or more items). 1-2 actions -> plain buttons.
-- Item-specific shortcuts -> context menu (also exposed in the main UI). Text/content editing -> the system edit menu. Never both on one iOS item.
+- Item-specific shortcuts -> context menu (also exposed in the main UI). Text/content editing -> the system edit menu. Not both on one iOS item.
 - Drill into a row -> disclosure indicator (chevron). More info about a row -> info button. A few options for a row in a popover -> pop-up button.
 - Hide advanced options -> disclosure triangle with a label. Expand one control's options -> one disclosure button.
 - Short read-only text -> label. Short editable -> text field. Long or styled -> text view.
@@ -212,7 +212,7 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 - [SHOULD] Mark the preferred option with style, not size. Same-size buttons form a coherent set; mixed sizes side by side look inconsistent.
 - [SHOULD] (26+) Do not tint button labels the same color as a colorful content layer; use the default monochrome.
 - [SHOULD] Familiar icons for familiar actions (`square.and.arrow.up` = share). Text labels are Title Case and start with a verb ("Add to Cart").
-- [MUST] Never give the primary role to a destructive button, even when it is the likely choice (people hit primary without reading). Destructive = system red.
+- [MUST] Don't give the primary role to a destructive button, even when it is the likely choice (people hit primary without reading). Destructive = system red.
 - [SHOULD] Roles: normal / primary / cancel / destructive. Primary = accent color + Return key. In a sheet or alert, Return dismisses through primary.
 - [SHOULD] iOS/iPadOS: async actions show an activity indicator inside the button, optionally with a changed label ("Checkout" to "Checking out...").
 - [SHOULD] macOS: trailing ellipsis when the button opens another window, view or app ("Edit...").
@@ -221,7 +221,7 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 - [SHOULD] macOS help button (?): system-provided, max one per window, opens context-specific help, in the view not the window frame, no intro text. In a dialog with OK/Cancel put it in the lower corner opposite them and aligned with them; otherwise lower-left or lower-right.
 - [SHOULD] macOS image button: in the view, not the toolbar; about 10 px padding between image and button edge; no system border; label below.
 **Platform deltas**: iOS uses filled/tinted/gray/plain styles and in-button spinners. macOS push buttons carry ellipsis semantics, Return = default button, Esc = cancel (implied by the cancel role). Transferable from other platforms: full-width primary buttons and equal heights for stacked buttons (watchOS); circle/capsule shapes, with filled-white reserved for toggled state (visionOS).
-**Web (our translation)**: One primary-styled button per view region. Destructive actions are never the primary or Enter-default; use a red secondary style plus confirmation. Provide `:active` states. "..." on buttons that open dialogs. Show a spinner and progressive label inside the button while submitting.
+**Web (our translation)**: One primary-styled button per view region. Keep destructive actions off the primary and Enter-default; use a red secondary style plus confirmation. Provide `:active` states. "..." on buttons that open dialogs. Show a spinner and progressive label inside the button while submitting.
 **Slop tells (ours)**: Three gradient-filled CTAs side by side. "Primary" signaled by a bigger button. A red primary "Delete" that Enter triggers. Ghost buttons with no hover or press state. Icon-only buttons with no tooltip or aria-label. Brand-colored button labels on brand-colored hero backgrounds.
 
 ## Context menus
@@ -238,7 +238,7 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 - [SHOULD] iOS/iPadOS: destructive items go at the end, marked destructive (red).
 - [CONSIDER] A title only when it clarifies scope (e.g., "3 Messages").
 - [SHOULD] Use the system's standard icons for Copy/Share/Delete.
-- [MUST] iOS/iPadOS: give an item either a context menu or an edit menu, not both.
+- [SHOULD] iOS/iPadOS: give an item either a context menu or an edit menu, not both.
 - [CONSIDER] iPadOS: a context menu on empty space to create objects (Files, New Folder).
 - [SHOULD] iOS: a graphical preview that confirms the target; its clipping path matches its corners so they do not change shape during the animation.
 **Web (our translation)**: A right-click/long-press menu is a shortcut layer only. Every action also exists as a visible control. A kebab menu is fine as the visible equivalent.
@@ -325,7 +325,7 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 **Intent**: macOS (and iPadOS) catalog of every command. People learn what an app does by reading it.
 **Checks**:
 - [SHOULD] Fixed menu order: AppName, File, Edit, Format, View, app-specific, Window, Help. (The Apple menu comes before them; menu bar extras sit on the trailing end.)
-- [SHOULD] Always show the same items. Disable, do not hide. (Contrast: context menus hide.)
+- [MUST] Always show the same set of items. Disable, do not hide. (Contrast: context menus hide.)
 - [SHOULD] Support the standard shortcuts for standard items. Add custom shortcuts only when needed.
 - [SHOULD] Short, one-word menu titles.
 - [SHOULD] App menu order: About (own group; app name 16 chars or fewer, no version) | Settings... (app-level only; document settings go in File) plus custom config items | Services | Hide App, Hide Others, Show All | Quit (Option: Quit and Keep Windows).
@@ -348,7 +348,7 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 **Intent**: Title, navigation and frequent actions for the current view. (A tab bar is only for switching sections.) Liquid Glass era: controls float on glass, color comes from content.
 **Checks**:
 - [SHOULD] Do not overcrowd. Decide which items overflow as width shrinks.
-- [MUST] Never add a manual overflow menu on macOS/iPadOS (the system adds one), and do not build a layout that overflows by default.
+- [MUST] Don't add a manual overflow menu on macOS/iPadOS (the system adds one), and do not build a layout that overflows by default.
 - [SHOULD] A More menu only if really needed, holding the less important actions.
 - [CONSIDER] Customizable toolbar on iPadOS/macOS for pro or long-session apps.
 - [SHOULD] (26+) Use fewer custom toolbar backgrounds and tinted controls; let the content layer drive color. Use a ScrollEdgeEffectStyle to separate bar from content.
@@ -384,9 +384,11 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 - [SHOULD] Placeholder describes the scope ("Search Messages"), not just "Search".
 - [CONSIDER] Search as you type, when possible.
 - [CONSIDER] Recent searches before typing, predictive suggestions while typing.
-- [SHOULD] Most relevant results first. [CONSIDER] Group by category.
+- [SHOULD] Most relevant results first.
+- [CONSIDER] Group by category.
 - [CONSIDER] A scope bar for clearly defined categories; default to the broader scope.
-- [SHOULD] Tokens for common filters (a contact, "Photos"). [CONSIDER] Pair tokens with suggestions so people discover them.
+- [SHOULD] Tokens for common filters (a contact, "Photos").
+- [CONSIDER] Pair tokens with suggestions so people discover them.
 - [CONSIDER] (26+) iOS search in the tab bar (trailing search tab): standard tab style = a landing page with suggestions and browsing (TV app); button style = jumps straight into the field and keyboard for quick lookups, returning to the previous tab afterward.
 - [SHOULD] iOS toolbar search: at the bottom if there is room (Settings, Mail, Notes). Top (nav bar button) when bottom content matters (Wallet) or there is no bottom toolbar.
 - [SHOULD] iOS inline search when searching within one view's content (Music library filter): above the list, pinned to the top toolbar on scroll.
@@ -404,7 +406,8 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 - [CONSIDER] Let people customize sidebar contents and order.
 - [SHOULD] Large content: group with disclosure controls.
 - [CONSIDER] SF Symbols or custom symbols, not bitmaps.
-- [CONSIDER] Hideable sidebar using platform gestures (iPad edge swipe; macOS button plus View > Show/Hide Sidebar). [SHOULD] Not hidden by default.
+- [CONSIDER] Hideable sidebar using platform gestures (iPad edge swipe; macOS button plus View > Show/Hide Sidebar).
+- [SHOULD] Sidebar is not hidden by default.
 - [SHOULD] 2 hierarchy levels or fewer. Deeper: a split view with a content-list column between sidebar and detail.
 - [SHOULD] Two levels: short group titles, no unnecessary words.
 - [SHOULD] Sidebar icon colors default to the accent color (on macOS they follow the user's system accent). Fixed colors sparingly, only with meaning (Mail VIP = yellow).
@@ -422,7 +425,7 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 - [SHOULD] Keep the tab bar visible in every section. The only exception is a modal covering it.
 - [SHOULD] As few tabs as needed. Complex IA: a sidebar or a tab bar that adapts to one.
 - [SHOULD] Avoid overflow (the "More" tab).
-- [MUST] Never disable or hide tab buttons. An empty section explains why it is empty.
+- [MUST] Don't disable or hide tab buttons. An empty section explains why it is empty.
 - [SHOULD] Labels on every tab, one word where possible.
 - [CONSIDER] SF Symbols; prefer filled symbols. Compact width puts icons above labels; regular width puts them side by side.
 - [SHOULD] Badges (red oval, white number or "!") only for critical info.
@@ -430,8 +433,7 @@ Presentation components (sheets, alerts, popovers) and inputs (segmented control
 - [CONSIDER] (26+) iOS: tab bar floats at the bottom; minimize on scroll with an accessory (Music MiniPlayer moves inline); a dedicated search tab at the trailing end.
 - [SHOULD] (26+) iPadOS: tab bar sits near the top, fixed or convertible to a sidebar (tabBarOnly / sidebarAdaptable). Prefer it for navigation.
 - [CONSIDER] iPadOS: user-customizable tabs, default 5 or fewer, to keep compact and regular widths consistent. It can share a row with the toolbar.
-- macOS: no extra considerations (macOS app navigation leans on sidebars and window tabs).
-**Platform deltas**: visionOS and tvOS tab bars are vertical or top-of-screen with symbol plus short label (reference only; sizes dropped).
+**Platform deltas**: macOS: no extra tab bar considerations (app navigation leans on sidebars and window tabs). visionOS and tvOS tab bars are vertical or top-of-screen with symbol plus short label (reference only; sizes dropped).
 **Web (our translation)**: The principle is primary navigation that is persistent, labeled and within thumb reach on mobile. A bottom tab bar with 3-5 labeled, filled icons is one way to meet it, not a requirement; flag primary nav out of thumb reach, hidden on detail screens, or icon-only. Desktop moves the same IA into a sidebar or top nav. Badges only for actionable counts.
 **Slop tells (ours)**: A center floating "+" FAB inside the tab bar. Icon-only tab bars. 6+ tabs. Tabs that disappear when logged out. A badge dot on every tab. A tab bar that hides on detail screens. Brand-color solid tab bar background.
 

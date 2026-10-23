@@ -1,6 +1,6 @@
 Covers: generative AI, machine learning, keyboards (with the standard macOS shortcut table), pointing devices, gestures, focus and selection, Pencil and Scribble, hardware controls, sign-in, purchases and paywalls, Apple Pay, Mac Catalyst, sync, Siri, maps, media and collaboration features, plus skim-only technologies.
-Loaded by passes: slop scan, distinctiveness, structure, visual, interaction and motion, content, accessibility, platform fit.
-HIG snapshot: 2026-10-23
+Loaded by: interaction and motion, platform fit, content
+Snapshot: 2026-10-23
 
 Tags: MUST = Apple says must/never/always/don't, or App Review enforces it. SHOULD = avoid/prefer/use and plain imperatives. CONSIDER = consider/can/may. "Web" lines are our translation, not Apple's, unless marked Apple-stated. "Slop tells" are ours.
 
@@ -27,7 +27,6 @@ Tags: MUST = Apple says must/never/always/don't, or App Review enforces it. SHOU
 - [SHOULD] Inclusion: when generating images or descriptions of people, ask for attributes instead of inferring gender, culture or relationship type.
 - [SHOULD] Copyright: build on models with protections, curate inputs, consider pre-approved prompts.
 - [CONSIDER] Keep the model separable from the UX so it can be swapped later.
-
 **Platform deltas**: None stated; identical guidance for iOS, iPadOS and macOS. Foundation Models needs a compatible device with Apple Intelligence on, so the UI must handle "feature not available here" on supported OS versions.
 
 **Web (our translation)**: Same rules. Disclose server processing explicitly, since web AI is nearly always server-side. Stream tokens to cut perceived latency, keep Retry/Edit/Copy anchored to each output block, and make sure the core flow works when the AI endpoint errors or hits rate limits.
@@ -47,69 +46,50 @@ Tags: MUST = Apple says must/never/always/don't, or App Review enforces it. SHOU
 **Intent**: Design depends on the ML role: critical or complementary, private or public, proactive or reactive, visible or invisible, dynamic or static. Patterns cover feedback, calibration, mistakes, corrections, multiple options, confidence, attribution and limitations.
 
 **Checks**
-
-Role classification (ask this for each AI feature):
-- [SHOULD] Critical features and sensitive-data features (health, money) need higher accuracy, so present them more conservatively. Complementary features get more tolerance.
-- [SHOULD] Proactive features (unrequested suggestions) get the least tolerance for errors. Use a confidence threshold below which nothing is shown. Mistakes here also make people feel less in control.
-- [SHOULD] A proactive feature must come with its empty or low-confidence state as a design artifact. A screenshot cannot show model confidence, so if the artifact is missing, list the behavior as Unverified.
-- [CONSIDER] Invisible features cannot easily signal how reliable they are or collect feedback. Expose them somewhere people can inspect.
-
-Explicit feedback:
-- [SHOULD] Ask only when necessary; prefer implicit signals. Always voluntary.
-- [SHOULD] Option labels state the consequence: "Suggest less pop music", "Mute politics for a week". Avoid vague words like "Dislike" (no stated consequence, hard to translate).
-- [SHOULD] An icon never stands alone as a feedback option; it cannot convey granularity.
-- [CONSIDER] Options that get more specific step by step.
-- [SHOULD] Act on feedback immediately and persist it: hidden content disappears everywhere in the app, not just in this list.
-- Note: favorites and social reactions count as implicit feedback, not explicit.
-
-Implicit feedback:
-- [SHOULD] Tell people how data flows across apps and let them restrict it.
-- [SHOULD] Do not narrow exploration (filter bubble); beware confirmation bias.
-- [SHOULD] Withhold suggestions on private or sensitive topics, because devices are shared.
-- [SHOULD] Weight recent signals over older ones.
-- [SHOULD] Update cadence matches the mental model: typing suggestions update instantly; song recommendations should not reshuffle continuously.
-- [SHOULD] Moving a button changes implicit-feedback data; account for that when reading it.
-
-Calibration (onboarding data collection):
-- [SHOULD] Calibrate only if the feature cannot work without it. Do it once, early.
-- [SHOULD] Ask for the minimum; nothing people would have to look up; no difficult actions.
-- [SHOULD] Show an explicit goal and a progress indicator (Face ID tick marks).
-- [SHOULD] If progress stalls, help immediately, never blame the person, always offer a next step.
-- [SHOULD] Confirm success. Cancel is available at any point, with no judgment and no "you cancelled" message.
-- [SHOULD] Calibration data stays editable and deletable outside the flow.
-
-Mistakes and corrections:
-- [SHOULD] Size the correction tool to the cost of the mistake (a bad keyboard suggestion versus a missed flight).
-- [SHOULD] Use familiar correction controls and show the steps the automation took (Photos auto-crop highlights the crop controls it used, so people refine with those same controls).
-- [SHOULD] Apply corrections instantly and persist them; let people correct their corrections.
-- [SHOULD] Prefer guided corrections (a list of alternatives) over freeform.
-- [MUST] Never rely on corrections to make up for low-quality results.
-- [SHOULD] If correcting takes more effort than doing the task manually, people abandon the feature.
-- [SHOULD] A wrong attribution makes the original mistake worse.
-
-Multiple options:
-- [SHOULD] Diverse over near-duplicate (Maps: no-toll, scenic and highway routes).
-- [SHOULD] Few options, fitting on one screen without scrolling.
-- [SHOULD] Most likely option first, optionally preselected.
-- [SHOULD] When options look alike, add a short description that highlights the differences.
-
-Confidence:
-- [SHOULD] Do not display confidence unless you have verified it tracks quality.
-- [SHOULD] Turn raw scores into concepts people understand. "97% match" is bad; "Because you listen to pop music" is good. Or use semantic bands ("high chance"), or an actionable phrase ("Good time to buy" / "Consider waiting").
-- [SHOULD] Numeric intervals and percentages only in domains where people expect statistics (weather, sports, polls, science).
-- [CONSIDER] Change presentation by confidence threshold: at high confidence, show results; at lower confidence, ask people to confirm (Photos faces).
-
-Attribution:
-- [SHOULD] Factual, not emotional: "Because you've read nonfiction", never "Because you love nonfiction". Do not imply you understand people's feelings or beliefs.
-- [SHOULD] Neither too specific (feels like surveillance) nor too generic (feels impersonal). No jargon or statistics.
-
-Limitations:
-- [SHOULD] Set expectations through placeholder text ("Photos, People, Places...").
-- [SHOULD] Give live coaching (Memoji: "move closer", lighting).
-- [SHOULD] Suggest alternatives instead of an empty "no results".
-- [SHOULD] Explain the cause of poor results ("doesn't work well in the dark").
-- [CONSIDER] Tell people when a limitation is fixed so they retry interactions they had learned to avoid.
-
+- [SHOULD] Role classification: Critical features and sensitive-data features (health, money) need higher accuracy, so present them more conservatively. Complementary features get more tolerance.
+- [SHOULD] Role classification: Proactive features (unrequested suggestions) get the least tolerance for errors. Use a confidence threshold below which nothing is shown. Mistakes here also make people feel less in control.
+- [SHOULD] Role classification: A proactive feature must come with its empty or low-confidence state as a design artifact. A screenshot cannot show model confidence, so if the artifact is missing, list the behavior as Unverified.
+- [CONSIDER] Role classification: Invisible features cannot easily signal how reliable they are or collect feedback. Expose them somewhere people can inspect.
+- [SHOULD] Explicit feedback: Ask only when necessary; prefer implicit signals. Always voluntary.
+- [SHOULD] Explicit feedback: Option labels state the consequence: "Suggest less pop music", "Mute politics for a week". Avoid vague words like "Dislike" (no stated consequence, hard to translate).
+- [SHOULD] Explicit feedback: An icon never stands alone as a feedback option; it cannot convey granularity.
+- [CONSIDER] Explicit feedback: Options that get more specific step by step.
+- [SHOULD] Explicit feedback: Act on feedback immediately and persist it: hidden content disappears everywhere in the app, not just in this list.
+- [SHOULD] Explicit feedback: Favorites and social reactions count as implicit feedback, not explicit.
+- [SHOULD] Implicit feedback: Tell people how data flows across apps and let them restrict it.
+- [MUST] Implicit feedback: Do not let it narrow exploration (filter bubble); beware confirmation bias.
+- [SHOULD] Implicit feedback: Withhold suggestions on private or sensitive topics, because devices are shared.
+- [SHOULD] Implicit feedback: Weight recent signals over older ones.
+- [SHOULD] Implicit feedback: Update cadence matches the mental model: typing suggestions update instantly; song recommendations should not reshuffle continuously.
+- [SHOULD] Implicit feedback: Moving a button changes implicit-feedback data; account for that when reading it.
+- [SHOULD] Calibration: Calibrate only if the feature cannot work without it. Do it once, early.
+- [SHOULD] Calibration: Ask for the minimum; nothing people would have to look up; no difficult actions.
+- [SHOULD] Calibration: Show an explicit goal and a progress indicator (Face ID tick marks).
+- [SHOULD] Calibration: If progress stalls, help immediately, never blame the person, always offer a next step.
+- [SHOULD] Calibration: Confirm success. Cancel is available at any point, with no judgment and no "you cancelled" message.
+- [SHOULD] Calibration: Calibration data stays editable and deletable outside the flow.
+- [SHOULD] Mistakes and corrections: Size the correction tool to the cost of the mistake (a bad keyboard suggestion versus a missed flight).
+- [SHOULD] Mistakes and corrections: Use familiar correction controls and show the steps the automation took (Photos auto-crop highlights the crop controls it used, so people refine with those same controls).
+- [SHOULD] Mistakes and corrections: Apply corrections instantly and persist them; let people correct their corrections.
+- [SHOULD] Mistakes and corrections: Prefer guided corrections (a list of alternatives) over freeform.
+- [MUST] Mistakes and corrections: Never rely on corrections to make up for low-quality results.
+- [SHOULD] Mistakes and corrections: If correcting takes more effort than doing the task manually, people abandon the feature.
+- [SHOULD] Mistakes and corrections: A wrong attribution makes the original mistake worse.
+- [SHOULD] Multiple options: Diverse over near-duplicate (Maps: no-toll, scenic and highway routes).
+- [SHOULD] Multiple options: Few options, fitting on one screen without scrolling.
+- [SHOULD] Multiple options: Most likely option first, optionally preselected.
+- [SHOULD] Multiple options: When options look alike, add a short description that highlights the differences.
+- [SHOULD] Confidence: Do not display confidence unless you have verified it tracks quality.
+- [SHOULD] Confidence: Turn raw scores into concepts people understand. "97% match" is bad; "Because you listen to pop music" is good. Or use semantic bands ("high chance"), or an actionable phrase ("Good time to buy" / "Consider waiting").
+- [SHOULD] Confidence: Numeric intervals and percentages only in domains where people expect statistics (weather, sports, polls, science).
+- [CONSIDER] Confidence: Change presentation by confidence threshold: at high confidence, show results; at lower confidence, ask people to confirm (Photos faces).
+- [SHOULD] Attribution: Factual, not emotional: "Because you've read nonfiction", never "Because you love nonfiction". Do not imply you understand people's feelings or beliefs.
+- [SHOULD] Attribution: Neither too specific (feels like surveillance) nor too generic (feels impersonal). No jargon or statistics.
+- [SHOULD] Limitations: Set expectations through placeholder text ("Photos, People, Places...").
+- [SHOULD] Limitations: Give live coaching (Memoji: "move closer", lighting).
+- [SHOULD] Limitations: Suggest alternatives instead of an empty "no results".
+- [SHOULD] Limitations: Explain the cause of poor results ("doesn't work well in the dark").
+- [CONSIDER] Limitations: Tell people when a limitation is fixed so they retry interactions they had learned to avoid.
 **Platform deltas**: None stated.
 
 **Web (our translation)**: Applies directly to recommendation feeds, search ranking, "For you" rails and autocomplete. Implicit-feedback privacy controls map to a visible "Why am I seeing this?" plus history and preference management.
@@ -129,7 +109,7 @@ Limitations:
 **Checks**
 - [SHOULD] Support Full Keyboard Access (iOS, iPadOS, macOS). Test with FKA on in Settings > Accessibility.
 - [SHOULD] iPadOS: support arrow and Tab keyboard navigation for text fields, text views, sidebars and collections. Do not add custom keyboard navigation to buttons, segmented controls or switches; FKA handles those.
-- [MUST] Do not repurpose standard shortcuts. The only allowed exception is when the original action makes no sense in your app (no text editing, so ⌘I can mean Get Info).
+- [SHOULD] In general, do not repurpose standard shortcuts. The only allowed exception is when the original action makes no sense in your app (no text editing, so ⌘I can mean Get Info).
 - [SHOULD] Custom shortcuts only for the most frequent app-specific commands; too many makes the app seem hard to learn.
 - [SHOULD] Modifier hierarchy: Command is the primary modifier. Shift is secondary, for a related shortcut. Option sparingly, for power or less-common commands. Avoid Control (the system uses it).
 - [SHOULD] Display order is Control, Option, Shift, Command (⌃⌥⇧⌘).
@@ -139,7 +119,6 @@ Limitations:
 - [SHOULD] Let the system localize and mirror shortcuts (right-to-left).
 - [SHOULD] Modifier semantics while manipulating: ⌘-drag moves a group; ⇧-resize constrains aspect ratio; holding an arrow key nudges by the smallest unit; ⌥-drag duplicates (from pointing devices) and must behave the same with touch.
 - [SHOULD] The ⌘-hold shortcut overlay on iPad is a flat list per category, so shortcut titles must make sense without their submenu context (discoverabilityTitle).
-
 **Standard macOS shortcut table** (audit custom shortcuts against this for conflicts)
 - File and app: ⌘N new, ⌘O open, ⌘S save, ⇧⌘S duplicate/Save As, ⌘W close window, ⇧⌘W close file, ⌥⌘W close all, ⌘Q quit, ⌘H hide, ⌘M minimize.
 - App and help: ⌘, settings, ⌘? Help menu, ⌘. cancel operation, Esc cancel.
@@ -149,7 +128,6 @@ Limitations:
 - Windows and alignment: ⌘` cycle windows, ⌘[ / ⌘] / ⌘| align left/right/center.
 - Size: ⇧⌘- / ⇧⌘= decrease/increase selection size.
 - Selection and navigation: ⌥⇧←/→ word-wise selection, ⇧⌘←/→ to line ends, ⌥⇧↑/↓ paragraph-wise, ⌃Tab next control group.
-
 **Platform deltas**: macOS users nearly always have a physical keyboard and expect everything in the menu bar with shortcuts. iPadOS often has a keyboard; holding ⌘ shows the shortcut interface. iOS relies on FKA.
 
 **Web (our translation)**
@@ -171,7 +149,7 @@ Limitations:
 **Intent**: Pointer adds precision without replacing touch. Behavior is consistent across touch, pointer, keyboard and eyes; effects are functional, never decorative.
 
 **Checks**
-- [MUST] Do not redefine systemwide trackpad gestures (Mission Control, Dock, swipe between pages). Users can customize them.
+- [SHOULD] Avoid redefining systemwide trackpad gestures (Mission Control, Dock, swipe between pages). Users can customize them.
 - [SHOULD] Same result across input modes (⌥-drag duplicates via touch and pointer).
 - [SHOULD] Hovering the pointer reveals controls that auto-minimize or fade out (Safari toolbar, video playback controls).
 - [SHOULD] Hit-region padding: about 12pt around bezeled elements, about 24pt around borderless elements. Too small feels fiddly; too large feels "sticky".
@@ -181,16 +159,15 @@ Limitations:
 - [SHOULD] Provide the corner radius for custom lift elements so the pointer morphs cleanly (circles, for example).
 - [SHOULD] Custom elements that behave like standard ones get the standard effects; without them they look broken.
 - [SHOULD] No gratuitous or decorative pointer effects; keep custom pointer shapes simple.
-- [MUST] No instructional text attached to the pointer.
+- [SHOULD] Avoid displaying instructional text with the pointer.
 - [CONSIDER] Useful pointer annotations (X/Y values over a graph; W×H while resizing, as in Keynote).
 - [SHOULD] Hover-effect physics: scale only when there is room (not table rows); in tight spaces use tint only.
-- [MUST] Never shadow without scale. An unscaled element with a shadow reads as falsely elevated.
+- [SHOULD] Shadow without scale does not work well: an unscaled element with a shadow reads as falsely elevated.
 - [SHOULD] Distinguish pointer from finger only when it adds value (precise click-to-seek on a scrubber).
 - [SHOULD] iPadOS 15+: band (rectangle) multi-select in custom views where it makes sense.
 - [CONSIDER] Pointer accessories (resize arrows); animate accessory transitions for state changes (plus to circle.slash when an action becomes unavailable).
 - [SHOULD] macOS cursor semantics are fixed: pointingHand = link only; open/closed hand = pan content; crosshair = precise rectangular selection; dragCopy = ⌥ during drag; dragLink = ⌥⌘; operationNotAllowed = invalid drop target; resize-* = edges; I-beam = text.
 - [SHOULD] macOS: secondary click opens the context menu; force click opens Quick Look or lookup; smart zoom; swipe between pages.
-
 **Platform deltas**: iOS has no extra considerations. iPadOS has the adaptive circle pointer, content effects and magnetism. macOS has classic cursors plus customizable gestures.
 
 **Web (our translation)**
@@ -222,7 +199,6 @@ Limitations:
 - [SHOULD] Standard map: tap = activate/select; swipe = reveal actions, dismiss or scroll; drag = move; touch-and-hold = more options; double-tap = zoom toggle; pinch = zoom; rotate = rotate. iOS/iPadOS extras: 3-finger swipe left = undo, right = redo; 3-finger pinch in = copy, out = paste; shake = undo; 4-finger swipe = app switch (iPad).
 - [CONSIDER] Simultaneous gestures mainly suit games (joystick plus fire).
 - [SHOULD] Transfers from visionOS: avoid requiring a specific hand or body position; keep content away from system overlay areas.
-
 **Platform deltas**: macOS is keyboard and mouse first; gestures come via trackpad or Magic Mouse. iPadOS adds the 4-finger app switch.
 
 **Web (our translation)**
@@ -241,13 +217,12 @@ Limitations:
 
 **Checks**
 - [SHOULD] Use system focus effects; build custom ones only if absolutely necessary.
-- [MUST] Never move focus programmatically without user action. Exception: with directional input (keyboard), if the focused item disappears, move focus to an item one step away. Otherwise hide the indicator.
+- [SHOULD] Avoid changing focus without user interaction. Exception: with directional input (keyboard), if the focused item disappears, move focus to an item one step away. Otherwise hide the indicator.
 - [SHOULD] iPadOS/macOS: give focus support to content (list items, text fields, search fields), not controls (FKA covers those).
 - [SHOULD] Focus ring for text and search fields; full-row highlight for lists and collections. A focused list row is white text on an accent-color background; an unfocused selection is standard text on gray.
 - [SHOULD] iPadOS: Tab moves between focus groups in reading order (leading to trailing, top to bottom); arrow keys move within a group. Define custom groups so order makes sense, and set a primary item priority per group.
 - [SHOULD] Customize the halo to follow contours (rounded corners, Bezier paths); keep badges above it and do not let a parent clip it.
 - [SHOULD] Transferable from tvOS: a focusable element has several distinct states (unfocused, focused, pressed, selected, unavailable); there are 5 in all. Supply assets at the larger focused size.
-
 **Platform deltas**: Not supported in iOS beyond FKA. iPadOS uses focus groups.
 
 **Web (our translation)**
@@ -271,25 +246,20 @@ Limitations:
 - [SHOULD] Every control also responds to Pencil (otherwise it seems broken or the battery seems dead).
 - [SHOULD] Pressure maps to continuous properties (opacity, size); use tilt, azimuth and barrel roll for stroke character.
 - [SHOULD] Place controls so neither the left nor right hand covers them; allow repositioning.
-- Hover:
-  - [SHOULD] Preview the mark (size, color) at a mid-range value; do not vary the preview with height.
-  - [MUST] Never trigger actions on hover.
-  - [SHOULD] Hover previews are for Pencil only, not the pointer.
-- Double-tap and squeeze:
-  - [SHOULD] Respect the user's system setting.
-  - [SHOULD] Custom modes are opt-in and the current mode is visible.
-  - [MUST] Never modify content or do anything destructive (accidental triggers happen).
-  - [SHOULD] Squeeze is a discrete action; show its UI near the Pencil tip.
+- [SHOULD] Hover: Preview the mark (size, color) at a mid-range value; do not vary the preview with height.
+- [SHOULD] Hover: Avoid using hover to initiate an action.
+- [SHOULD] Hover: Hover previews are for Pencil only, not the pointer.
+- [SHOULD] Double-tap and squeeze: Respect the user's system setting.
+- [SHOULD] Double-tap and squeeze: Custom modes are opt-in and the current mode is visible.
+- [SHOULD] Double-tap and squeeze: Avoid using double tap to modify content. Define squeeze actions that are nondestructive and easy to undo (accidental triggers happen).
+- [SHOULD] Double-tap and squeeze: Squeeze is a discrete action; show its UI near the Pencil tip.
 - [SHOULD] Barrel roll modifies marking only, never navigation.
-- Scribble:
-  - [SHOULD] Works in all text inputs except passwords; custom fields should not need a tap first.
-  - [SHOULD] Writable blank areas where text is natural (Reminders: blank space below the last item).
-  - [SHOULD] While writing, hide autocomplete and placeholder text; the field does not move, resize or autoscroll.
-  - [SHOULD] Enlarge the field before writing or during pauses.
-- PencilKit:
-  - [SHOULD] Turn off dynamic Dark Mode color adjustment when marking up PDFs or photos.
-  - [CONSIDER] Add undo/redo buttons in compact width (the tool picker lacks them there); support 3-finger undo.
-
+- [SHOULD] Scribble: Works in all text inputs except passwords; custom fields should not need a tap first.
+- [SHOULD] Scribble: Writable blank areas where text is natural (Reminders: blank space below the last item).
+- [SHOULD] Scribble: While writing, hide autocomplete and placeholder text; the field does not move, resize or autoscroll.
+- [SHOULD] Scribble: Enlarge the field before writing or during pauses.
+- [SHOULD] PencilKit: Turn off dynamic Dark Mode color adjustment when marking up PDFs or photos.
+- [CONSIDER] PencilKit: Add undo/redo buttons in compact width (the tool picker lacks them there); support 3-finger undo.
 **Platform deltas**: iPadOS only.
 
 **Web (our translation)**: Pointer Events `pressure` and `tiltX`; `pointerType === 'pen'` gets instant ink. Do not reflow inputs on focus for pen users.
@@ -304,7 +274,6 @@ Limitations:
 - [SHOULD] Labels: Title Case, verb first, present tense, no articles or prepositions, max 3 words ("Start Race").
 - [SHOULD] Do not duplicate the system's setup tips.
 - [SHOULD] iOS: run without leaving context (Live Activity, snippet).
-
 **Platform deltas**: iOS only for our purposes.
 
 **Web (our translation)**: The 3-word, verb-first label rule works for any quick-action, PWA shortcut or command list.
@@ -315,7 +284,7 @@ Limitations:
 **Intent**: An iPhone 16 hardware control that overlays sliders and pickers on your viewfinder.
 
 **Checks**
-- [MUST] SF Symbols only (custom symbols are unsupported); symbols do not show state.
+- [SHOULD] Use SF Symbols only (the system does not support custom symbols); symbols do not show state.
 - [SHOULD] Short labels (they follow Dynamic Type).
 - [SHOULD] Units on values (EV, %).
 - [SHOULD] Define prominent (snap) values.
@@ -323,7 +292,6 @@ Limitations:
 - [SHOULD] Disable controls that do not apply to the mode (you cannot add or remove controls at runtime).
 - [SHOULD] Common controls in the middle.
 - [CONSIDER] A locked-camera extension.
-
 **Platform deltas**: iPhone only.
 
 **Web (our translation)**: Slider readouts always show units; snap points at common values.
@@ -337,7 +305,6 @@ Limitations:
 - [MUST] Write purpose copy for the permission prompt.
 - [SHOULD] Use motion only for tangible benefit; do not collect it "to have the data".
 - [SHOULD] Outside gameplay, do not drive UI with motion: it is hard to repeat precisely, hard for some people to perform, and costs battery.
-
 **Platform deltas**: None stated.
 
 **Web (our translation)**: Avoid tilt or parallax UI driven by `deviceorientation`; iOS Safari requires a permission prompt anyway.
@@ -354,16 +321,17 @@ Limitations:
 - [SHOULD] Commerce: sign-up comes after purchase (guest checkout; create the account on the confirmation page, prefilled).
 - [SHOULD] After sign-in, welcome people right away; do not ask for non-required data.
 - [SHOULD] Mark optional fields as optional; never gate features on optional data. Show the data you received (greet by the shared name or relay email).
-- [MUST] Do not ask for a password; do not ask for a personal email when the person chose a private relay address.
+- [MUST] Do not ask for a password.
+- [SHOULD] Avoid asking for a personal email when the person chose a private relay address.
 - [SHOULD] Show "Using Sign in with Apple" in account settings.
 - [CONSIDER] Account linking when the email matches.
 - [MUST] The button is no smaller than other sign-in buttons and never requires scrolling to reach it.
-- [MUST] Sizes: minimum 140×30pt; margin at least 1/10 of button height. Custom buttons: title-to-right-edge margin at least 8% of width; title font about 43% of button height; PNG logos only at 44pt height (44×44 for logo-only); logo-only is 1:1.
+- [SHOULD] Sizes: minimum 140×30pt; margin at least 1/10 of button height. Custom buttons: title-to-right-edge margin at least 8% of width; title font about 43% of button height; PNG logos only at 44pt height (44×44 for logo-only); logo-only is 1:1.
 - [MUST] Titles are only "Sign in with Apple", "Sign up with Apple" or "Continue with Apple".
 - [MUST] Logo and text are both black or both white; no custom colors; text buttons are rectangular.
 - [MUST] Never crop the logo, add vertical padding, or use the logo as the button.
-- [MUST] Styles: white on dark; white-outline on light backgrounds that lack contrast; black on light. Never black on dark. Corner radius may match your other buttons (square to capsule).
-
+- [MUST] Never use the black style on black or dark backgrounds.
+- [SHOULD] Styles: white on dark; white-outline on light backgrounds that lack contrast; black on light. Corner radius may match your other buttons (square to capsule).
 **Platform deltas**: Works on the web and non-Apple platforms.
 
 **Web (our translation)**: Use Apple's JS button. Keep the social sign-in buttons the same size, Apple's not smaller, and visible without scrolling. Never put a login wall on the landing page.
@@ -393,14 +361,12 @@ Limitations:
 - [SHOULD] Ask only for necessary info at sign-up.
 - [SHOULD] The subscription summary in account screens shows the renewal date.
 - [SHOULD] Make cancel easy. A buried manage-subscription link reads as obstruction. A retention offer on cancel is allowed.
-- Refund help:
-  - [SHOULD] A simple "Refund" or "Request a Refund" label.
-  - [SHOULD] The refund button needs no scrolling or extra screen.
-  - [SHOULD] Show product image, name and date so people can find the purchase.
-  - [MUST] Do not characterize or speculate on Apple's refund policy.
+- [SHOULD] Refund help: A simple "Refund" or "Request a Refund" label.
+- [SHOULD] Refund help: The refund button needs no scrolling or extra screen.
+- [SHOULD] Refund help: Show product image, name and date so people can find the purchase.
+- [MUST] Refund help: Do not characterize or speculate on Apple's refund policy.
 - [SHOULD] Family Sharing: put "Family" or "Shareable" in the name; write copy that works for both the buyer and family members.
 - [SHOULD] Offer codes: custom codes are alphanumeric ASCII only; tell people where to redeem them (not App Store settings); "Redeem Code" on the paywall or settings; welcome people after redemption, including those who subscribed before first launch.
-
 **Platform deltas**: Transferable from watchOS and tvOS: the same required info appears on small or remote surfaces, in a compact modal with a clear Close, and options stay easy to compare.
 
 **Web (our translation)**: For web or Stripe paywalls, apply the IAP disclosure rules as an advisory baseline (tag Web, not MUST, because web sits outside IAP and App Review): total price prominent, renewal terms, trial auto-charge disclosure, restore/sign-in link, one-click cancel in account settings. They match baseline UX ethics and the FTC "click to cancel" rule. Deceptive patterns (fake timers, hidden cancel) still go to the Trust section as Blockers.
@@ -436,11 +402,11 @@ Limitations:
 - [MUST] Sizes: Apple Pay button minimum 100×30pt; captioned buttons (Buy, Book, Check Out, Donate, Subscribe, Set Up) minimum 140×30pt; margins 1/10 of height; mark clear space 1/10 of height; mark height at least that of other payment marks.
 - [SHOULD] Placement: right of "Add to Cart" side by side, above it when stacked; no smaller than other payment buttons; no scrolling needed.
 - [SHOULD] Website icon 60×60pt (120px @2x, 180px @3x).
-- [SHOULD] Text: "Apple Pay", never plural, possessive or translated; ® on first US body-text mention; a text-only listing only if every payment option is text-only.
-
+- [MUST] Text: "Apple Pay", never plural, possessive or translated; never use the Apple logo to stand for the name; a text-only listing only if every payment option is text-only.
+- [SHOULD] ® on the first US body-text mention, not in a checkout selection option.
 **Platform deltas**: Same on iOS, macOS and the web. On the web it can be paid via a nearby iPhone or Watch or a QR code.
 
-**Web (Apple-stated for web)**: Same rules; a privacy statement is required; list Apple Pay in schema.org product markup; do not open new windows during checkout.
+**Web (our translation)**: Apple-stated for web: same rules; a privacy statement is required; list Apple Pay in schema.org product markup; do not open new windows during checkout.
 
 **Slop tells (ours)**: A greyed-out "Buy" button until the form is valid; a generic "Something went wrong"; checkout that pops a new tab.
 
@@ -456,7 +422,6 @@ Limitations:
 - [SHOULD] Multi-column layouts; an inspector beside content instead of a popover.
 - [SHOULD] Every object has a context menu.
 - [SHOULD] Make a Mac-style app icon.
-
 **Platform deltas**: Mac users expect keyboard navigation, shortcuts, free window resizing and multiple windows.
 
 **Web (our translation)**
@@ -481,7 +446,6 @@ Limitations:
 - [SHOULD] Warn that deletes apply on every device.
 - [SHOULD] Resolve conflicts automatically when possible, otherwise with an unobtrusive prompt, early.
 - [SHOULD] Include cloud content in search results.
-
 **Platform deltas**: None stated.
 
 **Web (our translation)**: Cross-device sync with no "Sync now" button; the delete confirmation says "from all your devices"; an offline banner instead of an error modal.
@@ -503,7 +467,6 @@ Limitations:
 - [SHOULD] When the list is too long, ask an open question instead.
 - [SHOULD] Specific errors ("out of chicken noodle soup").
 - [MUST] Do not impersonate Siri or Apple; do not use reserved phrases ("Hey Siri", "Call 911"); call Siri by name, never "she"; translate only "Hey" in "Hey Siri".
-
 **Platform deltas**: None stated.
 
 **Web (our translation)**: For any assistant or agent replies in your app: terse, no jokes, no self-naming, specific clarifying questions, specific errors.
@@ -523,14 +486,12 @@ Limitations:
 - [SHOULD] Annotation glyph text is 2 to 3 characters.
 - [SHOULD] Contrast for controls over the map (thin stroke or light shadow).
 - [MUST] A place card shown outside a map must include a map. Keep the location visible next to the card; do not duplicate info.
-- Indoor maps:
-  - [SHOULD] Detail scales with zoom.
-  - [SHOULD] The floor picker uses numbers.
-  - [SHOULD] Dim surrounding context areas.
-  - [SHOULD] Limit scrolling outside the venue.
-  - [SHOULD] Do not imitate the Apple Maps look.
+- [SHOULD] Indoor maps: Detail scales with zoom.
+- [SHOULD] Indoor maps: The floor picker uses numbers.
+- [SHOULD] Indoor maps: Dim surrounding context areas.
+- [SHOULD] Indoor maps: Limit scrolling outside the venue.
+- [SHOULD] Indoor maps: Do not imitate the Apple Maps look.
 - [SHOULD] Transfers from watchOS: a static map with 5 annotations or fewer, in the smallest region that fits.
-
 **Platform deltas**: None stated.
 
 **Web (our translation)**: Same for Mapbox and Google embeds: muted base map under rich data, clustering, attribution kept visible.
@@ -547,7 +508,6 @@ Limitations:
 - [SHOULD] Show download progress and when it is playable.
 - [SHOULD] Mark a Live Photo with a hint of motion or the system badge, in a consistent corner.
 - [MUST] Never use a play-button glyph (it reads as video).
-
 **Platform deltas**: None stated.
 
 **Web (our translation)**: Do not badge animated thumbnails as video unless they are.
@@ -559,10 +519,9 @@ Limitations:
 
 **Checks**
 - [SHOULD] Confirm Cancel only if edits exist.
-- [SHOULD] No second toolbar inside the host modal.
+- [MUST] Do not provide a custom top toolbar; the host modal already has one.
 - [SHOULD] Preview before commit.
 - [SHOULD] The extension uses your app icon.
-
 **Platform deltas**: None stated.
 
 **Web (our translation)**: Embedded editors confirm a discard only when the document is dirty, and never stack toolbars.
@@ -582,7 +541,6 @@ Limitations:
 - [MUST] "SharePlay" never takes an adjective or inflection (no "SharePlaying").
 - [SHOULD] Picture-in-picture for shared video (iOS, iPadOS, macOS).
 - [SHOULD] Transfers from visionOS: when people leave, keep seats in place; last change wins for conflicts, with no take-control UI; roles are independent of seats. Spatial seating (up to 5 Personas, seats at least 1m apart) is dropped as spatial-only.
-
 **Platform deltas**: None for phone and desktop.
 
 **Web (our translation)**: Multiplayer and collaboration web apps: presence avatars plus attribution on edits, per-user view prefs, join links that land directly in the session.
@@ -600,25 +558,20 @@ Limitations:
 - [SHOULD] Persistent controls in screen space, translucent, reachable without changing grip.
 - [SHOULD] Comfort and safety: introduce movement gradually; avoid sweeping motions.
 - [SHOULD] Coaching: use the system coaching view and hide other UI during it.
-- Placement:
-  - [SHOULD] Place instantly, then refine; nudge objects onto the detected plane.
-  - [SHOULD] Guide people to offscreen objects with edge indicators.
-  - [SHOULD] Use plane classification (floor, table).
-  - [SHOULD] Do not snap precisely to plane edges.
-- Manipulation:
-  - [SHOULD] Direct manipulation with standard gestures (1-finger drag moves, 2-finger rotates).
-  - [SHOULD] Generous hit tolerance near objects.
-  - [SHOULD] Do not scale real-product objects (furniture); never use scaling to fake distance.
-  - [SHOULD] Test pinch versus rotate conflicts.
-- Image anchors:
-  - [SHOULD] Wait up to 1s before removing content when an image is lost.
-  - [SHOULD] Keep 100 or fewer reference images active.
-- Interruptions and errors:
-  - [SHOULD] Hide objects during relocalization; allow reset or cancel.
-  - [SHOULD] Indicate face-tracking loss after about 0.5s.
+- [SHOULD] Placement: Place instantly, then refine; nudge objects onto the detected plane.
+- [SHOULD] Placement: Guide people to offscreen objects with edge indicators.
+- [SHOULD] Placement: Use plane classification (floor, table).
+- [SHOULD] Placement: Do not snap precisely to plane edges.
+- [SHOULD] Manipulation: Direct manipulation with standard gestures (1-finger drag moves, 2-finger rotates).
+- [SHOULD] Manipulation: Generous hit tolerance near objects.
+- [SHOULD] Manipulation: Do not scale real-product objects (furniture); never use scaling to fake distance.
+- [SHOULD] Manipulation: Test pinch versus rotate conflicts.
+- [SHOULD] Image anchors: Wait up to 1s before removing content when an image is lost.
+- [SHOULD] Image anchors: Keep 100 or fewer reference images active.
+- [SHOULD] Interruptions and errors: Hide objects during relocalization; allow reset or cancel.
+- [SHOULD] Interruptions and errors: Indicate face-tracking loss after about 0.5s.
 - [SHOULD] Copy avoids jargon: "Try moving your phone more slowly", not "Excessive motion detected". 3D hints (a rotation ring) beat text overlays. 3D text faces the viewer at a constant size.
 - [MUST] The AR glyph and badges stay unaltered (size and color only for the glyph); 10% clear space; badge only when the catalog mixes AR and non-AR items; same corner every time.
-
 **Platform deltas**: iOS and iPadOS; no macOS.
 
 **Web (our translation)**: WebXR, `<model>` and Quick Look links: feature-detect and hide when unsupported; badge only the AR-capable products.
