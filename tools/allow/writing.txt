@@ -9,3 +9,5 @@
 34847317  Goodreads book id from a URL
 403  HTTP status on the SAP fetch, provenance only
 9781098174323  O'Reilly ISBN from a URL
+10characters  digest 15 measure.py key word_share_ge10_chars, now written as a key name
+75chars  digest 15 tooltip limit, written as "75 characters" in the tooltip length check

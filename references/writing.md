@@ -4,7 +4,9 @@ Snapshot: 2026-10-23
 
 Tags: [MUST] Apple writes must/never/always/don't (in the guideline body too), or App Review enforces it; anti-fabrication is our own rule and the one unconditional MUST. [SHOULD] avoid, prefer, use, make sure, "in general" hedges and plain imperatives. [CONSIDER] depends on context or the product profile. Apple MUSTs bind on native Apple targets; on web they are the default, and a profile can waive one only through `waivers` with a reason. Anti-fabrication is the one rule that never yields, on any target, under any profile.
 
-Source tags: [Apple] HIG writing and component pages; [Apple Style Guide]; [Apple WWDC22] Writing for interfaces (10037); [Apple WWDC24] Add personality through UX writing (10140); [Apple WWDC25] Make a big impact with small writing changes (404); [Apple WWDC26 290] Craft clear names for features and labels; [Apple WWDC26 250] and [Apple WWDC26 227] (AI output, sample content); [App Review]; [HW] the humanizing-writing skill; [GOV.UK]; [MS] Microsoft Style Guide; [NNg]; [Atl] Atlassian; [MC] Mailchimp; [Polaris]; [M3]; [Cloudscape]; [SAP]; [PAIR]; [Podmajersky]; [Yifrah]. *(snippet)* means read from a search snippet only; **(unverified)** means recalled, not read, and carries less weight.
+**Mapping to the report's Apple column.** The tags above are line-level strengths. The report shows one value per finding, taken from the line's source tags in this order: (1) any Apple source ([Apple…], [Apple Style Guide], [App Review]) shows the line's tag, MUST, SHOULD or CONSIDER; (2) a line marked "Web (our translation)" shows Web; (3) any outside source ([GOV.UK], [MS], [NNg], [Atl], [MC], [Polaris], [M3], [Cloudscape], [SAP], [PAIR], [Podmajersky], [Yifrah], [EU AI Act], [Iterable]) shows Research, because Apple is silent there; (4) [HW] or [ours] alone shows Taste; (5) anti-fabrication shows Taste in the Apple column, with Blocker impact and a Trust-section entry. An outside source that only restates an Apple rule is tagged with the Apple source too, so rule 1 applies. Taste, Research and Web are report values, not line tags.
+
+Source tags: [Apple] HIG writing and component pages; [Apple Style Guide]; [Apple WWDC22] Writing for interfaces (10037); [Apple WWDC24] Add personality through UX writing (10140); [Apple WWDC25] Make a big impact with small writing changes (404); [Apple WWDC26 290] Craft clear names for features and labels; [Apple WWDC26 250] Principles of great design, also cited for AI output previews; [Apple WWDC26 227] Create UI prototypes using agents in Xcode (sample content); [App Review]; [HW] the humanizing-writing skill; [ours] this skill's own rule; [GOV.UK]; [MS] Microsoft Style Guide; [NNg]; [Atl] Atlassian; [MC] Mailchimp; [Polaris]; [M3]; [Cloudscape]; [SAP]; [PAIR]; [Podmajersky]; [Yifrah]; [EU AI Act]; [Iterable]. *(snippet)* means read from a search snippet only; **(unverified)** means recalled, not read, and carries less weight.
 
 AI-microcopy tells: see references/slop-catalog.md#ai-microcopy.
 
@@ -27,7 +29,7 @@ Apple
 - [SHOULD] Make sure gesture words fit the device: "tap" on iPhone and iPad, not "click"; "click" for a pointer; "choose" or "select" when the input is unknown or the copy is cross-device [Apple]. Web: "click" for pointer and "tap" for touch, or neutral verbs (Select, Choose, Open), or detect `@media (pointer: coarse)` [Apple translation, GOV.UK, Cloudscape].
 - [SHOULD] Small screens (iPhone, Watch) need brevity. TV is a shared screen seen from far away: keep it brief and think about who is being addressed [Apple].
 - [SHOULD] Avoid "please" in instructions. No e.g., etc., i.e., and/or, or via (except when space is tight) in UI strings [Apple Style Guide, GOV.UK, Atl, Cloudscape]. GOV.UK notes screen readers may read "eg" as "egg".
-- [SHOULD] Contractions are fine and part of Apple's informal voice [Apple Style Guide, MS, Polaris *(snippet)*]. Elsewhere, follow `voice.contractions` (default `per-voice`; C2).
+- [CONSIDER] Contractions are fine and part of Apple's informal voice [Apple Style Guide, MS, Polaris *(snippet)*]. Elsewhere, follow `voice.contractions` (default `per-voice`; C2).
 - [SHOULD] Numerals for counts and units; spell out one through nine in prose. Reproduce UI element names exactly [Apple Style Guide].
 - [SHOULD] Write for localization: leave room for longer translations, never build sentences by concatenating strings, and use plural rules [Apple WWDC22, Apple Inclusion].
 - [SHOULD] Read it aloud [Apple, MS].
@@ -42,7 +44,7 @@ humanizing-writing and others
 - [SHOULD] Say it once. The body doesn't repeat the title [HW, Atl].
 - [SHOULD] Hedge only what is uncertain, once, at the claim. Don't hedge what the product knows ("This may take a moment" when the duration is known) [HW].
 - [SHOULD] Split sentences over 25 words [GOV.UK]. Otherwise let length follow the content, and don't write fragments for drama [HW].
-- [SHOULD] Spelling: one variety per product, set in the profile. Flag mixing ("color" and "colour" in one build).
+- [SHOULD] Spelling: one variety per product, set in the profile. Flag mixing ("color" and "colour" in one build) [ours].
 - [SHOULD] Passive voice is fine for agentless system messages; flag it when it hides who must act (C13) [GOV.UK, MC].
 
 Long-form in-app prose (help articles, onboarding paragraphs, emails, release notes in the product): invoke the humanizing-writing skill if it is installed. If it isn't, apply the rules above plus these, adapted from it [HW]:
@@ -115,7 +117,7 @@ Others
 - [SHOULD] No "sorry" or "please" unless the consequences are severe and can't be undone [Atl]. A total outage may get an apology (C4) [NNg].
 - [SHOULD] Keep what the person entered [NNg].
 - [SHOULD] Match prominence to impact; modals only for serious problems [NNg].
-- [CONSIDER] Web only, and only if `voice.we_policy` allows "we": Atlassian's "we" for blame-free errors (C1).
+- [CONSIDER] Web only, and only if `voice.we_policy` allows "we": Atlassian's "we" for blame-free errors (C1) [Atl].
 
 ## Empty states
 
@@ -155,8 +157,8 @@ Others
 Apple
 - [SHOULD] Skippable, step-by-step teaching [Apple Inclusion]. Teach in context, at the moment it applies, rather than front-loading a tour [Apple WWDC22; NNg-attributed *(snippet)*].
 - [SHOULD] Fixed CTA labels: "Get Started", "Continue", "Done" [Apple].
-- [SHOULD] No permission walls on onboarding slides; ask in context (see Permissions).
-- [SHOULD] Simple doesn't mean minimal: each screen says concretely what the product does for the person [Apple WWDC26].
+- [SHOULD] No permission walls on onboarding slides; ask in context (see Permissions) [Apple WWDC22].
+- [SHOULD] Simple doesn't mean minimal: each screen says concretely what the product does for the person [Apple WWDC26 250].
 
 Others
 - [SHOULD] No "Welcome to the future of…" or "Your journey starts here". The first line says what the screen does [HW].
@@ -198,8 +200,8 @@ Others
 - [SHOULD] Loading text is "[Generating/Loading] [specific artifact]" with no end punctuation: "Generating" for new content, "Loading" or "Fetching" for existing content. No loading state under one second [Cloudscape].
 - [SHOULD] Call AI replies "responses", not "answers" [Cloudscape]. Don't claim understanding or certainty the system lacks ("I understand exactly what you need") [HW anti-fabrication, PAIR calibration]. Hedge model output once, where the doubt is real [HW].
 - [SHOULD] In-product responses don't open with "Certainly!" or "Great question!" and don't close with "I hope this helps!" or "Feel free to reach out" [HW].
-- [CONSIDER] Legal labeling: EU AI Act Article 50 obligations reportedly began 2 August 2026 *(snippet; verify against the official text)*. Flag it for the team; the skill gives no legal advice.
-- [CONSIDER] Drop the AI marker once the person has edited the content (Iterable's pattern) *(snippet)*.
+- [CONSIDER] Legal labeling: EU AI Act Article 50 obligations reportedly began 2 August 2026 *(snippet; verify against the official text)* [EU AI Act]. Flag it for the team; the skill gives no legal advice.
+- [CONSIDER] Drop the AI marker once the person has edited the content (Iterable's pattern) *(snippet)* [Iterable].
 
 ## Settings descriptions
 
@@ -220,10 +222,11 @@ Apple
 ## Loading copy
 
 Apple
-- [SHOULD] Delight isn't adding confetti: no rotating joke messages or false-progress theater ("Reticulating splines…", "Brewing your coffee…") [Apple WWDC26, Atl].
+- [SHOULD] Delight isn't adding confetti: no rotating joke messages or false-progress theater ("Reticulating splines…", "Brewing your coffee…") [Apple WWDC26 250, Atl].
 
 Others
-- [SHOULD] Name what is loading ("Loading invoices") with the Cloudscape template above. Say what is happening and, if known, how long. Never invent a duration [HW, MUST under anti-fabrication].
+- [SHOULD] Name what is loading ("Loading invoices") with the Cloudscape template above [Cloudscape].
+- [SHOULD] Say what is happening and, if known, how long [HW]. A duration the product doesn't know is covered by the anti-fabrication rule above.
 - [SHOULD] Skip loading text for sub-second waits [Cloudscape].
 
 ## Voice
@@ -279,7 +282,7 @@ Humor: follows `voice.humor`, never in errors, destructive confirmations, money 
 The skill applies these by hand to extracted strings. Sources of strings: `.xcstrings`, `Localizable.strings`, `.stringsdict`, SwiftUI `Text("…")` and `Button("…")` literals, `NSLocalizedString`, `Info.plist` purpose strings (`NS*UsageDescription`), web i18n JSON or YAML, JSX text nodes. Record each string's element type from its call site (button, alert title, menu item, `title=` tooltip, `aria-label`, placeholder); casing and length rules can't be applied without it.
 
 **Length limits**
-- Tooltip or help tag over 75 chars (target 60–75 characters max) [Apple].
+- Tooltip or help tag over 75 characters [Apple: 60–75 max].
 - Toolbar or window title at 15 characters or more [Apple].
 - Alert button over 2 words [Apple].
 - App name over 30 chars [Apple].
@@ -294,22 +297,10 @@ The skill applies these by hand to extracted strings. Sources of strings: `.xcst
 - "click here", or the same bare "Learn more" twice on one screen [Apple, Polaris, WCAG 2.4.4].
 - Flow label drift: "Next" and "Continue" in one flow; first step not "Get Started"; last not "Done" (native) [Apple].
 
-**Banned and candidate words** (flag; a name or a literal meaning is fine: "Simply Piano", "unlock" for a door lock)
-- Interjections: oops, uh-oh, uh oh, whoops, yikes, yay (severity up in errors) [Apple WWDC22, WWDC25].
-- Error title "Error", `Error \d+`, "An error occurred" or "Something went wrong" with no other sentence; "Invalid" + noun as the whole message [Apple, NNg].
-- "please", "sorry", "please note" in error and instruction strings, unless the profile opts in [Apple, GOV.UK, Atl].
-- we / we're / we've / our / us in errors, and anywhere if `voice.we_policy` is `avoid` [Apple].
-- "the user" / "users" in user-facing strings [Apple, MS].
-- "click" or "hover" in iOS and iPadOS builds; "tap" in macOS [Apple].
-- Filler adverbs (candidate): simply, easily, quickly, just, seamlessly, effortlessly, instantly [Apple WWDC25].
-- Hype (candidate): unlock the power, supercharge, unleash, level up, elevate, empower, transform, revolutionize, game-changing, next-level [HW, GOV.UK].
-- GOV.UK words to avoid (candidate): agenda, deliver, deploy, empower, facilitate, foster, impact, initiate, key, leverage, robust, streamline, tackle, transform, utilise. Scope it: "deploy" and "robust" are correct in developer tools.
-- Style Guide misuse: "enable" for turn on, "toggle" in user copy, "tap on", "click on", "long press", "grayed out", "checked/unchecked" [Apple Style Guide].
-- e.g., i.e., etc., and/or, via [Apple, GOV.UK, Cloudscape].
+**Banned and candidate words.** The lint lexicons (interjections, hype, filler adverbs and minimizers, GOV.UK words to avoid, "we", "please", "sorry", "the user", device and Style Guide verb slips, e.g./i.e./etc., synonym pairs, vague purpose strings, self-describing openers) live in one place: references/slop-catalog.md#ai-microcopy. Run them from there; a name or a literal meaning is fine ("Simply Piano", "unlock" for a door lock). Three checks stay here because the catalog doesn't carry them:
 - Gendered generics (he/she, his or her) and the avoid list: master/slave, whitelist/blacklist, sanity check, crippled, lame, hang, kill, abort [Apple Style Guide, MS].
-- Profile `avoid` terms, and known synonym pairs both present: Delete/Remove, Sign in/Log in/Login, Settings/Preferences [Apple word list, Podmajersky].
-- Purpose strings with "better experience", "improve your experience", or only "Turn on…" [Apple Privacy].
-- "This widget/feature/setting…" openers, "When enabled… When disabled…" pairs, "You can…" openers [Apple, MS, Polaris].
+- The profile's own `avoid` terms (the vocabulary part of `voice`).
+- `voice.we_policy`: "we", "our" and "us" in errors always, and anywhere when the policy is `avoid` [Apple].
 
 **Casing and punctuation**
 - Casing consistency per element type; on native, against Apple component defaults; on web with a silent profile, sentence case [Apple, MS, GOV.UK].
@@ -336,4 +327,4 @@ The skill applies these by hand to extracted strings. Sources of strings: `.xcst
 
 **Needs judgment** (not lintable): tone fit per message type and user state; whether an error names the real cause; whether an empty state's next step is the right one; whether a feature name sets correct expectations or judges people at edge values; whether a triad is padded; the swap test; whether an AI disclosure is enough for the stakes; inclusion in imagery and examples.
 
-**`measure.py` from humanizing-writing.** Use it only on joined longer strings, compared across builds (or against a competitor's strings), never on single labels. It reports per passage: word, sentence and paragraph counts; sentence-length mean and stdev; share of sentences ≤5 and ≥30 words; paragraph-final sentences ≤8 words; mean word length and share of words ≥10 characters; "and", commas, semicolons, colons, parentheses and dashes per 1,000 words; and rates of negated contrast, trailing "-ing" clauses, short colon clauses, stock transitions and nominalizations. Per-1,000-word rates mean nothing on a 2-word button, its sentence splitter needs a capital after a full stop, and its own docstring says to compare passages written for the same prompt. Build the corpus from onboarding bodies, empty-state bodies, settings descriptions, notification bodies, AI responses and help text, one string per paragraph. There, `negated_contrast`, `ing_tail`, `stock_transition`, `nominalization`, `dashes_per_1k` and `word_share_ge10_chars` work as comparative signals. Import its `PATTERNS` and `measure()` rather than copying them, report the numbers beside the lint, and set no thresholds, as the script doesn't.
+**`measure.py` from humanizing-writing** (`humanize-writing-skill/scripts/measure.py`). Use it only on joined longer strings, compared across builds (or against a competitor's strings), never on single labels. `measure(text)` returns: `words`, `sentences`, `paragraphs`, `sentence_len_mean`, `sentence_len_stdev`, `sentence_share_le5_words`, `sentence_share_ge30_words`, `para_final_sentence_le8_words`, `word_len_mean`, `word_share_ge10_chars`, `and_per_1k`, `commas_per_1k`, `semicolons_per_1k`, `colons_per_1k`, `parens_per_1k`, `dashes_per_1k`, and one `<name>_per_1k` per `PATTERNS` entry: `negated_contrast_per_1k`, `ing_tail_per_1k`, `short_colon_clause_per_1k`, `stock_transition_per_1k`, `nominalization_per_1k`. Per-1,000-word rates mean nothing on a 2-word button, its sentence splitter needs a capital after a full stop, and its own docstring says to compare passages written for the same prompt. Build the corpus from onboarding bodies, empty-state bodies, settings descriptions, notification bodies, AI responses and help text, one string per paragraph. There, `negated_contrast_per_1k`, `ing_tail_per_1k`, `stock_transition_per_1k`, `nominalization_per_1k`, `dashes_per_1k` and `word_share_ge10_chars` work as comparative signals. Import `PATTERNS` and `measure()` rather than copying them, report the numbers beside the lint, and set no thresholds, as the script doesn't.

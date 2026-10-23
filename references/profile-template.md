@@ -10,12 +10,12 @@ audience: occasional-public   # occasional-public | daily-professional. Infer fr
 areas:                 # Optional per-area audience override. Delete if the whole product shares one audience.
   - { path: "app/admin/**", audience: daily-professional }
   - { path: "app/(marketing)/**", audience: occasional-public }
-register: utilitarian  # utilitarian | expressive. Professional tool vs consumer/expressive. Sets motion and emphasis expectations.
+register: utilitarian  # utilitarian | expressive. Professional tool vs consumer/expressive. Sets motion and emphasis expectations. Infer from product type (editor, dashboard, admin vs consumer, media, game), the audience, and any brand or voice docs; ask if they disagree.
 motion_personality: { tone: serious, pace: relaxed }  # tone: serious..playful; pace: relaxed..fast. Apple's axes. Infer from existing motion tokens; else ask.
 platforms: []          # ios, ipados, macos, iphone-duo, web, android. Infer from *.xcodeproj / project.pbxproj, Package.swift, app.json, package.json (react, next, expo, @angular/core, vue), framework configs.
-deployment_targets:    # Gates Liquid Glass (26+) checks. Omit a platform not targeted.
-  ios: ""              # project.pbxproj IPHONEOS_DEPLOYMENT_TARGET, Package.swift .iOS(...), app.json expo.ios.deploymentTarget
-  macos: ""            # project.pbxproj MACOSX_DEPLOYMENT_TARGET
+deployment_targets:    # Gates Liquid Glass (26+) checks. Omit a platform not targeted. If undetected, ask in the bootstrap batch; if still unknown, (26+) checks are skipped and listed under Unverified.
+  ios: ""              # Native: project.pbxproj IPHONEOS_DEPLOYMENT_TARGET, Package.swift platforms (.iOS(...)), Info.plist MinimumOSVersion. Expo: the expo-build-properties plugin (plugins: [["expo-build-properties", {"ios": {"deploymentTarget": "..."}}]]) in app.json or app.config.*. Bare React Native: ios/Podfile `platform :ios, '...'` and ios/*.xcodeproj project.pbxproj.
+  macos: ""            # project.pbxproj MACOSX_DEPLOYMENT_TARGET, Package.swift platforms (.macOS(...)), Info.plist LSMinimumSystemVersion
   web: ""              # browserslist in package.json, if set
 density: comfortable   # comfortable | dense. Comfortable = iOS scale (17 pt body); dense = macOS scale (13 pt body). Infer from base font size in tokens; ask if unclear.
 brand:
@@ -26,13 +26,13 @@ brand:
 voice:
   traits: []           # 3 to 5 adjectives with a "but not" edge, e.g. "plain but not curt". Infer from voice docs, existing strings.
   personal_voice_opt_in: false  # The author's personal voice traits apply only if a product opts in.
-  spelling: american   # british | american. Mixing is flagged.
-  casing:              # Per element type. Native Apple targets follow Apple's fixed rules; web defaults to sentence when silent.
-    buttons: sentence
-    headings: sentence
-    menus: sentence    # title on native Apple targets
-    alerts: sentence
-    labels: sentence
+  spelling: ""         # british | american. Inferred from the product's strings (count -our/-or, -ise/-ize, cancelled/canceled across string files, README, docs); ask only if the counts are a tie. Mixing is flagged.
+  casing:              # Per element type (buttons, headings, menus, alerts, labels): sentence | title. Leave empty; the skill infers each from the product's strings. Native Apple targets use the native defaults in references/writing.md; web falls back to sentence case only when the strings show no clear pattern.
+    buttons: ""
+    headings: ""
+    menus: ""
+    alerts: ""
+    labels: ""
   we_policy: avoid     # avoid | company-only | allowed. Apple avoids "we"; native Apple targets keep avoid whatever this says.
   contractions: per-voice  # per-voice | all | positive-only | none. Native Apple targets allow them; elsewhere this decides.
   humor: unset         # unset | none | light | free. unset = the skill asks during profile bootstrap; until answered, no humor anywhere. Never in errors, destructive confirmations, money or permission requests, whatever this says.
