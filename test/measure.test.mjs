@@ -140,3 +140,28 @@ test("defaults: shadcn v4 card (12px + v4 shadow-sm); transparent ring-only boxe
 test("defaults: two matching cards are not a pattern", async () => {
   assert.doesNotMatch(tells(await measure("shadcn-two")), /shadcn/);
 });
+
+test("targets: WCAG 2.5.8 spacing exception (4px apart fails, 30px apart passes)", async () => {
+  const { targets } = await measure("spacing");
+  assert.deepEqual(["#n1", "#n2", "#f1", "#f2"].map((id) => by(targets, id).spacingOk), [false, false, true, true]);
+  assert.equal(by(targets, "#n1").under24, true);
+});
+
+test("runner: one browser_run_code_unsafe call covers 3 widths x 2 schemes x 2 motion prefs", async () => {
+  const vm = await import("node:vm");
+  const skillDir = new URL("..", import.meta.url).pathname.replace(/\/$/, "");
+  const code = read("../scripts/measure-runner.js").replaceAll("<SKILL_DIR>", skillDir);
+  await page.setContent(read("./fixtures/media.html"));
+  // Same evaluation path as Playwright MCP's browser_run_code_unsafe: vm context with only `page`.
+  const fn = vm.runInContext("(" + code + ")", vm.createContext({ page }));
+  const out = JSON.parse(JSON.stringify(await fn(page)));
+  assert.equal(out.length, 12);
+  const combos = out.map((r) => `${r.width}/${r.colorScheme}/${r.reducedMotion}`);
+  assert.equal(new Set(combos).size, 12);
+  for (const r of out) assert.equal(r.viewport.width, r.width);
+  const pick = (cs, rm) => out.find((r) => r.width === 390 && r.colorScheme === cs && r.reducedMotion === rm);
+  assert.equal(by(pick("light", "no-preference").contrast, "#t").ratio, 4.48);
+  assert.equal(by(pick("dark", "no-preference").contrast, "#t").ratio, 21);
+  assert.match(pick("light", "no-preference").motion.animatedOnLoad.join(), /#a/);
+  assert.equal(pick("light", "reduce").motion.animatedOnLoad.length, 0);
+});

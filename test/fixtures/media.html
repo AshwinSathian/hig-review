@@ -1,0 +1,9 @@
+<!doctype html><body style="margin:0">
+<style>
+#t{color:#777;background:#fff}
+@media (prefers-color-scheme: dark){#t{color:#fff;background:#000}}
+#a{animation:spin 1s infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion: reduce){#a{animation:none}}
+</style>
+<p id="t">Hello</p><div id="a">spin</div>

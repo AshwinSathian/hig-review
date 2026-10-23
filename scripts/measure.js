@@ -1,4 +1,5 @@
-() => {
+// Also loadable as a <script> (page.addScriptTag): the assignment defines window.__higMeasure.
+window.__higMeasure = () => {
   const CAP = 400;
   let sampled = false;
   const cs = (el) => getComputedStyle(el);
@@ -113,7 +114,7 @@
     return (r.width <= 1 && r.height <= 1) || (out && (s.clip !== "auto" || s.clipPath !== "none" || parseFloat(s.opacity) === 0));
   };
   const hasOwnText = (el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.nodeValue.trim());
-  const targets = [];
+  const targets = [], rects = [];
   for (const el of document.querySelectorAll(TARGET)) {
     if (!visible(el)) continue;
     // WCAG 2.5.8 inline exception: links within running text are exempt.
@@ -126,6 +127,7 @@
     }
     if (targets.length >= CAP) { sampled = true; break; }
     const r = box.getBoundingClientRect();
+    rects.push(r);
     targets.push({
       selector: selectorOf(box),
       role: el.getAttribute("role") || (el.tagName === "INPUT" ? `input:${el.type}` : el.tagName.toLowerCase()),
@@ -135,6 +137,21 @@
       under44: r.width < 44 || r.height < 44,
     });
   }
+
+  // WCAG 2.5.8 spacing exception: a 24px circle centred on an undersized target must not
+  // intersect another target or another undersized target's circle (touching counts).
+  const centre = (r) => [r.x + r.width / 2, r.y + r.height / 2];
+  targets.forEach((t, i) => {
+    if (!t.under24) return;
+    const [cx, cy] = centre(rects[i]);
+    t.spacingOk = rects.every((r, j) => {
+      if (j === i) return true;
+      const dx = Math.max(r.left - cx, 0, cx - r.right), dy = Math.max(r.top - cy, 0, cy - r.bottom);
+      if (Math.hypot(dx, dy) <= 12) return false;
+      const [ox, oy] = centre(r);
+      return !targets[j].under24 || Math.hypot(ox - cx, oy - cy) > 24;
+    });
+  });
 
   // ---- type ----
   const families = new Set();
