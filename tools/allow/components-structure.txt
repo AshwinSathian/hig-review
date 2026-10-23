@@ -1,0 +1,9 @@
+28 visionOS button height, dropped
+32 visionOS button height, dropped
+44 visionOS regular button height (44 pt hit target already kept as 44×44 pt)
+46pt tvOS tab bar offset, dropped
+52 visionOS button height, dropped
+60pt visionOS center spacing, dropped
+60× visionOS hit target 60×60, dropped
+64pt visionOS button height, dropped
+68pt tvOS tab bar height, dropped

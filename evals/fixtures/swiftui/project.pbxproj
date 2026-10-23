@@ -1,0 +1,7 @@
+/* Snippet only: build settings from the Swell target */
+buildSettings = {
+	IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+	PRODUCT_BUNDLE_IDENTIFIER = com.example.swell;
+	SWIFT_VERSION = 6.0;
+	TARGETED_DEVICE_FAMILY = 1;
+};

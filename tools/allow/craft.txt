@@ -1,0 +1,27 @@
+1928  # Tschichold publication year
+1970s  # Rams principles era
+1975  # publication year
+1981  # publication year
+1983  # publication year
+1992  # publication year
+2006  # publication year
+2018  # publication year
+2020  # post year
+2021  # post year
+2023  # post year
+2024  # edition year
+2.1  # webtypography.net section number from URL
+10158  # WWDC session id from URL
+403  # HTTP status of unreachable source
+404  # HTTP status of unreachable source
+19  # digest section number
+17  # digest section number
+0,1  # digest prose fragment, not a content number
+20px  # digest implementation note, dropped as a borrowed value
+25  # digest fragment (15-25 range kept elsewhere)
+50characters  # tokenizer artifact of 40-50 characters range
+66characters  # tokenizer artifact of 66-character line
+0.3s  # moved to slop-catalog
+1440px  # moved to slop-catalog
+27  # moved to slop-catalog
+50ms  # moved to slop-catalog

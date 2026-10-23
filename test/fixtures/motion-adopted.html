@@ -1,0 +1,6 @@
+<!doctype html><body><p>x</p>
+<script>
+const s = new CSSStyleSheet();
+s.replaceSync("@media (prefers-reduced-motion: reduce) { p { color: red } }");
+document.adoptedStyleSheets = [s];
+</script>

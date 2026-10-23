@@ -1,0 +1,23 @@
+0,0  rgba(0,0,0,.1) shadow value; convergence catalog, moved to slop-catalog.md
+0.1  "shadows at 0.1 opacity" tell; moved to slop-catalog.md
+0.2em  high-end-visual-design tracking prescription; excluded look
+0.3  pixelslop@0.3.8 package version, not content
+1.0  Nothing OS 1.0 version label; history only
+1.3  pixelslop cubic-bezier y threshold; tell heuristic, moved to slop-catalog.md
+111  #111 near-black second-layer default; moved to slop-catalog.md
+12  section label "D12", not content
+16  pixelslop source-grep count; detector inventory, moved to slop-catalog.md
+24px  pixelslop hero-metric threshold; moved to slop-catalog.md
+25  "WWDC25" label, not content
+3px  pixelslop one-sided border threshold; moved to slop-catalog.md
+4.0  Nothing OS 4.0 version label; history only
+4.1  digest's "sections 4.1-4.4" reading note, not content
+4.4  digest's "sections 4.1-4.4" reading note, not content
+403  HTTP status of an unreachable source
+404  HTTP status of an unreachable source
+47.2%  redesign-existing-projects mock-content trick; irrelevant to review
+6750  #6750A4 M3 baseline purple (unverified); Material-clone tell, moved to slop-catalog.md
+70%  pixelslop centered-text threshold; moved to slop-catalog.md
+800ms  high-end-visual-design fade-up prescription; excluded look
+87  "87 KB" file size of a taste skill, not content
+97757  #D97757 terracotta second-layer default; moved to slop-catalog.md

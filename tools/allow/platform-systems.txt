@@ -1,0 +1,12 @@
+0.3s # slop tell (transition: all 0.3s), moved to slop catalog
+16px # slop tell (rounded-2xl on everything), moved to slop catalog
+180 # Compose GridCells.Adaptive code literal; 180dp kept as prose
+1970s # HSL history aside
+2021 # Windows page-origin years aside
+2023 # Fluent launch year aside
+2024 # Windows page-origin years aside
+4417 # fragment of a PDF URL
+60703 # fragment of a PDF URL
+672 # fragment of a PDF URL
+87 # fragment of a PDF URL
+768px # slop tell (sidebar hidden below 768px), moved to slop catalog

@@ -1,0 +1,7 @@
+2017  # date in a dead URL path
+2025  # "updated through 2025" site-date range in a heading
+301  # HTTP redirect code for polaris.shopify.com
+5s  # tokenizer fragment from "2025-2026" in headings
+200ms  # moved to slop-catalog
+300ms  # moved to slop-catalog
+0.24  SwiftUI .timingCurve duration reproducing Carbon; removed because on native Apple springs win (fix2)

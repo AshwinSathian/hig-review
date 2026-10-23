@@ -1,0 +1,58 @@
+100%  # watchOS image scale/device, out of scope
+100pt  # tvOS grid/safe-area number, out of scope
+106%  # watchOS image scale/device, out of scope
+110%  # watchOS image scale/device, out of scope
+119%  # watchOS image scale/device, out of scope
+12.5  # watchOS type table or SF Compact tracking, out of scope
+120  # visionOS only, out of scope
+12pt  # tvOS/visionOS/watchOS size table or SF Compact detail, out of scope
+13.5  # watchOS type table or SF Compact tracking, out of scope
+14.5  # watchOS type table or SF Compact tracking, out of scope
+15.5  # watchOS type table or SF Compact tracking, out of scope
+16.5  # watchOS type table or SF Compact tracking, out of scope
+16pt  # visionOS only, out of scope
+17.5  # watchOS type table or SF Compact tracking, out of scope
+18.5  # watchOS type table or SF Compact tracking, out of scope
+184  # tvOS grid/safe-area number, out of scope
+19.5  # watchOS type table or SF Compact tracking, out of scope
+2.5  # watchOS type table or SF Compact tracking, out of scope
+20.5  # watchOS type table or SF Compact tracking, out of scope
+21.5  # watchOS type table or SF Compact tracking, out of scope
+217  # tvOS grid/safe-area number, out of scope
+21pt  # tvOS/visionOS/watchOS size table or SF Compact detail, out of scope
+22.5  # watchOS type table or SF Compact tracking, out of scope
+23.5  # watchOS type table or SF Compact tracking, out of scope
+24.5  # watchOS type table or SF Compact tracking, out of scope
+25.5  # watchOS type table or SF Compact tracking, out of scope
+26.5  # watchOS type table or SF Compact tracking, out of scope
+27.5  # watchOS type table or SF Compact tracking, out of scope
+28.5  # watchOS type table or SF Compact tracking, out of scope
+29pt  # tvOS/visionOS/watchOS size table or SF Compact detail, out of scope
+30.5  # watchOS type table or SF Compact tracking, out of scope
+32.5  # watchOS type table or SF Compact tracking, out of scope
+320  # tvOS grid/safe-area number, out of scope
+33.5  # watchOS type table or SF Compact tracking, out of scope
+34.5  # watchOS type table or SF Compact tracking, out of scope
+36.5  # watchOS type table or SF Compact tracking, out of scope
+360  # visionOS only, out of scope
+37.5  # watchOS type table or SF Compact tracking, out of scope
+38.5  # watchOS type table or SF Compact tracking, out of scope
+40.5  # watchOS type table or SF Compact tracking, out of scope
+40pt  # tvOS grid/safe-area number, out of scope
+41.5  # watchOS type table or SF Compact tracking, out of scope
+410  # tvOS grid/safe-area number, out of scope
+42.5  # watchOS type table or SF Compact tracking, out of scope
+43.5  # watchOS type table or SF Compact tracking, out of scope
+44.5  # watchOS type table or SF Compact tracking, out of scope
+45  # watchOS image scale/device, out of scope
+46.5  # watchOS type table or SF Compact tracking, out of scope
+47.5  # watchOS type table or SF Compact tracking, out of scope
+48.5  # watchOS type table or SF Compact tracking, out of scope
+560  # tvOS grid/safe-area number, out of scope
+60pt  # tvOS grid/safe-area number, out of scope
+6x  # visionOS only, out of scope
+80pt  # tvOS grid/safe-area number, out of scope
+860  # tvOS grid/safe-area number, out of scope
+88  # watchOS type table or SF Compact tracking, out of scope
+90%  # watchOS image scale/device, out of scope
+92  # watchOS type table or SF Compact tracking, out of scope
