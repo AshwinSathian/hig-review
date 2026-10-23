@@ -251,7 +251,7 @@ More checks
 
 Source: App Store Review Guidelines, section 4 and nearby (last updated 2026-10-16).
 
-Pass/fail list (App Review enforces these, so they are MUST and Blocker candidates)
+Pass/fail list (App Review enforces these, so they are MUST and Blocker candidates). Release-bound only: the 4.1 and 4.2 minimum-functionality and placeholder-content checks apply only to builds the profile or the user marks as release-bound. For in-development code, report placeholders as notes in Unverified, not Blockers.
 - [MUST] 4 Design: products should be simple, refined, innovative, easy to use; this sets minimum standards. A degraded experience may be removed.
 - [MUST] 4.1 Copycats: do not copy a popular app or make minor changes to another app's name or UI.
 - [MUST] 4.2 Minimum Functionality: features, content and UI that elevate beyond a repackaged website; useful, unique or app-like. 4.2.2: not primarily marketing, ads, web clippings, aggregators or link collections. 4.2.3(ii): disclose the size of any first-launch download and prompt before downloading.

@@ -15,7 +15,8 @@ Report first. Edit nothing until the user picks findings to fix (step 7).
 - **Conflicts.** Native Apple target: Apple wins on platform conventions. Web: Apple's principle is the default; research may sharpen how it applies, and the conflict is shown in the finding, never resolved silently. Brand: split by surface. Apple wins in task flows (forms, lists, navigation, settings); brand may win on display-only surfaces (hero, empty states, marketing, onboarding splash) only if accessibility still passes. Accessibility: the strictest source wins.
 - **Two tags per finding.**
   - Impact: Blocker (task fails, data loss, accessibility failure, App Review rejection risk, deceptive design) / Major (feels wrong, non-native, generic) / Minor / Polish.
-  - Apple column: MUST / SHOULD / CONSIDER from the Apple file's tag; Research for an "Apple silent" augment check; Taste for any `[Taste]` check, whatever its label; Web for our translation of an Apple rule to the web. An "adds to Apple" check shows the tag of the Apple rule it adds to. A CONFLICT shows the Apple tag and names the resolution in Fix.
+  - Apple column: MUST / SHOULD / CONSIDER from the Apple file's tag; Research for an "Apple silent" augment check; Taste for any `[Taste]` check, whatever its label; Web for our translation of an Apple rule to the web. An "adds to Apple" check shows the tag of the Apple rule it adds to. A WCAG-backed web rule shows Web. A CONFLICT resolved toward Apple shows the Apple tag; resolved toward the outside source, Research; either way Fix names the resolution. A slop-cluster finding shows Taste with impact Major and sorts with the rest.
+- **Release-bound only.** App Review 4.1 and 4.2 minimum-functionality and placeholder-content checks apply only to builds the profile or the user marks as release-bound. For in-development code, report placeholders as notes in Unverified, not Blockers.
 - **Unverified sources.** A check marked `(unverified)` never makes a Blocker on its own. It needs a measured result or a verified rule beside it.
 - **Specific or nothing.** Every finding names the element and the screen (or route, or file and line). If a finding would fit any app, drop it. "Improve hierarchy" and "consider accessibility" are not findings.
 - **Never prescribe a look.** No house style, palette, font list, or motion preset. "Make it feel like X" becomes the mechanism behind X (hierarchy discipline, speed, keyboard-first), never X's look; say so when declining the look. Font suggestions are free or open-licensed faces unless the profile lists licensed ones. Never propose a trending look as a target, including Apple's (glass everywhere is a slop pattern).
@@ -57,7 +58,9 @@ The profile drives the rest: `platforms` picks the platform rules, `deployment_t
 
 ## 2. Intake
 
-Save evidence (screenshots, measure.js output, notes) to a folder outside the reviewed repo, such as the session scratchpad, and keep the paths: findings cite them and subagents read them.
+Playwright MCP saves screenshots under the workspace's `.playwright-mcp/`; cite them from there, never commit them, and suggest the user add `.playwright-mcp/` to `.gitignore`. Save other evidence (measurement output, notes) to a folder outside the reviewed repo, such as the session scratchpad. Keep every path: findings cite them and subagents read them.
+
+`<SKILL_DIR>` below means the absolute path of this skill's directory.
 
 **App not reachable.** If the URL does not load or the app is not running, ask the user to start it, quoting the start command if the repo shows one (`package.json` scripts, README). If it still cannot be reached, review source and any screenshots, and mark every measured check Unverified.
 
@@ -65,22 +68,26 @@ Save evidence (screenshots, measure.js output, notes) to a folder outside the re
 
 | Input | How to gather |
 |---|---|
-| Running web app | Use the Playwright MCP tools (named `mcp__plugin_playwright_playwright__*` or `mcp__playwright__*`, whichever exist). `browser_navigate` to each screen in the unit. At widths 390, 820 and 1440 px (`browser_resize`): screenshot in light and in dark (`browser_emulate_media` with `colorScheme`), and run measure.js (below). Repeat once with `reducedMotion: 'reduce'`. For 200% text, set the root font size to 200% in a `browser_evaluate` call and screenshot again. Walk the keyboard with `browser_press_key` Tab from the top, recording focus order and whether focus is visible at each stop. `browser_hover` the primary controls and anything that only reveals on hover. Time real interactions (open, close, submit) where motion matters. |
+| Running web app | Use the Playwright MCP tools (named `mcp__plugin_playwright_playwright__*` or `mcp__playwright__*`, whichever exist). `browser_navigate` to each screen in the unit. At widths 390, 820 and 1440 px (`browser_resize`): screenshot in light and in dark (`browser_emulate_media` with `colorScheme`). Measure every width, color scheme and reduced-motion combination in one call (below). For 200% text, set the root font size to 200% in a `browser_evaluate` call and screenshot again. Walk the keyboard with `browser_press_key` Tab from the top, recording focus order and whether focus is visible at each stop. `browser_hover` the primary controls and anything that only reveals on hover. Time real interactions (open, close, submit) where motion matters. |
 | Native Apple | Read SwiftUI/UIKit source: navigation containers, presentation calls, custom controls, fonts, tint, asset catalogs, SF Symbol use. Run `xcrun simctl list devices booted`. If a device is booted with the app: `xcrun simctl io booted screenshot <path>`; `xcrun simctl ui booted appearance dark` and screenshot again; `xcrun simctl ui booted content_size accessibility-extra-extra-extra-large` and screenshot again. Restore appearance and content size afterwards. If nothing is booted, ask the user to launch the app, or review source only and list what went unseen. |
 | React Native / Expo | Source as above (components, StyleSheet values, `accessibilityLabel`/`accessibilityRole`, `allowFontScaling`), plus simulator screenshots the same way. Expo web builds can also go through the web row. |
-| Screenshots or mockups | Review what is visible. Estimate sizes only against a known reference in the image and mark them estimated. List every state and behavior that could not be seen. |
+| Screenshots or mockups | Review what is visible. Estimate sizes only against a known reference in the image and mark them estimated. For contrast, run `python3 -I <SKILL_DIR>/scripts/png_contrast.py <png> <x1> <y1> <x2> <y2>` on a box around the text (coordinates in image pixels; screenshots may be device-pixel scaled). List every state and behavior that could not be seen. |
 | Design system only | Audit tokens and specs: type scale, color roles with light, dark and increased-contrast variants (compute contrast for each text/background pair), spacing scale, elevation, radii, motion tokens, component inventory and each component's states (default, hover, focus, pressed, disabled, error, loading). |
 
-**Running measure.js.** Read `scripts/measure.js` and pass its full text, unchanged, as the `function` argument to `browser_evaluate`. It returns:
+**Measuring.** Read `<SKILL_DIR>/scripts/measure-runner.js` and pass its text, with `<SKILL_DIR>` replaced, as the `code` argument to one `browser_run_code_unsafe` call. It loads `scripts/measure.js` and returns one result per combination of widths 390, 820, 1440 × `colorScheme` light, dark × `reducedMotion` no-preference, reduce. If `browser_run_code_unsafe` is unavailable, pass the full text of `scripts/measure.js`, unchanged, as the `function` argument to `browser_evaluate` once per combination. Skip the dark runs only after confirming the page has no `prefers-color-scheme` rule and renders identically in dark, and say so in Unverified. Each result has:
 
 - `viewport`, `sampled` (true means it hit its 400-item cap; say the results are sampled),
 - `contrast[]`: selector, text, fg, bg, ratio, size, weight, large, `status` (`ok`, `fail`, `unmeasurable`),
-- `targets[]`: selector, role, width, height, `under24`, `under44`,
+- `targets[]`: selector, role, width, height, `under24`, `under44`, `spacingOk` (WCAG 2.5.8 spacing exception, set for `under24` targets),
 - `type`: families, size counts, `minSize`, `distinctSizes`, `letterSpacingBySize`,
 - `motion`: `transitionAll`, `reducedMotionRule`, `animatedOnLoad`,
 - `defaults[]`: detected template tells with evidence, for the slop scan.
 
-`status: unmeasurable` (text over an image or gradient, or a color it could not parse) means check by eye. It is never a pass. Judge `targets` against `references/web-mapping.md` (44 px goal, 24 px minimum, 48 px for shared cross-platform code), `contrast` against WCAG 2 (4.5:1 body, 3:1 large and non-text) with APCA as an extra check, and `type.minSize` against 16 px body on mobile web and 12 px minimum on desktop.
+`status: unmeasurable` (text over an image or gradient, or a color it could not parse) means check by eye. It is never a pass.
+
+**Measured vs by eye.** Contrast computed from known source colors over an opaque background counts as measured. Over a material, gradient or image it is check by eye: at most Major unless pixel sampling (`scripts/png_contrast.py` on a screenshot) confirms a fail.
+
+Judge `targets` against `references/web-mapping.md` (44 px goal, 24 px minimum, 48 px for shared cross-platform code). An `under24` target with `spacingOk` true passes WCAG 2.5.8: report it as Major or Minor against Apple's 44 pt goal, never Blocker. `spacingOk` false is a Blocker. Judge `contrast` against WCAG 2 (4.5:1 body, 3:1 large and non-text) with APCA as an extra check, and `type.minSize` against 16 px body on mobile web and 12 px minimum on desktop.
 
 If no Playwright tools are available, say so, ask the user for screenshots at those widths and modes, and mark the measured checks Unverified.
 
@@ -126,7 +133,7 @@ Conditional loads:
 
 **Design system only.** Run the slop scan, visual, accessibility and distinctiveness passes, plus content for component specs and their copy. Skip structure, interaction and platform fit, except the component choice rules in `references/apple/components-structure.md` and `references/apple/components-presentation.md`, applied to the component inventory.
 
-**1. Slop scan.** Fast, before the deep work. Walk `references/slop-catalog.md` section by section (AI-template, Apple-clone, Material-clone, shadcn/Tailwind-default, praised-product clone, research-blessed patterns gone generic, AI-microcopy) against the screenshots, source and measure.js `defaults`. Count tells per section with the element each sits on; the distinctiveness verdict uses the counts. App Review 4.2.6 (template-generated apps) is Apple's own rule against cookie-cutter apps; cite it for native apps that read as templates.
+**1. Slop scan.** Fast, before the deep work. Walk `references/slop-catalog.md` section by section (AI-template, Apple-clone, Material-clone, shadcn/Tailwind-default, praised-product clone, research-blessed patterns gone generic, AI-microcopy) against the screenshots, source and measure.js `defaults`. Count tells per section and per channel, with the element each sits on. The distinctiveness procedure (`references/augment/distinctiveness.md` step 10) sets the verdict; the slop-catalog cluster threshold (tells across 3 or more channels, or 5 or more tells in total) is an input that forces `default-assembled` when met. App Review 4.2.6 (template-generated apps) is Apple's own rule against cookie-cutter apps; cite it for native apps that read as templates.
 
 **2. Structure.** Navigation architecture (tab bar, sidebar, split view, or the web equivalent for the project's breakpoints), information hierarchy, component choice (alert vs sheet vs popover vs inline), modality, action hierarchy (one prominent action per view), destructive-action placement. Check the Trust gate here too: obstruction (cancel harder than sign-up), forced action, preselection, hidden costs in flows. Gate items are in the "Trust gate" section of `references/augment/ux-research.md`.
 
@@ -136,17 +143,17 @@ Conditional loads:
 
 **5. Content.** Every visible string by message type (labels, buttons, titles, errors, empty states, confirmations, success, onboarding, permissions, notifications, AI features, settings, tooltips, loading) against `references/writing.md`, judged by the profile's `voice`. Every copy finding includes a rewrite in that voice. Anti-fabrication never yields: no invented causes, counts, durations, or social proof. Humor never appears in errors, destructive confirmations, money, or permission requests, whatever the profile says. Flag mixed spelling against `voice.spelling` and inconsistent casing against `voice.casing`. Check the Trust gate here: confirmshaming, fake urgency or scarcity, fake social proof, trick questions, unlabelled ads. For long-form in-app prose (help articles, onboarding paragraphs, emails), invoke the humanizing-writing skill if it is installed; otherwise apply the long-form rules in `references/writing.md`.
 
-**6. Accessibility.** The measured checks first (contrast, targets, text scaling to 200%, focus visibility, reduced motion), then judgment: labels that match visible text (Voice Control), VoiceOver or screen-reader order and names, meaning carried by color alone, flashing content, cognitive load, RTL and localization. The Accessibility Nutrition Label criteria in `references/apple/beyond-hig.md` are the checklist for common tasks (onboarding, login, purchase, settings). A failed measured check here is a Blocker.
+**6. Accessibility.** The measured checks first (contrast, targets, text scaling to 200%, focus visibility, reduced motion), then judgment: labels that match visible text (Voice Control), VoiceOver or screen-reader order and names, meaning carried by color alone, flashing content, cognitive load, RTL and localization. The Accessibility Nutrition Label criteria in `references/apple/beyond-hig.md` are the checklist for common tasks (onboarding, login, purchase, settings). A measured check that fails a WCAG AA criterion or an Apple MUST is a Blocker. Text sized in px that ignores the root font size while browser zoom still works passes WCAG 1.4.4: Major (respect the user's font size and Dynamic Type), not Blocker.
 
 **7. Platform fit.** Per-platform rules for the platforms in the profile only; a web-only profile never gets native rules. On web, never flag a missing Apple idiom (bottom tab bar, Title Case menus, trailing Done); flag the broken principle behind one, using the "Apple idioms on web" section of `references/web-mapping.md`. Flag SF Pro or SF Symbols on web (licensed for Apple platforms only). Technology rules where used: AI features, payments and paywalls, sign-in, notifications, widgets.
 
-**8. Distinctiveness.** Runs after passes 2 to 7, following the procedure in `references/augment/distinctiveness.md`. Gate first: for any flow with an open Blocker or Major from the Apple passes, hold pleasure-tier and expression findings for that flow and list them after the fixes. Then classify the nine expressive channels (platform default, library default, trend default, authored; at least two authored), check where expression sits by surface, count signature elements and moments against the budget for the profile's `register`, trace identity to the product's subject, and run the logo-off and competitor-swap tests. Judge against the profile's `direction`. If it is empty, propose 2 or 3 directions derived from the product's subject and audience, differing from each other on at least two channels, and ask the user to pick one; save the pick to the profile once they confirm.
+**8. Distinctiveness.** Runs after passes 2 to 7, following the procedure in `references/augment/distinctiveness.md`. Gate first: for any flow with an open Blocker or Major from the Apple passes, hold pleasure-tier and expression findings for that flow and list them after the fixes. Then classify the nine expressive channels (platform default, library default, trend default, authored; at least two authored), check where expression sits by surface, count signature elements and moments against the budget for the profile's `register`, trace identity to the product's subject, and run the logo-off and competitor-swap tests. The distinctiveness procedure (`references/augment/distinctiveness.md` step 10) sets the verdict; the slop-catalog cluster threshold (tells across 3 or more channels, or 5 or more tells in total) is an input that forces `default-assembled` when met. Judge against the profile's `direction`. If it is empty, propose 2 or 3 directions derived from the product's subject and audience, differing from each other on at least two channels, and ask the user to pick one; save the pick to the profile once they confirm.
 
 **Trust.** Deceptive-design hits from passes 2 and 5 are Blockers and go in the report's own Trust section, each with the element, the screen, and the honest rewrite. In a whole-app split, subagent D owns them (step 5).
 
 ## 5. Whole-app split
 
-For a screen, a flow, or a design system, run the passes inline. For a whole app, after steps 1 to 3, dispatch four subagents in parallel:
+For a screen, a flow, a design system, or a whole app with 5 or fewer screens (or 10 or fewer view files), run the passes inline. For a larger whole app, after steps 1 to 3, dispatch four subagents in parallel:
 
 | Subagent | Passes | Reference files |
 |---|---|---|
@@ -171,7 +178,7 @@ The main thread runs the slop scan, then waits for all four, then runs distincti
 
 Follow `references/report-template.md`: Summary, Findings, Trust, Distinctiveness verdict, Elevate, Unverified, Offer.
 
-- Sort by Impact, then Apple column in this order: MUST, SHOULD, CONSIDER, Research, Taste, Web.
+- Sort by Impact, then Apple column in this order: MUST, SHOULD, CONSIDER, Web, Research, Taste (as in the report template).
 - Caps: screen 15, flow 25, whole app 40, design system 30. Merge duplicates first. Group Polish beyond the cap into one row. Never drop a higher-impact finding to fit.
 - Number findings; step 7 refers to them by number.
 - Put `waived: N` under the findings table.
@@ -184,4 +191,4 @@ Follow `references/report-template.md`: Summary, Findings, Trust, Distinctivenes
 
 List the findings fixable in code by number, grouped (for example "copy rewrites: 3, 7, 12", "contrast tokens: 2, 5", "target sizes: 4"), and say which need a design decision first. Ask which to fix.
 
-Edit only the findings the user picks. Keep each edit to what the finding names; do not refactor around it, and leave unrelated uncommitted work untouched. After editing, re-run the checks that found the problem: measure.js at the affected widths and modes for measured findings, a fresh screenshot for visual ones, a reread of the strings for copy. Report what changed, what now passes, and anything that still fails. Do not commit unless asked.
+Edit only the findings the user picks. Keep each edit to what the finding names; do not refactor around it, and leave unrelated uncommitted work untouched. After editing, re-run the checks that found the problem: the measurement at the affected widths and modes for measured findings, a fresh screenshot for visual ones, a reread of the strings for copy. Report what changed, what now passes, and anything that still fails. Do not commit unless asked.

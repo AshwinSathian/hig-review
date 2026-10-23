@@ -8,7 +8,7 @@ Points to pixels: treat 1 pt as about 1 CSS px. Apple point values carry over as
 
 ## Targets
 
-- [MUST] Web: hit targets reach 24 CSS px at minimum (WCAG 2.2 SC 2.5.8, AA). It covers all pointer input (mouse, pen and touch), not only touch. A target under 24 px with no 24 px spacing circle is a Blocker.
+- [MUST] Web: hit targets reach 24 CSS px at minimum (WCAG 2.2 SC 2.5.8, AA). It covers all pointer input (mouse, pen and touch), not only touch. An `under24` target with `spacingOk` true passes WCAG 2.5.8: report it as Major or Minor against Apple's 44 pt goal, never Blocker. `spacingOk` false is a Blocker.
 - [SHOULD] Web: aim for 44 px on touch-first surfaces. Spacing follows Apple's guidance: about 12 pt of padding around elements with a bezel, about 24 pt around elements without one (borderless).
 - [SHOULD] Web: use 48 px when the component is shared cross-platform (React Native Web, one codebase for web and Android), so one size serves every platform.
 - [CONSIDER] Web: dense desktop tools may sit between 24 and 44 px if pointer-only and spacing holds; say so in the finding.
@@ -17,7 +17,7 @@ Points to pixels: treat 1 pt as about 1 CSS px. Apple point values carry over as
 
 - [SHOULD] Web: body text is 16 px minimum on mobile web.
 - [SHOULD] Web: minimum text is 12 px on desktop and web (11 pt on native iOS). Smaller needs a waiver.
-- [MUST] Web: size text in `rem` (or `em`), not `px`, so user font-size settings and browser text scaling work. Text must scale to 200% without loss of content.
+- [MUST] Web: size text in `rem` (or `em`), not `px`, so user font-size settings and browser text scaling work. Text must scale to 200% without loss of content. Text sized in px that ignores the root font size while browser zoom still works passes WCAG 1.4.4: Major (respect the user's font size and Dynamic Type), not Blocker.
 - [SHOULD] Web: type scale follows the profile `density`. Comfortable apps measure against the iOS scale (17 pt body, mapped to 16-17 px). Dense tools measure against the macOS scale (13 pt body, mapped to 13-14 px). Hierarchy rules (weight before size, few sizes) apply to both.
 - [SHOULD] Web: Apple-targeted UIs use `font-family: system-ui` (plus `ui-rounded`, `ui-serif`, `ui-monospace`); otherwise a deliberate brand font with a `system-ui` fallback. Source: beyond-hig, Web (WebKit).
 - [SHOULD] Web: `font: -apple-system-body` (and -headline, -subheadline, -caption1, -caption2, -footnote) follows the iOS text-size setting; pair with `rem` sizing. Community pattern, unverified; the keyword list is verified.

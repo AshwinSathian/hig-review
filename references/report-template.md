@@ -31,7 +31,7 @@ Three lines: what was reviewed (unit, input, profile used), the verdict in one s
 - Research: from non-Apple literature where Apple is silent.
 - Taste: our own anti-slop rule, not Apple's.
 
-A check labelled "adds to Apple" shows the tag of the Apple rule it adds to. A check labelled "Apple silent" shows Research (or Taste, if it is our own synthesis). A CONFLICT shows the Apple tag, with the resolution named in Fix.
+A check labelled "adds to Apple" shows the tag of the Apple rule it adds to. A check labelled "Apple silent" shows Research (or Taste, if it is our own synthesis). A WCAG-backed web rule shows Web. A CONFLICT resolved toward Apple shows the Apple tag; resolved toward the outside source, Research; either way Fix names the resolution. A slop-cluster finding shows Taste with impact Major and sorts with the rest.
 
 Examples (illustrative only, fictional "Trailhead" hiking app):
 
