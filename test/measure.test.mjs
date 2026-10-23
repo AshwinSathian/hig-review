@@ -67,3 +67,68 @@ test("huge table: 5000 cells -> sampled true, contrast.length <= 400", async () 
   assert.equal(r.sampled, true);
   assert.ok(r.contrast.length <= 400);
 });
+
+const tells = (r) => r.defaults.map((d) => `${d.tell} :: ${d.evidence}`).join("\n");
+
+test("contrast: alpha foreground and background composite", async () => {
+  const r = await measure("alpha");
+  assert.equal(by(r.contrast, "#fga").ratio, 3.98);
+  const bg = by(r.contrast, "#bga");
+  assert.equal(bg.ratio, 3.98);
+  assert.equal(bg.bg, "#808080");
+});
+
+test("contrast: large-text threshold (24px, or 18.66px bold)", async () => {
+  const { contrast: c } = await measure("large");
+  const flags = ["#l24", "#l19b", "#l19r", "#l18b"].map((id) => [by(c, id).large, by(c, id).status]);
+  assert.deepEqual(flags, [[true, "ok"], [true, "ok"], [false, "fail"], [false, "fail"]]);
+});
+
+test("contrast: text-shadow is unmeasurable", async () => {
+  assert.equal(by((await measure("text-shadow")).contrast, "#ts").status, "unmeasurable");
+});
+
+test("contrast: oklch and color-mix colours are measured", async () => {
+  const { contrast: c } = await measure("oklch");
+  for (const id of ["#ok", "#okbg", "#mix"]) {
+    assert.equal(by(c, id).status, "ok", id);
+    assert.equal(typeof by(c, id).ratio, "number");
+  }
+});
+
+test("contrast: ancestor opacity reduces contrast; opacity 0 skipped", async () => {
+  const { contrast: c } = await measure("opacity");
+  assert.equal(by(c, "#half").status, "fail");
+  assert.equal(by(c, "#gone"), undefined);
+});
+
+test("defaults: Tailwind v3 and v4 ramps", async () => {
+  assert.match(tells(await measure("ramp-v3")), /slate \(v3\) ramp/);
+  assert.match(tells(await measure("ramp-v4")), /gray \(v4\) ramp/);
+  assert.doesNotMatch(tells(await measure("contrast")), /ramp/);
+});
+
+test("defaults: cubic-bezier(0.32, 0.72, 0, 1) tell", async () => {
+  assert.match(tells(await measure("easing")), /cubic-bezier/);
+});
+
+test("defaults: shadcn card with Tailwind's composed shadow list", async () => {
+  assert.match(tells(await measure("shadcn-card")), /shadcn.*2 of 2/);
+});
+
+test("defaults: indigo/violet gradient in rgb and oklch", async () => {
+  const t = tells(await measure("gradient"));
+  assert.match(t, /#g1/);
+  assert.match(t, /#g2/);
+});
+
+test("defaults: next/font hashed Inter family name", async () => {
+  assert.match(tells(await measure("nextfont")), /Inter/);
+});
+
+test("targets: sr-only peer checkbox is replaced by its label", async () => {
+  const { targets } = await measure("sr-peer");
+  assert.equal(by(targets, "#cb"), undefined);
+  assert.equal(by(targets, "#lab").width, 48);
+  assert.equal(by(targets, "#lab").under44, false);
+});

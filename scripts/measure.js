@@ -7,18 +7,38 @@
   const selectorOf = (el) => {
     const parts = [];
     for (let n = el; n && n.nodeType === 1 && parts.length < 4; n = n.parentElement) {
-      if (n.id) { parts.unshift(`#${n.id}`); break; }
+      if (n.id) { parts.unshift(`#${CSS.escape(n.id)}`); break; }
       const tag = n.tagName.toLowerCase();
       const same = n.parentElement ? [...n.parentElement.children].filter((c) => c.tagName === n.tagName) : [n];
       parts.unshift(same.length > 1 ? `${tag}:nth-of-type(${same.indexOf(n) + 1})` : tag);
     }
     return parts.join(" > ");
   };
-  const parseColor = (s) => {
-    const m = /^rgba?\(([^)]+)\)$/.exec(s.trim());
-    if (!m) return null;
-    const p = m[1].split(/[\s,/]+/).filter(Boolean).map(Number);
-    return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+  // Any CSS colour (rgb, oklch, lab, color(), color-mix...) -> sRGB via a 1x1 canvas.
+  // rgb()/rgba() strings are parsed directly so they stay exact.
+  const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+  ctx.canvas.width = ctx.canvas.height = 1;
+  const colorCache = new Map();
+  const parseColor = (str) => {
+    str = str.trim();
+    if (colorCache.has(str)) return colorCache.get(str);
+    let out = null;
+    const m = /^rgba?\(([^)]+)\)$/.exec(str);
+    if (m) {
+      const p = m[1].split(/[\s,/]+/).filter(Boolean).map((v) => (v.endsWith("%") ? parseFloat(v) / 100 : Number(v)));
+      out = { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+    } else {
+      ctx.clearRect(0, 0, 1, 1);
+      ctx.fillStyle = "#010203"; // sentinel: an unparseable value leaves this in place
+      ctx.fillStyle = str;
+      if (ctx.fillStyle !== "#010203") {
+        ctx.fillRect(0, 0, 1, 1);
+        const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+        out = { r, g, b, a: a / 255 };
+      }
+    }
+    colorCache.set(str, out);
+    return out;
   };
   const over = (top, under) => ({ // alpha-composite top over opaque under
     r: top.r * top.a + under.r * (1 - top.a),
@@ -27,7 +47,7 @@
     a: 1,
   });
   const lum = (c) => {
-    const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+    const f = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
     return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
   };
   const hex = (c) => "#" + [c.r, c.g, c.b].map((v) => Math.round(v).toString(16).padStart(2, "0")).join("");
@@ -44,13 +64,16 @@
   for (let n; (n = walker.nextNode()); ) {
     const el = n.parentElement;
     if (!n.nodeValue.trim() || !el || /^(SCRIPT|STYLE|NOSCRIPT)$/.test(el.tagName) || !visible(el)) continue;
-    textParents.push({ el, text: n.nodeValue.trim().slice(0, 60) });
+    let opacity = 1;
+    for (let a = el; a; a = a.parentElement) opacity *= parseFloat(cs(a).opacity);
+    if (opacity === 0) continue;
+    textParents.push({ opacity, el, text: n.nodeValue.trim().slice(0, 60) });
   }
 
   // ---- contrast ----
   const contrast = [];
   if (textParents.length > CAP) sampled = true;
-  for (const { el, text } of textParents.slice(0, CAP)) {
+  for (const { el, text, opacity } of textParents.slice(0, CAP)) {
     const s = cs(el);
     const size = parseFloat(s.fontSize);
     const weight = parseInt(s.fontWeight, 10) || 400;
@@ -71,7 +94,7 @@
     if (!blocked && fgRaw) {
       let bg = { r: 255, g: 255, b: 255, a: 1 };
       for (const l of layers.reverse()) bg = over(l, bg);
-      const fg = over(fgRaw, bg);
+      const fg = over({ ...fgRaw, a: fgRaw.a * opacity }, bg);
       const [hi, lo] = [lum(fg), lum(bg)].sort((a, b) => b - a);
       const ratio = (hi + 0.05) / (lo + 0.05);
       row.bg = hex(bg);
@@ -84,16 +107,27 @@
 
   // ---- targets ----
   const TARGET = 'a[href], button, input:not([type=hidden]), select, textarea, summary, [role=button], [role=link], [role=tab], [role=menuitem], [role=checkbox], [role=switch], [tabindex]:not([tabindex="-1"])';
+  const visuallyHidden = (el) => {
+    const r = el.getBoundingClientRect(), s = cs(el);
+    const out = s.position === "absolute" || s.position === "fixed";
+    return (r.width <= 1 && r.height <= 1) || (out && (s.clip !== "auto" || s.clipPath !== "none" || parseFloat(s.opacity) === 0));
+  };
   const hasOwnText = (el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.nodeValue.trim());
   const targets = [];
   for (const el of document.querySelectorAll(TARGET)) {
     if (!visible(el)) continue;
     // WCAG 2.5.8 inline exception: links within running text are exempt.
     if (el.tagName === "A" && cs(el).display === "inline" && el.parentElement && hasOwnText(el.parentElement)) continue;
+    let box = el;
+    if (visuallyHidden(el)) {
+      // sr-only / peer inputs: the visible label is the real target.
+      box = [...(el.labels || [])].find(visible);
+      if (!box) continue;
+    }
     if (targets.length >= CAP) { sampled = true; break; }
-    const r = el.getBoundingClientRect();
+    const r = box.getBoundingClientRect();
     targets.push({
-      selector: selectorOf(el),
+      selector: selectorOf(box),
       role: el.getAttribute("role") || (el.tagName === "INPUT" ? `input:${el.type}` : el.tagName.toLowerCase()),
       width: Math.round(r.width * 10) / 10,
       height: Math.round(r.height * 10) / 10,
@@ -144,25 +178,34 @@
 
   // ---- library / trend default tells ----
   const defaults = [];
-  const stack = [...families].find((f) => /^(Inter|Geist)$/i.test(f));
-  if (stack) defaults.push({ tell: `Font stack starts with ${stack}`, evidence: stack });
+  // next/font renames families to "__Inter_a1b2c3"; strip that before matching.
+  const cleanFamily = (f) => f.split(",")[0].trim().replace(/^["']|["']$/g, "").replace(/^__/, "").replace(/_[0-9a-f]{5,}$/i, "").replace(/_/g, " ");
+  const roots = [document.documentElement, document.body, ...document.body.children];
+  const fontHits = roots.filter((el) => /^(Inter|Geist)\b/i.test(cleanFamily(cs(el).fontFamily)));
+  if (fontHits.length) {
+    defaults.push({ tell: `Font stack starts with ${cleanFamily(cs(fontHits[0]).fontFamily)}`, evidence: fontHits.map((el) => `${selectorOf(el)}: ${cs(el).fontFamily}`).join("; ") });
+  }
 
+  // Tailwind default ramps, steps 500-900. v3 values are hex, v4 (tailwindcss 4.3.3 theme.css) oklch;
+  // both are normalised to sRGB at runtime and matched with a small tolerance.
   const RAMPS = {
-    slate: ["#64748b", "#475569", "#334155", "#1e293b", "#0f172a"],
-    gray: ["#6b7280", "#4b5563", "#374151", "#1f2937", "#111827"],
-    zinc: ["#71717a", "#52525b", "#3f3f46", "#27272a", "#18181b"],
+    "slate (v3)": ["#64748b", "#475569", "#334155", "#1e293b", "#0f172a"],
+    "gray (v3)": ["#6b7280", "#4b5563", "#374151", "#1f2937", "#111827"],
+    "zinc (v3)": ["#71717a", "#52525b", "#3f3f46", "#27272a", "#18181b"],
+    "slate (v4)": ["oklch(55.4% 0.046 257.417)", "oklch(44.6% 0.043 257.281)", "oklch(37.2% 0.044 257.287)", "oklch(27.9% 0.041 260.031)", "oklch(20.8% 0.042 265.755)"],
+    "gray (v4)": ["oklch(55.1% 0.027 264.364)", "oklch(44.6% 0.03 256.802)", "oklch(37.3% 0.034 259.733)", "oklch(27.8% 0.033 256.848)", "oklch(21% 0.034 264.665)"],
+    "zinc (v4)": ["oklch(55.2% 0.016 285.938)", "oklch(44.2% 0.017 285.786)", "oklch(37% 0.013 285.805)", "oklch(27.4% 0.006 286.033)", "oklch(21% 0.006 285.885)"],
   };
-  const seen = new Set();
+  const seenStr = new Set();
   for (const el of all) {
     const s = cs(el);
-    for (const v of [s.color, s.backgroundColor, s.borderTopColor]) {
-      const c = parseColor(v);
-      if (c && c.a === 1) seen.add(hex(c));
-    }
+    for (const v of [s.color, s.backgroundColor, s.borderTopColor]) seenStr.add(v);
   }
+  const seen = [...seenStr].map(parseColor).filter((c) => c && c.a === 1);
+  const near = (a, b) => Math.abs(a.r - b.r) <= 2 && Math.abs(a.g - b.g) <= 2 && Math.abs(a.b - b.b) <= 2;
   for (const [name, ramp] of Object.entries(RAMPS)) {
-    const hit = ramp.filter((h) => seen.has(h));
-    if (hit.length >= 3) defaults.push({ tell: `Tailwind default ${name} ramp`, evidence: hit.join(", ") });
+    const hit = ramp.map((v, i) => [(i + 5) * 100, parseColor(v)]).filter(([, c]) => seen.some((x) => near(x, c)));
+    if (hit.length >= 3) defaults.push({ tell: `Tailwind default ${name} ramp`, evidence: hit.map(([k]) => k).join(", ") });
   }
 
   const timing = all.flatMap((el) => [cs(el).transitionTimingFunction, cs(el).animationTimingFunction]);
@@ -170,14 +213,21 @@
     defaults.push({ tell: "cubic-bezier(0.32, 0.72, 0, 1) easing", evidence: "found in a transition or animation" });
   }
 
-  const SHADCN_SHADOW = "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"; // Tailwind shadow-sm
+  // Tailwind composes box-shadow as a list (transparent ring layers + shadow-sm), so look for the layer.
+  const COLOR_RE = /(?:rgba?|hsla?|oklch|oklab|lab|lch|color)\([^)]*\)|#[0-9a-f]{3,8}\b/gi;
+  const hasShadowSm = (bs) => bs.split(/,(?![^(]*\))/).some((layer) => {
+    const color = layer.match(COLOR_RE)?.[0];
+    const c = color && parseColor(color);
+    const len = layer.replace(COLOR_RE, "").trim().split(/\s+/).map(parseFloat);
+    return c && c.r + c.g + c.b === 0 && Math.abs(c.a - 0.05) < 0.01 && len.join() === "0,1,2,0";
+  });
   const cards = all.filter((el) => parseFloat(cs(el).borderTopLeftRadius) > 0 && cs(el).boxShadow !== "none");
-  const shadcn = cards.filter((el) => cs(el).borderTopLeftRadius === "8px" && cs(el).boxShadow === SHADCN_SHADOW);
+  const shadcn = cards.filter((el) => cs(el).borderTopLeftRadius === "8px" && hasShadowSm(cs(el).boxShadow));
   if (cards.length && shadcn.length / cards.length >= 0.6) {
     defaults.push({ tell: "shadcn default card (8px radius + shadow-sm)", evidence: `${shadcn.length} of ${cards.length} cards` });
   }
 
-  const glass = [...document.querySelectorAll("main *")].filter((el) => {
+  const glass = [...document.querySelectorAll("main *, [role=main] *")].filter((el) => {
     const s = cs(el);
     return (s.backdropFilter || s.webkitBackdropFilter || "none") !== "none";
   });
@@ -193,7 +243,7 @@
   const grads = all.filter((el) => {
     const bi = cs(el).backgroundImage;
     if (!bi.includes("linear-gradient")) return false;
-    return (bi.match(/rgba?\([^)]+\)/g) || []).some((v) => { const h = hue(parseColor(v)); return h !== null && h >= 230 && h <= 290; });
+    return (bi.match(COLOR_RE) || []).some((v) => { const c = parseColor(v); const h = c && hue(c); return h !== null && h !== undefined && h >= 230 && h <= 290; });
   });
   if (grads.length) defaults.push({ tell: "indigo/violet gradient background", evidence: grads.slice(0, 5).map(selectorOf).join(", ") });
 
