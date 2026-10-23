@@ -1,7 +1,7 @@
 Covers Material 3 and M3 Expressive, Fluent 2, Windows 11 app design, and the Microsoft Inclusive Design toolkit. Non-Apple; augments the HIG and never replaces it.
 Loaded by: visual, interaction and motion, distinctiveness, platform fit
 Snapshot: 2026-10-23
-Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'.
+Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'. [Taste] always shows 'Taste' in reports, whatever its label.
 
 
 Conflicts follow the policy: native Apple target, Apple wins on platform conventions; web, Apple's principle is the default and research may sharpen it, with the conflict shown; brand, split by surface; accessibility, strictest wins. Items marked `(unverified)` were recalled from memory or seen only as a snippet; they carry lower weight and never make a Blocker alone. Android-only implementation details are cut to what transfers to iOS, macOS and web. Overused patterns from these sources: see references/slop-catalog.md.
@@ -34,7 +34,7 @@ Conflicts follow the policy: native Apple target, Apple wins on platform convent
 
 **Checks**
 - [SHOULD] The primary element's shape differs from its neighbors' (square-ish inside a field of pills, or the reverse); smaller shapes can make essential actions look less important. — CONFLICT: Apple keeps one consistent shape per control role and same-size buttons as a coherent set (beyond-hig.md, components-structure.md) vs M3E shape contrast on the primary; resolution: native Apple target, Apple wins; web and display-only surfaces allow it only within the product's 1-2 signature-moment budget.
-- [SHOULD] At least two accent roles exist and do different jobs; without contrast, elements blend together. — CONFLICT: Apple's "1 accent meaning" (visual.md) vs M3E's two or more accent roles; resolution: native Apple target, Apple wins (one accent meaning); web and display-only surfaces may add a second role only within the product's 1-2 signature-moment budget.
+- [SHOULD] At least two accent roles exist and do different jobs; without contrast, elements blend together. — CONFLICT: Apple's "accent color sparingly" (content-a11y.md, brand and accent guidance; the one-meaning count is our heuristic) vs M3E's two or more accent roles; resolution: native Apple target, Apple wins (accent used sparingly, one meaning); web and display-only surfaces may add a second role only within the product's 1-2 signature-moment budget.
 - [CONSIDER] An editorial-scale type moment (heavier weight, larger size, color, spacing). — CONFLICT: Apple lets style, not size, carry hierarchy (components-structure.md, visual.md) vs M3E editorial-scale type; resolution: native Apple target, Apple wins; web and display-only surfaces allow one such moment only within the product's 1-2 signature-moment budget.
 - [SHOULD] Contain the most important content for emphasis (ample space, brightest surface); ungrouped information blends together. — adds to Apple
 - [SHOULD] Components shift depending on the environment. — adds to Apple
@@ -109,7 +109,7 @@ Use springs when possible, otherwise curves that mimic springs for animations wi
 
 **Distinctiveness**: A product should choose its radius scale on purpose, tied to its typeface.
 
-**Web**: Define `--radius-*` tokens (for example 4/8/12/16/28/full) and lint for raw px radii. Use `border-radius: 9999px` rather than 50% on non-square elements. `clip-path` or SVG masks for decorative shapes on imagery only.
+**Web**: Define `--radius-*` tokens from the product's own scale (M3's 4/8/12/16/28/full is evidence only: do not copy; derive from the product's own tokens) and lint for raw px radii. Use `border-radius: 9999px` rather than 50% on non-square elements. `clip-path` or SVG masks for decorative shapes on imagery only.
 
 ## M3 color: HCT and contrast levels
 
@@ -161,11 +161,11 @@ Use springs when possible, otherwise curves that mimic springs for animations wi
 - [SHOULD] Expanded list-detail with nothing selected shows a deliberate placeholder pane, not a blank one. — Apple silent
 - [SHOULD] Supporting pane is about 70/30 at expanded width. — Apple silent
 - [CONSIDER] Treat 1200 and 1600 as separate tiers; don't stretch a tablet layout across a 27" desktop window. — Apple silent
-- [CONSIDER] Apple's compact/regular size classes (visual.md) and `NavigationSplitView` are coarser; use M3's five tiers as a web default only. — adds to Apple
+- [CONSIDER] Apple's compact/regular size classes (visual.md) and `NavigationSplitView` are coarser; M3's five tiers are evidence of a finer split, not a web default. — adds to Apple
 
 **Distinctiveness**: The Large and XL tiers push products to design a real desktop composition instead of a centered phone column.
 
-**Web**: Container queries (`@container`) for pane logic, not viewport-only media queries. Breakpoints 600/840/1200/1600 as defaults. Feed pattern: `repeat(auto-fill, minmax(180px, 1fr))`.
+**Web**: Container queries (`@container`) for pane logic, not viewport-only media queries. Use the project's own breakpoints (M3's 600/840/1200/1600 are evidence only: do not copy; derive from the product's own tokens and content). Feed pattern: `repeat(auto-fill, minmax(180px, 1fr))`.
 
 ## Fluent 2 principles
 
@@ -193,12 +193,12 @@ Use springs when possible, otherwise curves that mimic springs for animations wi
 **Checks**
 - [MUST] Status colors (red, amber, green) are used only for status, never decoration. — adds to Apple
 - [MUST] Keyboard focus shows a distinct indicator (thicker stroke) that differs from hover. (Apple covers focus rings on macOS; Fluent states the separation) — adds to Apple
-- [SHOULD] Lists stagger with short offsets; synchronized motion only for groups of less-important elements; very large sets skip staggering. — Apple silent
+- [SHOULD] Lists stagger with short offsets; synchronized motion only for groups of less-important elements; very large sets skip staggering (beyond-hig.md: app launch layers springs with staggered starts and ends). — adds to Apple
 - [SHOULD] Brand color isn't used on large surfaces. — adds to Apple
 - [SHOULD] Larger elements get longer durations on the 50-500 ms ramp. (Apple gives no duration numbers by element size) — Apple silent
 - [CONSIDER] Use whitespace before divider lines to separate groups. — adds to Apple
 - [SHOULD] Top-level destination switches (tab or route) use a quick fade. — CONFLICT: Apple's push for hierarchical navigation (beyond-hig.md) vs Fluent's fade instead of sliding; resolution: native iOS keeps Apple's push for hierarchical navigation, and the fade applies only to switching top-level destinations; on web, fade for tab and route switches.
-- [SHOULD] State direction (darker vs lighter on interaction) follows the platform. — CONFLICT: Fluent web/M365 "darker on interaction" vs Windows "lighter" vs Apple's highlight behavior; resolution: native Apple targets follow Apple's highlight behavior; web picks one direction and applies it consistently.
+- [SHOULD] State direction (darker vs lighter on interaction) follows the platform: Fluent web/M365 goes darker, Windows lighter. Apple (beyond-hig.md, Taps: "highlight on touch-down") requires a pressed highlight but gives no darker or lighter direction, so native Apple targets use the system highlight and web picks one direction and applies it consistently. — adds to Apple
 
 **Distinctiveness**: Fluent separates shared colors (suite-wide recognition) from brand colors (per product); a family can share a system and be told apart by one sparingly applied brand color.
 
@@ -210,7 +210,7 @@ Use springs when possible, otherwise curves that mimic springs for animations wi
 
 **Geometry**: 8px for top-level containers (app windows, flyouts, dialogs); 4px for in-page elements (buttons, list backplates), bars (ProgressBar, ScrollBar, Slider) and ToolTip; 0px where straight edges meet other straight edges, when windows are snapped or maximized, where SplitButton parts touch, and on the side where a flyout attaches. Globals: `ControlCornerRadius` 4px, `OverlayCornerRadius` 8px.
 
-**Motion**:
+**Motion** (evidence only: do not copy; derive from the product's own motion tokens):
 
 | Purpose | Ease | Timing |
 |---|---|---|
@@ -229,17 +229,17 @@ Principles: Connected, Consistent (surfaces sharing an entry point invoke and di
 
 **Checks**
 - [MUST] Two-tier radius: overlays and windows get the larger radius, in-page controls the smaller, touching edges and maximized windows get 0, and nested radii must not match. (echoes concentricity, beyond-hig.md, with exact rules for when not to round) — adds to Apple
-- [MUST] Exits are shorter than entrances (167ms exit vs up to 333ms entrance), and positional exits are combined with a fade. — Apple silent
+- [SHOULD] Exits are shorter than entrances, and positional exits are combined with a fade (evidence only, do not copy: Windows uses 167ms exits against entrances up to 333ms; derive durations from the product's own tokens). — Apple silent
 - [SHOULD] Surfaces opened from the same entry point open and dismiss the same way. — adds to Apple
 - [SHOULD] Minimum UI text on desktop is 12 Regular / 14 Semibold. (see the type-scale conflict above for the cross-platform floor) — adds to Apple
-- [SHOULD] 83ms opacity-only fallback for the bare-minimum case. — Apple silent
+- [CONSIDER] Evidence only: do not copy; derive from the product's own motion tokens. Windows gives an 83ms opacity-only fallback for the bare-minimum case. — Apple silent
 - [CONSIDER] Avoid italic for emphasis in UI; Windows excludes it for dyslexia readability, so reading-heavy or accessibility-focused products avoid it, and no product is flagged on native Apple targets for using it. — Apple silent
 - [SHOULD] Translucent "glass" material only on transient, light-dismiss surfaces; base surfaces stay opaque. — CONFLICT: Apple's Liquid Glass puts translucent glass on persistent chrome (tab bars, toolbars, sidebars) vs Windows limiting Acrylic to transient surfaces with opaque Mica elsewhere; resolution: native iOS/iPadOS/macOS 26+ follows Apple (glass on controls and navigation, never in the content layer, visual.md); web enforces the layering principle (chrome distinct from content, no glass in content) and treats transient-only glass as the safer default, with any persistent-chrome glass needing a reduced-transparency fallback.
 - [CONSIDER] Line length of 50-60 characters for UI copy blocks. — CONFLICT: Apple's readable width of about 65-75ch for prose (visual.md) and the common 45-75 character range vs Windows 50-60 and never above 60 for UI text; resolution: reading text follows Apple's 65-75ch; UI copy blocks are judged by their own length limits, with 60 as the practical ceiling.
 
 **Distinctiveness**: Windows restraint (4px controls, opaque Mica, sentence case, semibold not bold) is a deliberately different look from Apple's, which shows calm does not have to mean Apple-like.
 
-**Web**: `--radius-control: 4px; --radius-overlay: 8px`. `backdrop-filter` only on menus and popovers. Exits around 167ms with opacity. Text floor of 12px; `max-width: 60ch` for UI prose.
+**Web**: Two radius tokens (control smaller, overlay larger), values from the product's own scale; Windows uses 4px and 8px (evidence only: do not copy; derive from the product's own tokens). `backdrop-filter` only on menus and popovers. Exits shorter than entrances, with opacity. Text floor of 12px; `max-width: 60ch` for UI prose.
 
 ## Microsoft Inclusive Design
 
@@ -268,7 +268,7 @@ Principles: Connected, Consistent (surfaces sharing an entry point invoke and di
 
 **Evidence**: Google's 46 studies, 18,000+ participants, "up to four times faster", plus the negative results (label removal, paradigm-breaking layouts).
 
-**Checkable motion**: M3 springs, web beziers, Fluent 50-500 ms, Windows 167ms exits; never overshoot opacity or color.
+**Checkable motion**: compare the product's motion against its own tokens (the M3, Fluent and Windows figures above are evidence only: do not copy); never overshoot opacity or color.
 
 **Custom accessible color**: tone deltas 40 and 50, three contrast levels, grayscale test.
 

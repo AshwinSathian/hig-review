@@ -1,7 +1,7 @@
 Covers: NN/g, Baymard, Laws of UX, form-design authors (Wroblewski, Silver, Jarrett, GOV.UK) and deceptive-design research: thresholds, form and validation data, web behavior, AI and chat UI, and the Trust gate.
 Loaded by: structure, content, interaction and motion, accessibility
 Snapshot: 2026-10-23
-Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'.
+Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'. [Taste] always shows 'Taste' in reports, whatever its label.
 
 `(unverified)` marks items recalled from memory or seen only as a search snippet; the skill weights them lower and never makes them Blockers alone. Numbers are quoted from the fetched pages. Slop tells for these patterns live in references/slop-catalog.md. Apple claims below were checked against references/apple/*.md.
 
@@ -82,7 +82,7 @@ Evidence tiers: topic 1 is measured (71 participants); topic 12 is an opinion pi
 ## Infinite scroll and carousels (NN/g 2022; carousels 2013, reviewed 2026)
 **Intent**: Infinite scroll suits flat, homogeneous, goal-less content. It hurts refinding, comparison and footer access, and gives an "Illusion of completeness". Save the user's list position when they come back from a detail view. The article gives no percentages. Carousels: use 5 or fewer frames. Auto-rotate timing guide is about 3 words per second. Avoid auto-forward on mobile and for ad-like content. Animated ads get looked at 27% of the time in NN/g eyetracking. Dots are a weak cue on mobile. Important carousel content should also appear elsewhere.
 **Checks**
-- [MUST] Returning from a detail view restores the list's scroll position. — Apple silent
+- [MUST] Returning from a detail view restores the list's scroll position (Apple: patterns.md, Launching, "Restore previous state in detail", [SHOULD]; NN/g makes it a must for lists). — adds to Apple
 - [MUST] No infinite scroll on lists users search, compare, or need to finish (orders, settings, search results with a goal). Use "Load more" or pagination. — Apple silent
 - [MUST] Pages with infinite scroll keep the footer content reachable some other way. — Apple silent
 - [SHOULD] Carousels: 5 or fewer frames, visible count and position, controls inside the carousel, no auto-advance on mobile, a pause control if any auto-advance (WCAG 2.2.2 also requires this). — Apple silent
@@ -174,10 +174,10 @@ Sources: Wroblewski on label alignment eye tracking, citing Matteo Penzo's UXmat
 - [MUST] Labels sit outside and above inputs, visible at all times. Placeholder is used only for an optional example, never the label (search fields excepted). — CONFLICT: iOS Settings-style rows put the label left and the value right vs top-aligned persistent labels (Wroblewski/Penzo, Baymard, NN/g); resolution: native targets accept Apple's row-label style for settings toggles and pickers; in data-entry forms, and on web, require persistent top-aligned labels, and never placeholder-only labels (on every audience).
 - [MUST] Inputs have a visible full boundary (border or filled field with clear edge). Underline-only fields are flagged. — Apple silent
 - [SHOULD] Each field passes a question-protocol test the review can state ("why is phone number asked?"). Unjustified fields are findings. — Apple silent
-- [SHOULD] Long or branching flows use one question or topic per screen, with eligibility first. — CONFLICT: Apple's grouped, scrolling form (iOS Settings style) vs GOV.UK one question per page; resolution: a native Apple target uses Apple's grouped form by default; on web, use one question per page for branching and eligibility flows, with the conflict shown in the report.
+- [SHOULD] Long or branching flows use one question or topic per screen, with eligibility first. — CONFLICT: Apple's grouped, scrolling form (iOS Settings style) vs GOV.UK one question per page; resolution: a native Apple target uses Apple's grouped form by default; on web, use one question per page for branching and eligibility flows aimed at an occasional-public audience, and grouped forms for daily-professional use, settings and frequent edits; read the profile's audience before flagging either way, and show the conflict in the report.
 - [SHOULD] Hint text is persistent and placed between the label and the field. — adds to Apple
 - [CONSIDER] Review forms through Jarrett's layers: does the relationship (trust, reason for asking) justify the conversation? (unverified) — Apple silent
-**Apple note**: Verified in the Apple digests: placeholder hints should come with a separate persistent label, and the web translation bans placeholder-only labels on every audience, so Apple's own text-field rule is close to the research. The tension is the Apple-style settings row copied into long data-entry forms. Apple is silent on question protocol, field budgets, and one-thing-per-page.
+**Apple note**: Verified in the Apple digests: placeholder hints should come with a separate persistent label, and the web translation bans placeholder-only labels on every audience, so Apple's own text-field rule is close to the research. The tension is the Apple-style settings row copied into long data-entry forms. Apple is silent on question protocol and field budgets; on one-thing-per-page it differs (see the CONFLICT above).
 
 ## Laws of UX: non-obvious applications
 **Intent** (fetched pages):
@@ -228,7 +228,7 @@ Sources: Mathur et al., "Dark Patterns at Scale" (CSCW 2019); deceptive.design t
 - [SHOULD] Plan comparison uses the same units and features across tiers. (Comparison prevention) — adds to Apple
 - [CONSIDER] Autoplay-next, streaks and infinite feeds in apps for minors are reviewed as "addictive design". — adds to Apple
 
-**Apple note**: App Store Review Guidelines and HIG cover subscription disclosure. Verified in the Apple digests: the paywall guidance asks for honest money UI (total billed amount most prominent, trial auto-charge disclosed, cancel easy). Apple's native subscription management helps cancellation (unverified). Web flows have no such backstop.
+**Apple note**: App Store Review Guidelines and HIG cover subscription disclosure. Verified in the Apple digests: the paywall guidance asks for honest money UI (total billed amount most prominent, trial auto-charge disclosed, cancel easy). inputs-tech.md (purchases) asks that cancel be easy and a manage-subscription link not be buried. Web flows have no such backstop.
 
 ## Validity conditions for patterns that became generic
 These patterns started as valid fixes for a narrow case. references/slop-catalog.md lists their generic misuse and points back here. Accept the pattern only when its condition holds.
