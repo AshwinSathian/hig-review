@@ -113,7 +113,7 @@ test("defaults: cubic-bezier(0.32, 0.72, 0, 1) tell", async () => {
 });
 
 test("defaults: shadcn card with Tailwind's composed shadow list", async () => {
-  assert.match(tells(await measure("shadcn-card")), /shadcn.*2 of 2/);
+  assert.match(tells(await measure("shadcn-card")), /shadcn.*3 of 3/);
 });
 
 test("defaults: indigo/violet gradient in rgb and oklch", async () => {
@@ -131,4 +131,12 @@ test("targets: sr-only peer checkbox is replaced by its label", async () => {
   assert.equal(by(targets, "#cb"), undefined);
   assert.equal(by(targets, "#lab").width, 48);
   assert.equal(by(targets, "#lab").under44, false);
+});
+
+test("defaults: shadcn v4 card (12px + v4 shadow-sm); transparent ring-only boxes ignored", async () => {
+  assert.match(tells(await measure("shadcn-v4")), /shadcn.*3 of 3/);
+});
+
+test("defaults: two matching cards are not a pattern", async () => {
+  assert.doesNotMatch(tells(await measure("shadcn-two")), /shadcn/);
 });

@@ -213,18 +213,25 @@
     defaults.push({ tell: "cubic-bezier(0.32, 0.72, 0, 1) easing", evidence: "found in a transition or animation" });
   }
 
-  // Tailwind composes box-shadow as a list (transparent ring layers + shadow-sm), so look for the layer.
+  // Tailwind composes box-shadow as a list (transparent ring layers + the real shadow), so parse layers.
+  // Verified against tailwindcss 4.3.3 theme.css and shadcn's new-york-v4 card.tsx (rounded-xl shadow-sm):
+  //   v3 shadow-sm = v4 shadow-xs: 0 1px 2px 0 /.05
+  //   v4 shadow-sm: 0 1px 3px 0 /.1, 0 1px 2px -1px /.1;  radius-lg 8px, radius-xl 12px
   const COLOR_RE = /(?:rgba?|hsla?|oklch|oklab|lab|lch|color)\([^)]*\)|#[0-9a-f]{3,8}\b/gi;
-  const hasShadowSm = (bs) => bs.split(/,(?![^(]*\))/).some((layer) => {
+  const shadowLayers = (bs) => bs.split(/,(?![^(]*\))/).map((layer) => {
     const color = layer.match(COLOR_RE)?.[0];
     const c = color && parseColor(color);
-    const len = layer.replace(COLOR_RE, "").trim().split(/\s+/).map(parseFloat);
-    return c && c.r + c.g + c.b === 0 && Math.abs(c.a - 0.05) < 0.01 && len.join() === "0,1,2,0";
-  });
-  const cards = all.filter((el) => parseFloat(cs(el).borderTopLeftRadius) > 0 && cs(el).boxShadow !== "none");
-  const shadcn = cards.filter((el) => cs(el).borderTopLeftRadius === "8px" && hasShadowSm(cs(el).boxShadow));
-  if (cards.length && shadcn.length / cards.length >= 0.6) {
-    defaults.push({ tell: "shadcn default card (8px radius + shadow-sm)", evidence: `${shadcn.length} of ${cards.length} cards` });
+    return { c, len: layer.replace(COLOR_RE, "").trim().split(/\s+/).map(parseFloat).join() };
+  }).filter((l) => l.c && l.c.a > 0); // drop transparent ring layers
+  const isBlack = (l, a) => l.c.r + l.c.g + l.c.b === 0 && Math.abs(l.c.a - a) < 0.01;
+  const isShadcnShadow = (layers) =>
+    layers.some((l) => l.len === "0,1,2,0" && isBlack(l, 0.05)) ||
+    (layers.some((l) => l.len === "0,1,3,0" && isBlack(l, 0.1)) && layers.some((l) => l.len === "0,1,2,-1" && isBlack(l, 0.1)));
+  const cards = all.map((el) => ({ el, layers: shadowLayers(cs(el).boxShadow) }))
+    .filter(({ el, layers }) => parseFloat(cs(el).borderTopLeftRadius) > 0 && layers.length);
+  const shadcn = cards.filter(({ el, layers }) => ["8px", "12px"].includes(cs(el).borderTopLeftRadius) && isShadcnShadow(layers));
+  if (shadcn.length >= 3 && shadcn.length / cards.length >= 0.6) {
+    defaults.push({ tell: "shadcn default card (8px/12px radius + default shadow)", evidence: `${shadcn.length} of ${cards.length} cards` });
   }
 
   const glass = [...document.querySelectorAll("main *, [role=main] *")].filter((el) => {
