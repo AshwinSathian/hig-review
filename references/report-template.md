@@ -6,7 +6,7 @@ Sections, in this order. Nothing is edited before the Offer is accepted.
 
 Three lines: what was reviewed (unit, input, profile used), the verdict in one sentence, the one or two findings that matter most.
 
-Then any assumptions (inferred profile keys, including `register`), and Run notes: tools used, evidence paths, and a summary of the measurement results (the runner returns text and writes no file).
+Then any assumptions (inferred profile keys, including `register`), and Run notes: tools used, evidence paths, and a summary of the measurement results, citing the file path if the harness saved the output to one.
 
 ## 2. Findings
 
@@ -20,7 +20,7 @@ Then any assumptions (inferred profile keys, including `register`), and Run note
 - Under the table: `waived: N` (findings matched by profile waivers, not listed).
 
 **Impact**
-- Blocker: needs one of: a measured or source-confirmed WCAG A/AA failure (1.4.3 text contrast, 1.4.11 non-text contrast 3:1 for component boundaries, 2.5.8 targets after the spacing exception, 4.1.2 name/role/value such as an icon button with no accessible name), an Apple MUST, data loss, a Trust-gate item, or a task that cannot be completed in a release-stage build. Judged issues (such as placeholder-only labels where an accessible name still exists) cap at Major. With `release_stage: development`, a dead control (no handler, no visible effect) is Major plus an Unverified line saying it may be unfinished; Blocker only when `release_stage` is `release`.
+- Blocker: needs one of: a measured or source-confirmed WCAG A/AA failure (1.4.3 text contrast; 1.4.11 non-text contrast 3:1 for component boundaries, counted only when the boundary is the component's sole visual identifier, with no fill, visible label or other cue marking the field; 2.5.8 targets after the spacing exception; 4.1.2 name/role/value, such as an icon button with no accessible name), an Apple MUST on a native Apple target whose breach makes the task fail, blocks an accessibility need, or risks App Review rejection, data loss, a Trust-gate item, or a task that cannot be completed in a release-stage build. Every other MUST caps at Major. On web, a native Apple rule with no WCAG criterion behind it shows Web in the Apple column and caps at Major. Judged issues (such as placeholder-only labels where an accessible name still exists) cap at Major. With `release_stage: development`, a dead control (no handler, no visible effect) is Major plus an Unverified line saying it may be unfinished; Blocker only when `release_stage` is `release`.
 - Major: feels wrong, non-native, or generic.
 - Minor: noticeable roughness that does not hurt the task.
 - Polish: refinement; first to be grouped.
@@ -33,7 +33,7 @@ Then any assumptions (inferred profile keys, including `register`), and Run note
 - Research: from non-Apple literature where Apple is silent.
 - Taste: our own anti-slop rule, not Apple's.
 
-A check labelled "adds to Apple" shows the tag of the Apple rule it adds to. A check labelled "Apple silent" shows Research (or Taste, if it is our own synthesis). A WCAG-backed web rule shows Web. A CONFLICT resolved toward Apple shows the Apple tag; resolved toward the outside source, Research; either way Fix names the resolution. A slop-cluster finding shows Taste with impact Major and sorts with the rest. A finding no rule covers shows Taste and says "reviewer judgement" in the Finding text. Copy the Apple tag verbatim from the cited reference line; never upgrade it.
+A check labelled "adds to Apple" shows the tag of the Apple line you cite from `references/apple/`; if you cannot cite one, it shows Research. An augment line's own [MUST] never counts as an Apple MUST (Trust-gate Blockers keep their own basis). A check labelled "Apple silent" shows Research (or Taste, if it is our own synthesis). A WCAG-backed web rule shows Web. A CONFLICT resolved toward Apple shows the Apple tag; resolved toward the outside source, Research; either way Fix names the resolution. A slop-cluster finding shows Taste with impact Major and sorts with the rest. A finding no rule covers shows Taste and says "reviewer judgement" in the Finding text. Copy the Apple tag verbatim from the cited reference line; never upgrade it.
 
 Examples (illustrative only, fictional "Trailhead" hiking app):
 
