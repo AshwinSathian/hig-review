@@ -2,6 +2,6 @@
   "name": "hig-review",
   "private": true,
   "type": "module",
-  "scripts": { "test": "node --test && python3 -I test/test_png_contrast.py" },
+  "scripts": { "test": "node --test && python3 -I test/test_png_contrast.py && python3 -I test/test_contrast.py" },
   "devDependencies": { "playwright": "^1.50.0" }
 }

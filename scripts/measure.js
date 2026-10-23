@@ -58,6 +58,7 @@ window.__higMeasure = () => {
     return r.width > 0 && r.height > 0 && s.visibility !== "hidden" && s.display !== "none";
   };
   const all = [...document.querySelectorAll("body, body *")];
+  const isDisabled = (el) => !!el.closest(':disabled,[aria-disabled="true"]');
 
   // ---- text nodes (shared by contrast and type) ----
   const textParents = [];
@@ -79,7 +80,8 @@ window.__higMeasure = () => {
     const size = parseFloat(s.fontSize);
     const weight = parseInt(s.fontWeight, 10) || 400;
     const large = size >= 24 || (size >= 18.66 && weight >= 700);
-    const row = { selector: selectorOf(el), text, fg: s.color, bg: null, ratio: null, size, weight, large, pass: null, status: "unmeasurable" };
+    // disabled: WCAG 1.4.3 and 2.5.8 exempt inactive components.
+    const row = { selector: selectorOf(el), text, fg: s.color, bg: null, ratio: null, size, weight, large, pass: null, status: "unmeasurable", disabled: isDisabled(el) };
     // Layers from the element up to the first opaque background, then white.
     const layers = [];
     let blocked = s.textShadow !== "none";
@@ -135,6 +137,7 @@ window.__higMeasure = () => {
       height: Math.round(r.height * 10) / 10,
       under24: r.width < 24 || r.height < 24,
       under44: r.width < 44 || r.height < 44,
+      disabled: isDisabled(el),
     });
   }
 
@@ -181,16 +184,33 @@ window.__higMeasure = () => {
     if (s.transitionProperty.split(",").map((v) => v.trim()).includes("all") && live(s.transitionDuration)) transitionAll.push(selectorOf(el));
     if (s.animationName !== "none" && live(s.animationDuration)) animatedOnLoad.push(selectorOf(el));
   }
+  // One walk over every rule feeds reducedMotionRule and logicalProps (for the RTL check).
+  // logicalProps counts authored inline-axis margin/padding/inset on rules that match an element
+  // in the page, plus inline styles; a side counts only when its opposite side differs, so
+  // symmetric values (margin: 0 auto) are ignored. ponytail: @media conditions are not evaluated.
   let reducedMotionRule = false;
+  const logicalProps = { physical: 0, logical: 0 };
+  const SIDES = [["margin-left", "margin-right", "physical"], ["padding-left", "padding-right", "physical"], ["left", "right", "physical"],
+    ["margin-inline-start", "margin-inline-end", "logical"], ["padding-inline-start", "padding-inline-end", "logical"], ["inset-inline-start", "inset-inline-end", "logical"]];
+  const countSides = (st) => {
+    for (const [a, b, kind] of SIDES) {
+      const va = st.getPropertyValue(a), vb = st.getPropertyValue(b);
+      if (va !== vb) logicalProps[kind] += !!va + !!vb;
+    }
+  };
+  const matches = (sel) => { try { return !!document.querySelector(sel); } catch (e) { return false; } };
   const scan = (rules) => {
     for (const r of rules) {
       if (r instanceof CSSMediaRule && r.conditionText.includes("prefers-reduced-motion")) reducedMotionRule = true;
+      if (r instanceof CSSStyleRule && matches(r.selectorText)) countSides(r.style);
       if (r.cssRules) scan(r.cssRules);
+      try { if (r.styleSheet) scan(r.styleSheet.cssRules); } catch (e) { /* cross-origin @import */ }
     }
   };
-  for (const sheet of document.styleSheets) {
+  for (const sheet of [...document.styleSheets, ...(document.adoptedStyleSheets || [])]) {
     try { scan(sheet.cssRules); } catch (e) { /* cross-origin sheet */ }
   }
+  for (const el of all) if (el.style && el.style.length) countSides(el.style);
   const motion = { transitionAll, reducedMotionRule, animatedOnLoad };
 
   // ---- library / trend default tells ----
@@ -273,6 +293,6 @@ window.__higMeasure = () => {
 
   return {
     viewport: { width: innerWidth, height: innerHeight, dpr: devicePixelRatio },
-    sampled, contrast, targets, type, motion, defaults,
+    sampled, contrast, targets, type, motion, defaults, logicalProps,
   };
 }

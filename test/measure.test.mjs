@@ -147,15 +147,19 @@ test("targets: WCAG 2.5.8 spacing exception (4px apart fails, 30px apart passes)
   assert.equal(by(targets, "#n1").under24, true);
 });
 
-test("runner: one browser_run_code_unsafe call covers 3 widths x 2 schemes x 2 motion prefs", async () => {
+// Same evaluation path as Playwright MCP's browser_run_code_unsafe: vm context with only `page`.
+async function runner(fixture, opts) {
   const vm = await import("node:vm");
   const skillDir = new URL("..", import.meta.url).pathname.replace(/\/$/, "");
   const code = read("../scripts/measure-runner.js").replaceAll("<SKILL_DIR>", skillDir);
-  await page.setContent(read("./fixtures/media.html"));
-  // Same evaluation path as Playwright MCP's browser_run_code_unsafe: vm context with only `page`.
+  await page.setContent(read(`./fixtures/${fixture}.html`));
   const fn = vm.runInContext("(" + code + ")", vm.createContext({ page }));
+  return JSON.parse(JSON.stringify(await fn(page, opts)));
+}
+
+test("runner: { full: true } covers 3 widths x 2 schemes x 2 motion prefs", async () => {
   const before = page.viewportSize();
-  const out = JSON.parse(JSON.stringify(await fn(page)));
+  const out = await runner("media", { full: true });
   assert.deepEqual(page.viewportSize(), before);
   assert.equal(out.length, 12);
   const combos = out.map((r) => `${r.width}/${r.colorScheme}/${r.reducedMotion}`);
@@ -166,4 +170,38 @@ test("runner: one browser_run_code_unsafe call covers 3 widths x 2 schemes x 2 m
   assert.equal(by(pick("dark", "no-preference").contrast, "#t").ratio, 21);
   assert.match(pick("light", "no-preference").motion.animatedOnLoad.join(), /#a/);
   assert.equal(pick("light", "reduce").motion.animatedOnLoad.length, 0);
+});
+
+test("runner: compact default keeps only failing rows, deduped, under 20 KB", async () => {
+  const media = await runner("media");
+  assert.equal(media.combinations.length, 12);
+  const t = by(media.contrast, "#t");
+  assert.equal(t.status, "fail");
+  assert.equal(t.in.length, 6); // light runs only; dark #t passes and is dropped
+  assert.ok(media.combinations.every((c) => c.counts && c.type && c.motion && c.defaults));
+  for (const [fixture, id] of [["contrast", "#low"], ["targets", "#b20"], ["huge-table", null], ["opacity", "#half"]]) {
+    const out = await runner(fixture);
+    assert.ok(JSON.stringify(out).length < 20000, fixture);
+    assert.ok(out.contrast.every((r) => r.status !== "ok"), fixture);
+    assert.ok(out.targets.every((r) => r.under24 || r.under44), fixture);
+    if (id) assert.ok(by([...out.contrast, ...out.targets], id), `${fixture} ${id}`);
+  }
+});
+
+test("disabled: rows inside :disabled or aria-disabled are flagged", async () => {
+  const { contrast: c, targets: t } = await measure("disabled");
+  assert.deepEqual(["#off", "#aria", "#fs", "#on"].map((id) => by(c, id).disabled), [true, true, true, false]);
+  assert.deepEqual(["#off", "#aria", "#on"].map((id) => by(t, id).disabled), [true, true, false]);
+});
+
+test("motion: reduced-motion rule found via @import and adoptedStyleSheets", async () => {
+  // Negative first: setContent reuses the document, so adoptedStyleSheets would leak into later fixtures.
+  assert.equal((await measure("contrast")).motion.reducedMotionRule, false);
+  assert.equal((await measure("motion-import")).motion.reducedMotionRule, true);
+  assert.equal((await measure("motion-adopted")).motion.reducedMotionRule, true);
+  await page.evaluate(() => { document.adoptedStyleSheets = []; });
+});
+
+test("logicalProps: asymmetric physical vs logical inline props on present elements", async () => {
+  assert.deepEqual((await measure("logical")).logicalProps, { physical: 2, logical: 1 });
 });

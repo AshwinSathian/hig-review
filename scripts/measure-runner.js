@@ -1,4 +1,7 @@
-async (page) => {
+async (page, opts = {}) => {
+  // Default (compact): per combination only counts plus type, motion, defaults and logicalProps;
+  // contrast rows with status fail or unmeasurable and targets under 24 or 44, each listed once
+  // with `in` naming the combinations it appeared in. opts.full returns every row per combination.
   // vp is null when the browser runs without a fixed viewport; the size then cannot be restored
   // and the page is left at the last measured width (1440).
   const vp = page.viewportSize();
@@ -25,5 +28,24 @@ async (page) => {
     // from any emulation set before this run.
     await page.emulateMedia({ colorScheme: null, reducedMotion: null });
   }
-  return out;
+  if (opts.full) return out;
+
+  const rows = { contrast: new Map(), targets: new Map() };
+  const keep = { contrast: (r) => r.status !== "ok", targets: (t) => t.under24 || t.under44 };
+  const combinations = out.map(({ contrast, targets, ...rest }) => {
+    const combo = `${rest.width}/${rest.colorScheme}/${rest.reducedMotion}`;
+    for (const [kind, list] of [["contrast", contrast], ["targets", targets]])
+      for (const row of list.filter(keep[kind])) {
+        const key = JSON.stringify(row);
+        if (!rows[kind].has(key)) rows[kind].set(key, { ...row, in: [] });
+        rows[kind].get(key).in.push(combo);
+      }
+    const count = (list, f) => list.filter(f).length;
+    rest.counts = {
+      contrast: { total: contrast.length, fail: count(contrast, (r) => r.status === "fail"), unmeasurable: count(contrast, (r) => r.status === "unmeasurable") },
+      targets: { total: targets.length, under24: count(targets, (t) => t.under24), under44: count(targets, (t) => t.under44) },
+    };
+    return rest;
+  });
+  return { combinations, contrast: [...rows.contrast.values()], targets: [...rows.targets.values()] };
 }
