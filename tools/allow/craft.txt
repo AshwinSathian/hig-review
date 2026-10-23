@@ -21,3 +21,7 @@
 25  # digest fragment (15-25 range kept elsewhere)
 50characters  # tokenizer artifact of 40-50 characters range
 66characters  # tokenizer artifact of 66-character line
+0.3s  # moved to slop-catalog
+1440px  # moved to slop-catalog
+27  # moved to slop-catalog
+50ms  # moved to slop-catalog
