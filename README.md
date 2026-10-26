@@ -2,7 +2,9 @@
 
 hig-review is a Claude Code skill that reviews UI and UX against Apple's Human Interface Guidelines and Apple's other design literature (WWDC sessions, the Apple Style Guide, App Review rules, WebKit guidance). Other research (NN/g, Baymard, GOV.UK, WCAG, Material, Fluent and the craft canon) only adds to Apple's position, and each such check says whether it adds to an Apple rule, covers ground Apple leaves open, or conflicts with Apple.
 
-It reviews a screen, a flow, a whole app, or a design system, for iOS, iPadOS, macOS, iPhone Duo and the web, in SwiftUI, UIKit, React, Next.js, React Native, Expo, Angular, Vue or plain HTML/CSS/JS. It looks hardest for the template look that AI-built and copied UI converges on, and it does not push any look in its place, Apple's included. Findings carry two tags: user impact, and how strongly Apple states the rule. After the findings come 3 to 5 moves that would make the work feel crafted, a list of what it could not verify, and an offer to fix chosen findings in code. It edits nothing until you pick.
+It reviews a screen, a flow, a whole app, or a design system, for iOS, iPadOS, macOS, iPhone Duo and the web, in SwiftUI, UIKit, React, Next.js, React Native, Expo, Angular, Vue or plain HTML/CSS/JS. It looks hardest for the template look that AI-built and copied UI converges on, and it does not push a house look in its place, Apple's included: any concrete theme it proposes is derived from the product itself. It reviews as a red team: it attacks the premise, the flows and its own draft as well as the pixels, and argues for structural reworks when the evidence clears a stated bar, saying "no rework warranted" when it does not. Before judging, it researches the product's category and 3 to 6 peers (with sources) so its proposals reflect what the best products do now, and it uses that landscape to steer the product away from what every peer already looks like.
+
+Findings carry two tags: user impact, and how strongly Apple states the rule. After the findings come the landscape, the distinctiveness verdict (with concrete theming sketches when no direction is set: color roles, type candidates and motion tokens, each traced to the product and checked against its peers and the slop catalog), a measured verdict for each typeface (confusable glyphs, x-height, figures, script coverage, delivery), up to three reworks with cost and a smallest experiment, up to 8 enhancements across flows, structure, theming, brand, motion, content and platform capabilities, a list of what it could not verify, and an offer to fix chosen findings in code. It edits nothing until you pick.
 
 ## Install
 
@@ -54,11 +56,13 @@ The reference files are paraphrased digests of a crawl taken on 2026-10-23. Raw 
 
 ```
 .claude-plugin/         plugin manifest and self-hosted marketplace
-SKILL.md                the workflow: profile, intake, stress states, passes, report, fixes
+SKILL.md                the workflow: profile, landscape, intake, stress states, passes, red team, report, fixes
 references/apple/       Apple digests: principles and platforms, visual, content and accessibility,
                         patterns, structural and presentation components, inputs and technologies,
                         literature beyond the HIG
-references/augment/     non-Apple literature, one file per area, each check labelled against Apple
+references/augment/     non-Apple literature, one file per area, each check labelled against Apple;
+                        red-team.md (attack ladder, rework bar), landscape.md (category research, seed playbooks),
+                        typography.md (typeface evaluation and verdicts)
 references/slop-catalog.md     anti-pattern catalog, dated, separate from Apple-derived rules
 references/writing.md   UI copy rules, voice method, string checks
 references/web-mapping.md      how Apple rules translate to the web
@@ -68,6 +72,7 @@ scripts/measure.js      in-page measurement (contrast, targets, type, motion, te
 scripts/measure-runner.js  one Playwright call measuring every width, color scheme and motion setting
 scripts/png_contrast.py   contrast from a screenshot region
 scripts/contrast.py       contrast for color pairs (tokens, native color values)
+scripts/type-eval.js      in-page typeface evaluation (roles, x-height, coverage, figures, confusable glyphs)
 evals/                  review evals and their results
 research/digests/       source digests the references were built from
 tools/                  HIG crawl, DocC-to-markdown converter, snapshot diff, number check
