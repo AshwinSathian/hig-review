@@ -15,8 +15,6 @@ Inside Claude Code:
 /plugin install hig-review@hig-review
 ```
 
-The repo is private, so this needs GitHub access to it.
-
 Or clone and symlink it into your skills folder, so pulling the repo updates the live skill:
 
 ```bash
