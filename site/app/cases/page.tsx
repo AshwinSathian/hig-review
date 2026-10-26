@@ -6,7 +6,7 @@ import { breadcrumb, social } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Cases',
-  description: 'Full loupe reports on three held-out fixtures (a flawed web page, a well-built control, a SwiftUI app) and on this site, next to reviews written without the skill.',
+  description: 'Full loupe reports on three held-out fixtures (a flawed web page, a well-built control, a SwiftUI app), each next to the review written without the skill, and loupe’s review of this site.',
   alternates: { canonical: '/cases' },
   ...social('Cases', 'Full loupe reports on three held-out fixtures and on this site, next to reviews written without the skill.', '/cases'),
 }

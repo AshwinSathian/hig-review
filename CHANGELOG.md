@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0 (27 October 2026)
+## 1.0.0 (26 October 2026)
 
 First public release, renamed from hig-review to loupe. The name change keeps an Apple term out of the product name; Apple's guidelines are still the base, and NOTICE says loupe is not affiliated with Apple.
 

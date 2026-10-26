@@ -9,8 +9,8 @@ const RAW = 'https://raw.githubusercontent.com/AshwinSathian/loupe'
 
 type Row = { file: string; sealed: string; now: string; ok: boolean }
 
-const sha256 = async (text: string) => {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text))
+const sha256 = async (bytes: ArrayBuffer) => {
+  const buf = await crypto.subtle.digest('SHA-256', bytes)
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('')
 }
 
@@ -32,7 +32,8 @@ export function VerifySeal({ commit }: { commit: string }) {
       for (const [hash, file] of lines) {
         const res = await fetch(`${RAW}/main/evals/heldout/keys/${file}`)
         if (!res.ok) throw new Error(`${file}: ${res.status}`)
-        const now = await sha256(await res.text())
+        // Hash the bytes as published; text() would drop a byte-order mark.
+        const now = await sha256(await res.arrayBuffer())
         out.push({ file, sealed: hash, now, ok: now === hash })
       }
       setRows(out)

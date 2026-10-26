@@ -7,8 +7,8 @@ export const site = {
   url: 'https://loupe.ashwinsathian.com',
   repo: 'https://github.com/AshwinSathian/loupe',
   version: plugin.version,
-  released: '2026-10-27',
-  updated: '2026-10-27',
+  released: '2026-10-26',
+  updated: '2026-10-26',
   author: 'Ashwin Sathian',
   authorUrl: 'https://ashwinsathian.com/',
   description:

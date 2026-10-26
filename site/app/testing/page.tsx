@@ -72,7 +72,7 @@ export default function Testing() {
             files. Unedited.
           </p>
         </header>
-        <div className="prose report" dangerouslySetInnerHTML={{ __html: html(resultMd().replace(/^# .*\n/, '')) }} />
+        <div className="prose report" dangerouslySetInnerHTML={{ __html: html(resultMd().replace(/^# .*\n/, ''), 1) }} />
       </section>
 
       <section className="section" aria-labelledby="reading-h">
@@ -82,7 +82,7 @@ export default function Testing() {
             From <a href={blob('evals/heldout/notes.md')}>notes.md</a>, written after the tally.
           </p>
         </header>
-        <div className="prose" dangerouslySetInnerHTML={{ __html: html(readRepo('evals/heldout/notes.md').replace(/^# .*\n/, '').replace(/^Written[^\n]*\n/m, '')) }} />
+        <div className="prose" dangerouslySetInnerHTML={{ __html: html(readRepo('evals/heldout/notes.md').replace(/^# .*\n/, '').replace(/^Written[^\n]*\n/m, ''), 1) }} />
       </section>
 
       <section className="section" aria-labelledby="pairs-h">

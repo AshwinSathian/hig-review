@@ -61,7 +61,7 @@ export default function Specimen() {
   const rows = contrastTable()
   const reviewPath = join(process.cwd(), 'review/report.md')
   const reviewMd = existsSync(reviewPath) ? readFileSync(reviewPath, 'utf8') : ''
-  const review = reviewMd ? html(reviewMd, 2) : null
+  const review = reviewMd ? html(reviewMd, 1) : null
   const fixes = html(readFileSync(join(process.cwd(), 'review/fixes.md'), 'utf8'))
   // Counted from the report's own findings table, so the numbers match it.
   const impacts = [...reviewMd.matchAll(/^\| \d+ \|.*?\| (Blocker|Major|Minor|Polish) \|/gm)].map((m) => m[1])

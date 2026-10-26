@@ -4,7 +4,7 @@ import { results } from './results'
 import { install, site } from './site'
 
 const pages = [
-  ['/', 'Overview', 'What loupe is, a finding under the loupe, the two tags, the method in eight steps, install.'],
+  ['/', 'Overview', 'What loupe is, a finding under the loupe, the two tags, the steps of a review, install.'],
   ['/method', 'Method', 'Apple first, outside research labelled against Apple, what it measures, the rules quoted from SKILL.md, the rework bar.'],
   ['/cases', 'Cases', 'Full reports on three held-out fixtures from three Claude models, next to reviews written without the skill.'],
   ['/testing', 'Testing', 'The pre-registered blind round: method, every pair, results and losses.'],

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { floor2, ratio, type RGBA } from '@/lib/contrast'
+import { floor2, hex, over, ratio, type RGBA } from '@/lib/contrast'
 
 // The browser parses the colour (any CSS syntax it supports) and composites it
 // on a canvas: white, then the background, then the foreground. That is what
@@ -26,15 +26,26 @@ const valid = (ctx: CanvasRenderingContext2D, s: string) => {
   return s.trim() !== '' && a === ctx.fillStyle
 }
 
-const pixel = (ctx: CanvasRenderingContext2D, layers: string[]): RGBA => {
-  ctx.globalCompositeOperation = 'source-over'
-  for (const l of ['#fff', ...layers]) {
-    ctx.fillStyle = l
-    ctx.fillRect(0, 0, 1, 1)
+// Parse any CSS colour to RGBA without blending. The canvas serialises a colour
+// it understands as #rrggbb or rgba(r, g, b, a); anything it keeps in another
+// syntax (oklch, lab) is read from a pixel drawn on a cleared canvas.
+const parse = (ctx: CanvasRenderingContext2D, s: string): RGBA => {
+  ctx.fillStyle = '#000'
+  ctx.fillStyle = s
+  const v = String(ctx.fillStyle)
+  if (v.startsWith('#')) return hex(v)
+  const m = /^rgba?\(([^)]+)\)$/.exec(v)
+  if (m) {
+    const [r, g, b, a = 1] = m[1].split(/[\s,/]+/).filter(Boolean).map(Number)
+    return [r, g, b, a]
   }
+  ctx.clearRect(0, 0, 1, 1)
+  ctx.fillRect(0, 0, 1, 1)
   const d = ctx.getImageData(0, 0, 1, 1).data
-  return [d[0] ?? 0, d[1] ?? 0, d[2] ?? 0, 1]
+  return [d[0] ?? 0, d[1] ?? 0, d[2] ?? 0, (d[3] ?? 255) / 255]
 }
+
+const white: RGBA = [255, 255, 255, 1]
 
 const toHex = ([r, g, b]: RGBA) => '#' + [r, g, b].map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')
 
@@ -55,8 +66,9 @@ export function ContrastChecker() {
     const okF = valid(ctx, fg)
     const okB = valid(ctx, bg)
     if (!okF || !okB) return { error: !okF ? 'fg' : 'bg' }
-    const b = pixel(ctx, [bg])
-    const f = pixel(ctx, [bg, fg])
+    // Same order as scripts/contrast.py: background over white, foreground over that.
+    const b = over(parse(ctx, bg), white)
+    const f = over(parse(ctx, fg), b)
     return { r: ratio(f, b), f: toHex(f), b: toHex(b) }
   }, [ctx, fg, bg])
 
@@ -65,7 +77,10 @@ export function ContrastChecker() {
   // One short announcement after typing pauses, not the whole panel on every key.
   const [said, setSaid] = useState('')
   useEffect(() => {
-    if (r === null) return
+    if (r === null) {
+      setSaid('')
+      return
+    }
     const t = setTimeout(() => {
       const x = floor2(r)
       setSaid(`${x.toFixed(2)} to 1, ${x >= 4.5 ? 'passes' : 'fails'} body text`)

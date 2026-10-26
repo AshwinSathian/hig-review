@@ -2,7 +2,7 @@
 // result. Renders into a closed shadow root so page styles can't reach it.
 (r) => {
   const old = document.getElementById('loupe-panel-host');
-  if (old) old.remove();
+  if (old) (old.__loupeClose || (() => old.remove()))();
   const host = document.createElement('div');
   host.id = 'loupe-panel-host';
   host.style.cssText = 'position:fixed;inset:auto 16px 16px auto;z-index:2147483647;';
@@ -49,6 +49,7 @@
   };
   // Escape closes the panel only while focus is inside it, not the page's own dialogs.
   const onKey = (e) => { if (e.key === 'Escape' && e.composedPath().includes(host)) close(); };
+  host.__loupeClose = close;
   root.querySelector('button').addEventListener('click', close);
   addEventListener('keydown', onKey, true);
   document.documentElement.appendChild(host);

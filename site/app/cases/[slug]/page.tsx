@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd'
+import { OpenOnHash } from '@/components/OpenOnHash'
 import { cases, getCase, MODELS, report } from '@/lib/cases'
 import { html } from '@/lib/md'
 import { verdictFor } from '@/lib/results'
@@ -75,6 +76,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           </article>
         )
       })}
+      <OpenOnHash />
       <nav aria-label="Next" className="section next-steps">
         <ul>
           <li>
