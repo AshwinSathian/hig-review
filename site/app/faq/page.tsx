@@ -14,7 +14,6 @@ export default function Faq() {
   return (
     <>
       <header className="page-head">
-        <p className="eyebrow">FAQ</p>
         <h1>Questions</h1>
       </header>
       <div className="prose">

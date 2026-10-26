@@ -25,7 +25,6 @@ export const nav = [
   { href: '/cases', label: 'Cases' },
   { href: '/testing', label: 'Testing' },
   { href: '/tools', label: 'Tools' },
-  { href: '/specimen', label: 'Specimen' },
   { href: '/faq', label: 'FAQ' },
 ]
 

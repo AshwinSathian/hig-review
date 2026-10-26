@@ -63,6 +63,8 @@ export default function Specimen() {
   const reviewMd = existsSync(reviewPath) ? readFileSync(reviewPath, 'utf8') : ''
   const review = reviewMd ? html(reviewMd, 1) : null
   const fixes = html(readFileSync(join(process.cwd(), 'review/fixes.md'), 'utf8'))
+  // The heading line is dropped; the page gives the section its own h2.
+  const second = html(readFileSync(join(process.cwd(), 'review/second-review.md'), 'utf8').replace(/^## .*\n/, ''))
   // Counted from the report's own findings table, so the numbers match it.
   const impacts = [...reviewMd.matchAll(/^\| \d+ \|.*?\| (Blocker|Major|Minor|Polish) \|/gm)].map((m) => m[1])
   const counts = {
@@ -73,8 +75,7 @@ export default function Specimen() {
   return (
     <>
       <header className="page-head">
-        <p className="eyebrow">Specimen</p>
-        <h1>This site, under its own loupe</h1>
+        <h1>How this site is designed</h1>
         <p className="lede">
           loupe tells products to trace every design value to their subject, their audience or a gap among their
           peers, and to measure instead of estimating. This page applies that to the site you are reading.
@@ -89,24 +90,24 @@ export default function Specimen() {
           <p>
             <strong>Subject material.</strong> A loupe is the magnifier photographers and printers hold over a contact
             sheet on a lightbox, and engineers hold over a drawing. The site borrows that bench: a viewing-booth grey
-            for the page, lit white frames with crop marks for anything under inspection, and a darkroom with a
-            safelight when your system is in dark mode.
+            for the page, lit white sheets for things to read, crop marks only around the screenshot under the ring,
+            and a darkroom with a safelight when your system is in dark mode.
           </p>
           <p>
             <strong>One accent, one job.</strong> The redline colour marks measured values and nothing else: a ratio, a
             size, a count. If it isn&rsquo;t a measurement, it isn&rsquo;t red.
           </p>
           <p>
-            <strong>Type.</strong> Atkinson Hyperlegible Next for text and headings, Atkinson Hyperlegible Mono for
-            numbers and code. The Braille Institute drew the family so that I, l and 1, and O and 0, can&rsquo;t be
+            <strong>Type.</strong> Atkinson Hyperlegible Next for text and headings, Atkinson Hyperlegible Mono only for
+            code and commands, the things you might type. Measured numbers use the text face with tabular figures. The Braille Institute drew the family so that I, l and 1, and O and 0, can&rsquo;t be
             confused, which is one of the things loupe&rsquo;s type script measures.
           </p>
           <p>
             <strong>Against the landscape.</strong> The closest peer, <a href="https://impeccable.style">Impeccable</a>{' '}
             (checked October 2026), also uses a grey paper ground, one saturated accent and a mono face. So the
-            difference has to come from mechanism rather than palette: the accent marks only measured values, frames carry
-            crop marks, and the loupe ring does the inspecting. The slop catalogue was checked
-            against it in the review below.
+            difference has to come from mechanism rather than palette: the first thing on the home page is its
+            headline, measured in your browser; the accent marks only measured values; and the loupe ring does the
+            inspecting. A second review asked whether the site looks AI-made; it is below, with what changed.
           </p>
         </div>
       </section>
@@ -238,7 +239,7 @@ export default function Specimen() {
 
       <section className="section" aria-labelledby="principles-h">
         <header>
-          <h2 id="principles-h">Apple&rsquo;s eight principles, applied here</h2>
+          <h2 id="principles-h">Apple&rsquo;s eight principles on this site</h2>
         </header>
         <dl className="facts">
           {principles.map(([p, body]) => (
@@ -252,7 +253,7 @@ export default function Specimen() {
 
       <section className="section" aria-labelledby="journeys-h">
         <header>
-          <h2 id="journeys-h">Who comes here, and the path each takes</h2>
+          <h2 id="journeys-h">Who visits and what each reads</h2>
         </header>
         <div className="sheet-grid">
           {journeys.map((j) => (
@@ -268,9 +269,16 @@ export default function Specimen() {
         </div>
       </section>
 
+      <section className="section" aria-labelledby="second-h">
+        <header>
+          <h2 id="second-h">The second review, for template tells</h2>
+        </header>
+        <div className="prose report" dangerouslySetInnerHTML={{ __html: second }} />
+      </section>
+
       <section className="section" aria-labelledby="review-h">
         <header>
-          <h2 id="review-h">loupe&rsquo;s review of this site</h2>
+          <h2 id="review-h">The first review, before launch</h2>
           <p>
             Run with the skill on the built site before launch, by a separate Claude Opus instance. The report is
             unedited. Source:{' '}

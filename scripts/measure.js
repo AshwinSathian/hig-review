@@ -412,6 +412,52 @@
   });
   if (grads.length) defaults.push({ tell: "indigo/violet gradient background", evidence: grads.slice(0, 5).map(selectorOf).join(", ") });
 
+  // Eyebrows: a short label straight before a page or section heading (h1, h2), set apart by caps,
+  // tracking or a size below body text, on 3 or more headings and at least half of them (slop
+  // catalog, "Section-number and eyebrow habits"). Dates and reading times above posts are not eyebrows.
+  const bodySize = parseFloat(cs(document.body).fontSize);
+  const DATE_RE = /\b(19|20)\d{2}\b|^\d{1,2}[/.-]\d{1,2}|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d|\d+\s*min(ute)?s?\b/i;
+  const heads = qsa("h1, h2").filter(visible);
+  const eyebrows = heads.filter((h) => {
+    const el = h.previousElementSibling;
+    if (!el || !visible(el) || /^H[1-6]$/.test(el.tagName)) return false;
+    const text = el.textContent.trim();
+    if (!text || text.length > 40 || DATE_RE.test(text)) return false;
+    const s = cs(el), size = parseFloat(s.fontSize);
+    const caps = s.textTransform === "uppercase" || (/[A-Z]/.test(text) && text === text.toUpperCase());
+    const tracked = parseFloat(s.letterSpacing) / size >= 0.05;
+    return size <= parseFloat(cs(h).fontSize) * 0.6 && (caps || tracked || size < bodySize);
+  }).map((h) => h.previousElementSibling);
+  if (eyebrows.length >= 3 && eyebrows.length / heads.length >= 0.5) {
+    defaults.push({ tell: `Eyebrow label above ${eyebrows.length} of ${heads.length} headings`, evidence: eyebrows.slice(0, 5).map((el) => `${selectorOf(el)}: "${clip(el.textContent.trim(), 30)}"`).join("; ") });
+  }
+
+  // Monospace on text that is not code: more than 2 elements (pixelslop's threshold, slop catalog
+  // "Fake product theater"). Mono is detected by glyph width, not by name, so Fira Code or Iosevka
+  // count and Monotype Corsiva doesn't. Code, commands, form fields and icon fonts are excluded, and
+  // a page whose body text is mono (a deliberate terminal look) is not counted.
+  const monoCache = new Map();
+  const isMono = (s) => {
+    const key = `${s.fontStyle} ${s.fontWeight} 40px ${s.fontFamily}`;
+    if (!monoCache.has(key)) {
+      ctx.font = key;
+      monoCache.set(key, Math.abs(ctx.measureText("iiiiii").width - ctx.measureText("MMMMMM").width) < 0.5);
+    }
+    return monoCache.get(key);
+  };
+  if (!isMono(cs(document.body))) {
+    const monoLabels = all.filter((el) => {
+      if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) return false;
+      const s = cs(el);
+      return isMono(s) && !/icon|symbol|awesome|glyph/i.test(s.fontFamily) &&
+        !closestUp(el, (n) => n.matches("pre, code, kbd, samp, tt, var, input, textarea, select, [aria-hidden=true]")) &&
+        visible(el);
+    });
+    if (monoLabels.length > 2) {
+      defaults.push({ tell: `Monospace on ${monoLabels.length} non-code text elements`, evidence: monoLabels.slice(0, 5).map((el) => `${selectorOf(el)}: "${clip(el.textContent.trim(), 30)}"`).join("; ") });
+    }
+  }
+
   return {
     viewport: { width: innerWidth, height: innerHeight, dpr: devicePixelRatio },
     sampled, skipped, coverage, contrast, targets, type, motion, defaults, logicalProps,
