@@ -38,7 +38,18 @@ voice:
   contractions: per-voice  # per-voice | all | positive-only | none. Native Apple targets allow them; elsewhere this decides.
   humor: unset         # unset | none | light | free. unset = the skill asks during profile bootstrap; until answered, no humor anywhere. Never in errors, destructive confirmations, money or permission requests, whatever this says.
   reading_level_target: null    # e.g. grade 8. Reading level is reported, not enforced, unless set.
-direction: ""          # Chosen distinctiveness direction (one line), or empty. If empty, the skill proposes 2 to 3 and saves the pick.
+category: ""           # Product category in a few words, e.g. "surf forecast", "personal finance", "issue tracker". Infer from purpose and README; ask if unclear. Drives the landscape research.
+peers: []              # Products the team measures itself against. Ask in the bootstrap batch; the landscape step adds the category leader and challengers.
+landscape:             # Cached landscape research (step 1b). Reused for 180 days while category and peers are unchanged; then refreshed.
+  date: ""
+  studied: []          # - { name: "", url: "", why: "leader | challenger | peer | adjacent", identity: "accent hue, typeface, layout idiom", core_task_steps: null }
+  best_peer_steps: {}  # core task -> { peer: "", steps: N, source: "" } (sourced counts only satisfy the peer-gap bar)
+  capabilities: []     # Platform capabilities that fit the product's nouns and verbs
+  keep: []             # Conventions users expect
+  avoid: []            # Convergence every peer shares
+  frontier: []         # What the best do now, with source
+  openings: []         # What no peer does that this product could own
+direction: ""          # Chosen distinctiveness direction (one line), or empty. If empty, the skill proposes 2 to 3 with theming sketches and saves the pick.
 waivers: []            # Rules consciously broken. Skipped in later runs and counted as "waived: N".
 # - { rule: "Tap targets 44 px", reason: "Pointer-only desktop tool, 28 px rows", date: 2026-10-23 }
 ---
@@ -48,7 +59,7 @@ Free notes below: context the skill should know, links to brand or voice docs, a
 
 ## How the skill uses each key
 
-- `purpose`, `feeling`: the yardstick for Purpose and Delight findings and for judging whether Elevate ideas fit. No findings invent a different purpose.
+- `purpose`, `feeling`: the yardstick for Purpose and Delight findings and for judging whether enhancements and reworks fit. No findings invent a different purpose.
 - `audience`, `areas`: resolve source conflicts (one question per page vs grouped form, compact vs comfortable rows, autosave vs explicit save, toast vs inline confirmation). A finding in an area uses that area's audience.
 - `register`, `motion_personality`: set motion and emphasis expectations. A serious, relaxed tool is flagged for bouncy springs; a playful one is not flagged for personality, only for broken basics.
 - `platforms`: decides which platform-fit rules and which reference files load. Web-only profiles never get native rules.
@@ -57,5 +68,6 @@ Free notes below: context the skill should know, links to brand or voice docs, a
 - `density`: picks the type scale for web and native measurement (iOS 17 pt vs macOS 13 pt body) and row-height expectations.
 - `brand`: brand wins on display-only surfaces if accessibility passes; Apple wins in task flows. `licensed_fonts` limits font suggestions; `signature_elements` feed the distinctiveness verdict.
 - `voice`: the standard for every copy finding and rewrite. Rewrites are in this voice. `spelling` and `casing` drive consistency flags; `we_policy` and `contractions` drive pronoun and contraction flags; `humor: unset` means no humor until the user answers. `personal_voice_opt_in` stays false unless the product opts in.
+- `category`, `peers`, `landscape`: drive the landscape step; landscape claims are evidence for enhancements, reworks and directions, never for Blockers.
 - `direction`: the distinctiveness pass judges against it. Empty triggers proposals.
 - `waivers`: matching findings are dropped from the table and counted on the "waived: N" line. A waiver never covers anti-fabrication, deceptive design, or an accessibility Blocker.

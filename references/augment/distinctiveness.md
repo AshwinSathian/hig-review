@@ -1,9 +1,9 @@
 Covers: the distinctiveness procedure: whether a product has its own point of view on Apple's base, the brand tests, the no-brand direction path, "make it feel like X", and how to detect defaults in code.
-Loaded by: distinctiveness
-Snapshot: 2026-10-23
+Loaded by: distinctiveness, red team (identity reworks), enhancements
+Snapshot: 2026-10-23 (theming rules added 2026-10-26)
 Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'. [Taste] always shows 'Taste' in reports, whatever its label.
 
-`(unverified)` items were recalled or came from search snippets; weight them lower and never make them Blockers on their own. Apple HIG stays the base: no finding here may ask a product to break HIG clarity, hierarchy, platform conventions or accessibility. Identity is a layer on top of a correct base, not a license to replace system controls or trade legibility for mood. The pass judges whether a point of view exists and is applied; it never prescribes what that point of view looks like.
+`(unverified)` items were recalled or came from search snippets; weight them lower and never make them Blockers on their own. Apple HIG stays the base: no finding here may ask a product to break HIG clarity, hierarchy, platform conventions or accessibility. Identity is a layer on top of a correct base, not a license to replace system controls or trade legibility for mood. The pass judges whether a point of view exists and is applied. When it proposes one (directions, theming sketches, identity reworks), every concrete value traces to the product's own inputs and to its landscape, never to what looks good to the model (see "Theming and identity proposals").
 
 Convergence tells: see references/slop-catalog.md.
 
@@ -11,7 +11,7 @@ Convergence tells: see references/slop-catalog.md.
 **Intent**: the evidence below is why the pass exists and why its own taste can't be the yardstick.
 
 - **Homogenization is measured.** Goree, Doosti, Crandall and Su (CHI 2021) ran computer vision over website images from 2003-2019: sites grew "significantly more similar since 2007", and for page layouts the average distance between sites fell by over 30%. Interviews with 11 web professionals blamed shared code and libraries, standardized color schemes and mobile support. Layout is the most converged channel, so a product distinctive only in color and type still reads as generic at a glance. Unmodified library defaults, not library use, are the vector.
-- **LLM output is narrower still.** Design Creativity Bench (Rusia, Bhole, Gupta, Dey; arXiv:2610.11539, Oct 2026): same-prompt pairs from different models scored 0.592 on originality against 0.764 for human-vs-model pairs; creative range 0.581 across models against 0.902 for human designs; appropriateness above 90% for every model (best 99.2%) against 98.0% for humans. Generated UI passes acceptance criteria and fails on range. Related work reports mode collapse within and across models (Jiang et al., "Artificial Hivemind", NeurIPS 2025), chat templates reducing variety of form (Yun et al., Findings of EMNLP 2025) and a Nature model-collapse paper; all known only from search summaries (unverified). Consequence for the skill: its own taste is the median, so recommendations come from the product's inputs, never from what looks good to the model.
+- **LLM output is narrower still.** Design Creativity Bench (Rusia, Bhole, Gupta, Dey; arXiv:2610.11539, Oct 2026): same-prompt pairs from different models scored 0.592 on originality against 0.764 for human-vs-model pairs; creative range 0.581 across models against 0.902 for human designs; appropriateness above 90% for every model (best 99.2%) against 98.0% for humans. Generated UI passes acceptance criteria and fails on range. Related work reports mode collapse within and across models (Jiang et al., "Artificial Hivemind", NeurIPS 2025), chat templates reducing variety of form (Yun et al., Findings of EMNLP 2025) and a Nature model-collapse paper; all known only from search summaries (unverified). Consequence for the skill: its own taste is the median, so recommendations come from the product's inputs and its researched landscape, never from what looks good to the model. Concrete proposals are allowed only through the traces and checks in "Theming and identity proposals".
 - **Some sameness is correct.** Matt Ström's "Sameification" argues convergence is rational: competitors cluster, stretched teams pick minimum-risk options, and minimizing pattern variation raises task success (Jakob's law). Interaction convention should converge; expression should not.
 - **Brand science gives a non-taste vocabulary.** Jenni Romaniuk, *Building Distinctive Brand Assets* (2018): an element is an asset only if it is **famous** (category buyers link it to the brand without the name) and **unique** (most links to it point to this brand). The Ehrenberg-Bass grid: *use or lose* (famous and unique), *investment potential* (unique, not yet famous), *avoid solo use* (famous, not unique; it evokes competitors), *ignore or test* (neither). A claim that assets above 50% uniqueness give dominant recall is unverified. Byron Sharp, *How Brands Grow* (2010, via secondary summaries): growth comes from recognizability built by assets used consistently, not from being different in kind. That fits HIG: standard navigation and instant recognition can coexist.
 - **Emotion sits on top of usability.** Aarron Walter, *Designing for Emotion* (2011): functional, then reliable, then usable, then pleasurable; pleasure counts only once the lower tiers hold. Tuch, Roth, Hornbæk, Opwis and Bargas-Avila (2012, *Computers in Human Behavior* 28(5), 80 participants, 2×2 aesthetics × usability shop): aesthetics did not change perceived usability, but poor usability lowered post-use beauty ratings, through frustration. Earlier work found perceived beauty tracks perceived usability before use (Kurosu & Kashimura 1995, 26 ATM layouts, 252 participants, r = 0.589 per a secondary summary; Tractinsky, CHI '97; Tractinsky, Shoval-Katz & Ikar 2000, *Interacting with Computers* 13(2), persistence after use unverified); Cyr et al. 2006 found no link in Canada. Don Norman's visceral, behavioral and reflective levels (2004, unverified) frame where identity can live; behavioral pleasure is HIG territory, so it is the safest place for identity on Apple platforms.
@@ -70,10 +70,38 @@ Convergence tells: see references/slop-catalog.md.
 **Checks**
 - [Taste] Propose 2-3 directions, each derived from the product's purpose, audience and subject (content, material, core action). The source sentence for each is written out. — Apple silent
 - [Taste] Directions differ from each other on at least two channels, so they are real alternatives and two products reviewed by the skill don't converge. — Apple silent
-- [Taste] Each direction states: its signature element, its one or two signature moments (behavioural ones for a utilitarian register), and a stance on type, color use and motion, written as reasons and constraints ("one hue reserved for state, never decoration, because users scan for status"; "type does the hierarchy, weight before size, because the screens are dense"). Never named fonts, hex palettes or easing curves, and never values copied from a product. — Apple silent
+- [Taste] Each direction states: its signature element, its one or two signature moments (behavioural ones for a utilitarian register), and a stance on type, color use and motion, written as reasons and constraints first ("one hue reserved for state, never decoration, because users scan for status"; "type does the hierarchy, weight before size, because the screens are dense"), then made concrete as a theming sketch per "Theming and identity proposals". Never values copied from a product, a peer or a catalogued default. — Apple silent
+- [Taste] Each direction states its landscape position: one line per researched peer saying how the direction differs from it on at least one identity-carrying channel (references/augment/landscape.md). — Apple silent
 - [Taste] Check each direction against references/slop-catalog.md, including praised-product clones and second-layer defaults. A direction that matches is discarded, not softened. — Apple silent
 - [Taste] Each direction is buildable on HIG components, keeps task flows plain, and names which surfaces are expressive zones. — adds to Apple
 - [Taste] Each direction states the register it implies (utilitarian or expressive) and a motion personality on Apple's axes (serious to playful, relaxed to fast), so the motion pass can follow it. — adds to Apple
+
+## Theming and identity proposals
+**Intent**: a direction stated only as constraints leaves the team at the same blank page. The skill goes one step further and sketches a concrete theme, but every value carries its trace and passes four checks, so the sketch comes from the product and its landscape rather than from the model's median taste. Values are candidates for the team to judge, not a spec.
+
+**Where values may come from**, in this order:
+1. Existing brand assets: logo colors, an existing typeface, icon drawing style, past campaigns, the App Store icon.
+2. The subject's material and vernacular: the colors, typography and forms of the domain itself (for a tide app, nautical charts and tide-table print; for a ledger app, accounting paper and bank statements). Name the artifact.
+3. The landscape gap: what every researched peer does on a channel, so the proposal can sit deliberately elsewhere (references/augment/landscape.md).
+4. The audience and register: density, reading conditions (outdoors, at night, glanced at on a watch), accessibility needs.
+
+**A theming sketch states**, per direction:
+- Color: 4 to 7 roles (base, surface, text, accent, state colors, any domain-specific role), each with a candidate value in OKLCH plus its sRGB hex (native asset catalogs and `scripts/contrast.py` take hex), and its trace sentence; the inputs it derives from (a few inputs generating light, dark and increased-contrast variants); contrast for every text and state pair in both appearances, computed on the hex values with `scripts/contrast.py`, never estimated.
+- Type: a role map (display, text, data or numerals, code if any), with one or two candidate faces per role that are free or open-licensed unless the profile lists licensed ones, each measured with `scripts/type-eval.js` and given a verdict block (references/augment/typography.md); on native Apple targets the system face stays in text and control roles and a brand face is limited to display roles with Dynamic Type.
+- Shape and space: a radius stance and a density stance with reasons.
+- Motion: the two registers (productive, expressive) with candidate duration and curve tokens derived from the profile's `motion_personality`, and the Reduce Motion behavior.
+- Iconography and imagery: drawing style or source, and where imagery is allowed.
+- Signature element and one or two signature moments, as in steps 5 and 6.
+- Voice: three sample strings (a button, an empty state, an error) in the direction's voice.
+- Landscape position: one line per researched peer.
+
+**Checks**
+- [Taste] Default check: before writing the sketch, write one line naming the theme the model would produce for a generic prompt in this category. Any channel of the sketch that matches it is revised. — Apple silent
+- [Taste] Peer check: no sketch matches a researched peer's identity-carrying combination (accent hue plus typeface plus layout idiom). Sharing a convention (blue links, a tab bar) is fine; sharing a signature is not. — Apple silent
+- [Taste] Catalog check: every value is checked against references/slop-catalog.md, including second-layer defaults. A match is replaced through the sources above, not by the next catalogued alternative. — Apple silent
+- [Taste] Trace check: a value with no trace sentence is cut. "Feels premium", "modern" and "clean" are not traces. — Apple silent
+- [MUST] Accessibility holds in every appearance: text contrast 4.5:1 (3:1 large), non-text 3:1, state never carried by color alone. A brand hue that fails stays on non-text display surfaces only. — adds to Apple
+- [Taste] Directions differ from each other on at least two channels, so the user has a real choice. — Apple silent
 
 ## "Make it feel like X"
 **Intent**: translate to mechanism, decline the look, and say why in one line: the look of a praised product is already copied at scale and is catalogued as a tell, and copying it adds the product to the clone group rather than giving it identity. Then ask whether the mechanism has a reason to exist in this product, and apply it only if it does. The mappings below are evidence of what each product did, not targets.
@@ -108,15 +136,15 @@ Convergence tells: see references/slop-catalog.md.
 - [SHOULD] A novel model of the core object (Arc's sidebar of tabs as a workspace) costs learnability; on Apple platforms it must still meet HIG discoverability and standard shortcuts. — adds to Apple
 
 ## Guardrail: the skill is not a recipe
-**Intent**: the skill's own taste is the median, so it judges whether the product has a point of view and never supplies one.
+**Intent**: the skill's own taste is the median, so it never ships a house style, and anything concrete it proposes must come from this product's inputs and pass the checks below.
 
 **Checks**
-- [Taste] The skill never ships a house style, palette, font list or motion preset, in a finding, an Elevate move or a proposed direction. — Apple silent
-- [Taste] Every Elevate move and direction cites its source in this product (subject, user, content, an existing asset or a stated principle) and is checked against references/slop-catalog.md before it is written. A match is discarded. — Apple silent
+- [Taste] No house style: no palette, font list or motion preset reused across products. Identity values (a palette, typefaces, motion presets) are proposed only inside a theming sketch or identity rework that follows "Theming and identity proposals". Concrete fix values (a size, a contrast-passing color for one token, a measured setting) stay allowed in findings. — Apple silent
+- [Taste] Every enhancement, rework and direction cites its source in this product (subject, user, content, an existing asset or a stated principle) and is checked against references/slop-catalog.md before it is written. A match is discarded. — Apple silent
 - [Taste] Ask of every suggestion: "would this fit any product?" If yes, it is generic; rewrite it until it names something only this product has, or drop it. — Apple silent
 - [Taste] Don't fix slop by substitution (Inter to Geist, indigo to terracotta, Lucide to Phosphor). The replacement is already a catalogued second-layer default. — Apple silent
 - [Taste] Don't recommend adding delight, illustration or motion to a utilitarian product to raise its verdict; recommend making an existing behavioural or verbal strength consistent instead. — Apple silent
-- [Taste] Phrase fixes as mechanisms ("use the existing green only for completion, everywhere, including the icon and notifications"), not looks ("add a gradient mesh"). Recommend the decision and its constraints; the team picks the asset. When a face must be named because the profile asks, suggest free and open-licensed faces unless the profile lists licensed ones. — Apple silent
+- [Taste] Phrase fixes as mechanisms ("use the existing green only for completion, everywhere, including the icon and notifications"), not looks ("add a gradient mesh"). Recommend the decision and its constraints; the team picks the asset. A theming sketch offers candidate values, labelled as candidates. When a face must be named because the profile asks, suggest free and open-licensed faces unless the profile lists licensed ones. — Apple silent
 - [Taste] Assume any distinctive feature gets copied. Durable identity is the consistent execution of a system of assets, not one novel widget. — Apple silent
 
 ## Taste skills: process only
