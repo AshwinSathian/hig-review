@@ -1,0 +1,71 @@
+{
+ "items": {
+  "N1": "found",
+  "N2": "found",
+  "N3": "found",
+  "N4": "found",
+  "N5": "found",
+  "N6": "found",
+  "N7": "found",
+  "N8": "found",
+  "U1": "found",
+  "U2": "found",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found",
+  "U6": "found"
+ },
+ "blockers": 2,
+ "extra": [
+  {
+   "finding": "'Taken' label .green 2.22:1 on white, icon fails 3:1",
+   "verdict": "real",
+   "why": "TodayView.swift:53-54 system green light"
+  },
+  {
+   "finding": "Slop cluster of 7 tells (meta-finding)",
+   "verdict": "wrong",
+   "why": "Re-counts other findings; not a distinct defect"
+  },
+  {
+   "finding": "Every pending row has prominent Take",
+   "verdict": "real",
+   "why": ".borderedProminent on each row"
+  },
+  {
+   "finding": "Today empty state has no action; checkmark.seal reads 'done'",
+   "verdict": "real",
+   "why": "ContentUnavailableView without actions"
+  },
+  {
+   "finding": "Mixed button casing ('Save medicine' vs 'Clear History')",
+   "verdict": "real",
+   "why": "Strings confirmed in source"
+  },
+  {
+   "finding": "Placeholders as only labels",
+   "verdict": "real",
+   "why": "AddMedicineView TextFields"
+  },
+  {
+   "finding": "Fixed HStack row squeezes at AX sizes",
+   "verdict": "real",
+   "why": "No size-adaptive layout in DoseRow"
+  },
+  {
+   "finding": "History flat, no day sections; resolvedAt hidden",
+   "verdict": "real",
+   "why": "Single List; resolvedAt never read"
+  },
+  {
+   "finding": "Tab symbols swapped (pills on Today)",
+   "verdict": "real",
+   "why": "Taste-level, accurate"
+  },
+  {
+   "finding": "Assumed build SDK unknown",
+   "verdict": "wrong",
+   "why": "pbxproj has XCODE_VERSION_ACTUAL = 2600; skipped 26+ checks"
+  }
+ ]
+}

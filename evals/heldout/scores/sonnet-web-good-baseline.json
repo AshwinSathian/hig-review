@@ -1,0 +1,90 @@
+{
+ "items": {
+  "G1": "found",
+  "G2": "missed",
+  "G3": "partly",
+  "G4": "found",
+  "G5": "missed",
+  "G6": "missed",
+  "G7": "found",
+  "G8": "found"
+ },
+ "blockers": 3,
+ "extra": [
+  {
+   "finding": "#1 Invalid tax or tip silently treated as 0",
+   "verdict": "real",
+   "why": "Tested: tax $0.00 used while the error shows"
+  },
+  {
+   "finding": "#2 Cannot edit items or people",
+   "verdict": "real",
+   "why": "No edit path"
+  },
+  {
+   "finding": "#3 Sticky panel overflows with large groups",
+   "verdict": "real",
+   "why": "Measured: 1584 px panel in an 800 px viewport; Copy off-screen"
+  },
+  {
+   "finding": "#4 Results at the bottom on mobile",
+   "verdict": "real",
+   "why": "Single-column order"
+  },
+  {
+   "finding": "#6 Per-item split amounts unlabelled",
+   "verdict": "real",
+   "why": "Note lists amounts without names"
+  },
+  {
+   "finding": "#7 Spare-cent explanation is jargon",
+   "verdict": "real",
+   "why": "Long paragraph shown on most bills"
+  },
+  {
+   "finding": "#8 Red 'Nobody assigned' warning on every new item",
+   "verdict": "real",
+   "why": "note.warn uses error red before the user has erred; minor"
+  },
+  {
+   "finding": "#9 Add button alignment magic number shifts with errors",
+   "verdict": "wrong",
+   "why": "align-items:flex-start keeps the button aligned with the input; errors grow below"
+  },
+  {
+   "finding": "#10 Persistence invisible",
+   "verdict": "real",
+   "why": "Silent localStorage restore"
+  },
+  {
+   "finding": "#11 Undo toast vanishes on any change; announcement unreliable",
+   "verdict": "real",
+   "why": "save() clears the toast; the announcement part is speculative"
+  },
+  {
+   "finding": "#12 Always-visible hints add noise",
+   "verdict": "wrong",
+   "why": "Persistent hints are good practice"
+  },
+  {
+   "finding": "#14 Blank tip vs 'No tip' pressed state mismatch",
+   "verdict": "real",
+   "why": "renderTip ignores blank"
+  },
+  {
+   "finding": "#17 Summary lacks per-person item breakdown",
+   "verdict": "real",
+   "why": "summary() lists totals only"
+  },
+  {
+   "finding": "#18 Step markers odd; order not enforced",
+   "verdict": "wrong",
+   "why": "Decorative and aria-hidden; empty notes guide the order"
+  },
+  {
+   "finding": "#19 'GROUP DINNER' kicker adds little",
+   "verdict": "wrong",
+   "why": "Taste"
+  }
+ ]
+}

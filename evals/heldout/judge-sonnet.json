@@ -1,0 +1,269 @@
+{
+ "pair01": {
+  "prefer": "A",
+  "reason": "Report A has the same core findings as B (focus ring removed, ticker with no stop, 2.21:1 meta text, date wiped on loan-length change, table overflow, stock never decrements, disabled Reserve looks enabled). It adds measured evidence, a heading-order hero argument, a landscape study, and a clear rework recommendation. B also finds '1 days' and the toast-timer bug, and its unlimited-double-booking point is valid. But B rates four items Critical and two of them are not backed by anything measured. B also misstates the star hit area. I checked the source: A's findings are accurate, apart from one weak Blocker on the star.",
+  "wrong": {
+   "A": [
+    "The claim that the tools start at y=933 'at every width' is only true for the 900 px viewport it used. I measured 845 at 1280x800 and 792 at 375x740, because the hero is 88vh. The finding itself still holds."
+   ],
+   "B": [
+    "The save star is said to be about 20x24 px and under the 24 px minimum in WCAG 2.5.8. I measured 31.9x32 px, so it passes.",
+    "The hero text is said to reach 4.0:1 on the light end of the gradient. The paragraph sits on the darker left side, and A pixel-sampled 4.67 to 5.39:1. The finding is at best marginal."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "The star's missing name and aria-pressed is rated Blocker under WCAG 4.1.2. The button has an accessible name ('white star'), the control does nothing else, and no task is blocked, so Major fits better."
+   ],
+   "B": [
+    "Inventory never changes, so double-booking is possible (rated Critical). The app is an in-memory prototype, and a user can still reserve and finish the task.",
+    "The reservations table forcing horizontal scroll on mobile (rated Critical). Cancel is off-screen but reachable by scrolling sideways, and data tables are arguably exempt from reflow, so this is Major.",
+    "The date wipe in the dialog (Critical) is real data loss, but the user can re-enter the date and finish. Major would be more accurate."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [
+    "Star button without name or state, rated Blocker (WCAG 4.1.2). It has a glyph name and no task is blocked."
+   ],
+   "B": [
+    "Unlimited double-booking and no stock decrement, rated Critical. It is neither a measured WCAG A/AA failure nor a task that cannot be completed.",
+    "Reservations table overflow, rated Critical. Cancel can still be reached by scrolling sideways."
+   ]
+  }
+ },
+ "pair02": {
+  "prefer": "A",
+  "reason": "Both reports find the same real defects: stock never decrements, date wiped, disabled Reserve looks enabled, focus ring removed, hero hides the tools, table overflow, 2.21:1 contrast, ticker, empty states. A's headings (Blocker/High, Medium, Low) are sensible and A puts the date wipe and stock bug near the top. B rates the date wipe, which is real data loss in the core flow, as only Major. B also lists an invented-figures finding as a Blocker, and that finding is wrong. Its own text says it is a development build with placeholder data, and it is not a measured failure. A has some speculative items (the membership and sign-in gap, and a hero contrast figure that A's own pixel check would not support).",
+  "wrong": {
+   "A": [
+    "The hero paragraph is said to fail AA at 4.01:1. That figure is the contrast at the far end of the gradient, and the paragraph does not sit there. Sampling gives about 5:1, so this is mostly not a problem.",
+    "The claim that the missing membership or sign-in step is a gap in the page is speculation about a prototype with no account system."
+   ],
+   "B": [
+    "Finding 4 treats the hero numbers and ticker items as 'invented' figures and rates it a Blocker. They are plain placeholder content in a development build, and the ticker items not appearing in the grid is not a defect."
+   ]
+  },
+  "inflated": {
+   "A": [],
+   "B": [
+    "Invented or unsupported hero figures, rated Blocker, are at most a Low content note for a prototype."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": [
+    "Invented or unsupported figures in copy, rated Blocker. It is not a WCAG failure, no task is blocked, and it is not an App Store issue."
+   ]
+  }
+ },
+ "pair08": {
+  "prefer": "B",
+  "reason": "B is better evidenced, and it caught things A missed. B has a Tab walk, a measured contrast table, the stock-never-decrements bug with duplicate bookings, the star target sizes, the unreadable ticker and a check of focus return. B also keeps hero and dialog items correctly separated from WCAG failures. A is shorter and sound on the main issues. But A puts three weakly grounded items in its Critical bucket, and A misses the stock-not-decrementing bug entirely. B has its own faults: it duplicates the focus finding as a second Blocker, and it asserts a hero contrast failure that sampling does not support.",
+  "wrong": {
+   "A": [
+    "Finding 11 says the star is about 20 px. I measured it at 32x32 px.",
+    "Finding 12 says disabled buttons are 'skipped by keyboard and may be low contrast'. It is the lack of a disabled style and reason that is the real problem, and A has already covered the lookalike button elsewhere."
+   ],
+   "B": [
+    "Finding 5 says the hero text fails AA on the right-hand end of the gradient. B notes its own pixel sampling had not been run. Report pair01 A sampled the same area at 4.67 to 5.39:1, so it passes.",
+    "Finding 4 says tools start at y=1040 at 1440 and y=1090 at 390. These figures vary with the viewport height (88vh). I measured 845 at 1280x800 and 792 at 375x740."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "Finding 3 (missing validation and confirmation detail, rated Critical) is a bundle of copy and prototype gaps and is not blocking.",
+    "Finding 4 (Cancel with no undo, rated Critical) is Major, because the user can reserve again."
+   ],
+   "B": [
+    "Finding 2 is the same root cause as finding 1 but is listed as a second Blocker.",
+    "Finding 3 (date wipe, rated Blocker) is data loss but recoverable by re-entering the date, so Major.",
+    "Finding 11 (star name, rated Blocker under 4.1.2) has an accessible name and no task is blocked."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [
+    "Finding 2 (date wipe, rated Critical): recoverable, so not a task that cannot be completed.",
+    "Finding 3 (validation and feedback, rated Critical): no measured failure.",
+    "Finding 4 (Cancel without undo, rated Critical): no measured failure."
+   ],
+   "B": [
+    "Finding 3 (date wipe, rated Blocker): task can still be completed.",
+    "Finding 11 (star, rated Blocker): weak 4.1.2 case."
+   ]
+  }
+ },
+ "pair04": {
+  "prefer": "B",
+  "reason": "Both lead with the same verified bugs: invalid tax/tip silently counted as 0 (model() uses `|| 0`), and the sticky .out panel overflowing at many people. B also found two real problems A missed. Check total excludes unassigned items while the lede promises the exact total. Restored invalid tax text shows no error after reload (renderAll only sets values; setErr runs on input). B also catches the toast being cleared by save() and focus dropping to body after Undo. B's severities are Major/Minor/Polish and none is a blocker. A has some real findings (magic margin-top:28px on button.add, red warning on every new item). Its ranking is slightly weaker and it has a speculative toast-announcement claim.",
+  "wrong": {
+   "A": [
+    "#11 says Undo 'may not be heard' by screen readers. The toast sits in a role=status region and the claim is speculative and untested."
+   ],
+   "B": [
+    "#11 says tax/tip errors are not announced. The error text is linked by aria-describedby and read on focus, so this is a minor gap at most, not a defect."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "#3 and #2 (High) are fair but #1 as 'High' is acceptable; #7 and #8 are rated Medium for what is polish-level copy and tone."
+   ],
+   "B": [
+    "#5 (no editing), #4 (focus drop plus toast cleared) and #6 are rated Major. These are friction with workarounds and are better rated Minor to Moderate."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": []
+  }
+ },
+ "pair05": {
+  "prefer": "B",
+  "reason": "Both find the same core issues: invalid tax/tip counted as 0, unassigned items inflating the remaining shares (the full tax is spread over assigned items only), the result being far down the page on phones, focus loss after Everyone, no editing, the uncapped sticky panel and the undo toast being cleared by save(). A labels two of them Critical. B uses calibrated Major/Minor ratings, adds measured extras (200% text collapse of .item-head, forced-colors pressed preset, undo being 30 Tab stops away, a sourced landscape), and gives concrete fixes. A is tighter and has a good live-validation-mid-typing finding. B has a few weak minor items (I/l glyph, 'e.g.' read as 'egg').",
+  "wrong": {
+   "A": [],
+   "B": [
+    "#7 claims 'e.g.' placeholders are read as 'egg'. Screen readers do not generally do this, and placeholders are not the accessible name here since visible labels exist.",
+    "#12 reports 'I' and 'l' glyphs as identical in system-ui. This is a font-dependent trait and not a defect of the product."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "C1 'Critical' for unassigned items: the app already shows a red 'Not included until someone is assigned' note in the results, so it is a high-severity money-accuracy issue rather than critical.",
+    "C2 'Critical' for invalid tax/tip counted as 0: the field shows its own error, so this is High rather than Critical."
+   ],
+   "B": [
+    "#4 is Major for 200% text on a phone, though nothing is lost and WCAG 1.4.4 passes, so it should be Minor or Moderate.",
+    "#2 undo is rated Major and #3 focus loss is rated Major. Both have workarounds."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [
+    "C1 (Critical): wrong money amount, but no WCAG A/AA failure, no blocked task and no App Store risk.",
+    "C2 (Critical): same reason; the field shows an error and the task is still completable."
+   ],
+   "B": []
+  }
+ },
+ "pair09": {
+  "prefer": "A",
+  "reason": "A has more real, source-verified findings. Invalid tax/tip zeroed (`|| 0`). Focus lost after Everyone and after Undo. Delete moves focus to the top field (confirmed in code). The generic legend 'Who had it?' repeated on every item fieldset (line 383), which makes checkboxes ambiguous to screen readers. The result region has no live region. The mobile answer is far from the inputs. The sticky .out is uncapped. B misses the legend and live-region problems and spends effort on a contrived +40% pseudo-localisation overflow and a minor '12.' message. A's severities are mostly High and defensible.",
+  "wrong": {
+   "A": [],
+   "B": [
+    "#9 is a vacuous 'Polish' row with no finding, which adds nothing.",
+    "#7 says '12.' is rejected with a message that doesn't describe the problem. The message ('up to 2 decimals, like 12.50') is accurate enough, so this is a stretch."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "H2 (live validation firing on half-typed 'a.' values) is rated High. It is a Medium annoyance because the error clears once typing finishes.",
+    "H4 is rated High as an accessibility failure. It is partly speculative since screen-reader output was inferred from the DOM, not tested."
+   ],
+   "B": [
+    "#3 focus lost after Everyone is rated Major while B says WCAG 2.4.3 is 'judged, not measured'.",
+    "#4 is a pseudo-localised +40% overflow rated Minor but is an artificial test and not a realistic failure."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": []
+  }
+ },
+ "pair03": {
+  "prefer": "A",
+  "reason": "A catches the defects that stop the app doing its job: no reminders are scheduled, nothing persists, doses are only created for the day the medicine is added, and missed doses vanish. B misses the day-2 empty Today screen entirely (its finding 13 only covers a past-time dose) and rates reminders and persistence as Major. B does have measured contrast numbers, and I checked them against the source: #4B5563 on #1C1C1E is about 2.25:1, and system green on white is about 2.2:1. A calls the dark-mode contrast Medium and never flags the green label. Overall A is the better plan to act on, with B's contrast fixes added.",
+  "wrong": {
+   "A": [
+    "Says the .pbxproj was not in the folder and the iOS target is unconfirmed. dosewise/Dosewise.xcodeproj/project.pbxproj is there.",
+    "Calls the Skip button unlabeled for VoiceOver. An SF Symbol image button gets a derived name, so the control is weak but not unlabeled."
+   ],
+   "B": [
+    "Finding 13 says a dose stays Pending forever and a newly added medicine gets a past dose. The Today list then disappears at midnight, which B never notices; this understates the real bug.",
+    "Finding 12 claims the 12/24-hour setting is invisible in Add. The real bug is the hard-coded 24h format, so the framing is overstated but the fix is right."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "B4, missed doses having no record, is rated Blocker. It is a real High-level gap but not a task that cannot be completed.",
+    "B5, early take or skip without confirmation, is rated Blocker. It is a High-level safety concern, not a failed task or WCAG failure."
+   ],
+   "B": [
+    "Finding 2 (swipe delete erases history) is rated Blocker. It is real data loss but a High finding, with no WCAG failure or blocked task behind it."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [
+    "B2 persistence: data loss in a dev build, no WCAG failure, and the task still completes within a session.",
+    "B3 doses created only today: this is a real task failure from day 2, so it is arguably backed.",
+    "B4 missed doses vanish: a feature gap rated Blocker with no failed task.",
+    "B5 early take with no undo: a safety concern, not a failed task."
+   ],
+   "B": [
+    "Finding 2 swipe-delete erases history: no WCAG failure, no blocked task and no likely App Store rejection."
+   ]
+  }
+ },
+ "pair06": {
+  "prefer": "A",
+  "reason": "A measures both contrast failures (green Taken label 2.22:1 and #4B5563 at 2.25:1 on a dark cell) and rates them Blocker on WCAG 1.4.3 grounds. It also covers reminders, day rollover, persistence, delete-erases-history, a missing Medicines empty state, undo, an unlabeled Skip, Dynamic Type and Add-as-a-tab, and it gives a sensible rework. B finds the same functional problems and catches the dark-mode contrast problem, but never mentions the light-mode green Taken label failure. B also leaves out the empty Medicines state in its main list and the Today overdue/primary-button issues are only partly covered. A's slop-cluster finding and casing nit are filler.",
+  "wrong": {
+   "A": [
+    "Finding 22 says button casing is inconsistent and should be Title Case. Mixed sentence case in iOS form buttons is acceptable, so this is not a real defect.",
+    "Finding 1 asserts Increase Contrast green is 4.40:1 and still fails. This is recalled from memory, not measured from the source."
+   ],
+   "B": [
+    "H5 says taken doses look more prominent than pending ones in dark mode. In dark mode the dark gray #4B5563 is less visible than .secondary, so the 'reversed emphasis' claim only holds in light mode and is stated too broadly.",
+    "M1 calls the History Clear button risky for sitting in the nav bar. It already has a confirmation dialog, so this is a weak finding."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "Finding 19 (slop cluster) is rated Major but is a catalog count rather than a user problem."
+   ],
+   "B": [
+    "C4 bundles missed doses, delete, and history loss as Critical; the deletion part is High at most.",
+    "C3 persistence is rated Critical in a dev build; Major at most."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": [
+    "C3 persistence: no WCAG failure and no blocked task in a dev build.",
+    "C4 missed doses vanish and delete erases history: a feature gap and data loss, with no measured failure or blocked task."
+   ]
+  }
+ },
+ "pair07": {
+  "prefer": "B",
+  "reason": "B measures contrast with actual ratios and flags both failures separately: #4B5563 on #1C1C1E at 2.25:1, and green on white at 2.22:1. It also finds things A misses: strength is never shown on Today or History, the Take label is ambiguous across rows, the Notes field is write-only, and the Today empty state has no add button. It rates delete-erases-history as a Blocker with a concrete archive fix, and gives a clean order of work. A reports the same core functional gaps (no reminders, no persistence, no day rollover) and a reasonable fix order, and marks them Critical. A lumps both contrast problems into one High finding with rough numbers, and its M6 modifier-order concern is mostly wrong.",
+  "wrong": {
+   "A": [
+    "M6 says the outer .buttonStyle(.borderless) may override the inner .borderedProminent on Take. The inner modifier is closer to the view and wins, so Take stays prominent. This is speculative and mostly wrong.",
+    "H3 says the doseTaken color is darker than .secondary on light so taken rows look more prominent. That is true in light mode but the finding mixes it with dark mode failure, muddying which mode fails."
+   ],
+   "B": [
+    "Finding 21 says portrait lock is a Polish SHOULD fix. The portrait lock is a deliberate choice for a phone dose list and is not a defect."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "C2 persistence and C3 rollover are both rated Critical, but persistence is a dev-build gap.",
+    "L1 Clear in History being 'easy to hit' is weak; it already has a confirmation."
+   ],
+   "B": [
+    "Finding 1 persistence is rated Blocker (data loss) in a dev build; Major would fit."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [
+    "C1 reminders never scheduled: the feature gap is real but the app is still usable for logging.",
+    "C2 nothing persists: no WCAG failure.",
+    "C3 schedule does not roll over: real, but a feature gap rather than a blocked task."
+   ],
+   "B": [
+    "Finding 1 persistence: not a WCAG failure, blocked task or rejection.",
+    "Finding 2 swipe-delete erases history: data loss, not a measured A/AA failure or a blocked task."
+   ]
+  }
+ }
+}

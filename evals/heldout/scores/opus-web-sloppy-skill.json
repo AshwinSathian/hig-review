@@ -1,0 +1,77 @@
+{
+ "items": {
+  "D1": "found",
+  "D2": "found",
+  "D3": "found",
+  "D4": "found",
+  "D5": "found",
+  "D6": "found",
+  "D7": "found",
+  "D8": "found",
+  "D9": "found",
+  "D10": "found",
+  "U1": "found",
+  "U2": "found",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found"
+ },
+ "blockers": 4,
+ "extra": [
+  {
+   "finding": "No dark appearance / increased-contrast (Major)",
+   "verdict": "wrong",
+   "why": "Style choice, not a defect"
+  },
+  {
+   "finding": "px font sizes ignore user root font size",
+   "verdict": "real",
+   "why": "px throughout; minor since zoom works"
+  },
+  {
+   "finding": "Slop-cluster: gradient hero, metric row etc. (Major)",
+   "verdict": "wrong",
+   "why": "Key: gradient hero and system font are style choices"
+  },
+  {
+   "finding": "Star and nav targets under 44px",
+   "verdict": "real",
+   "why": "32px / 18px; pass 2.5.8, minor"
+  },
+  {
+   "finding": "Filter changes not announced, no result count",
+   "verdict": "real",
+   "why": "No aria-live on grid"
+  },
+  {
+   "finding": "RTL: star overlaps title, physical properties",
+   "verdict": "wrong",
+   "why": "RTL not a requirement for this site"
+  },
+  {
+   "finding": "Unsourced 'hundreds of drills' hero claim",
+   "verdict": "wrong",
+   "why": "Marketing placeholder copy, not a UI defect"
+  },
+  {
+   "finding": "Hard-coded min date",
+   "verdict": "real",
+   "why": "min literal in renderDlg()"
+  },
+  {
+   "finding": "Empty last table header (action column unnamed)",
+   "verdict": "real",
+   "why": "<th></th> in renderResv()"
+  },
+  {
+   "finding": "Search lacks visible label",
+   "verdict": "wrong",
+   "why": "Key: acceptable with aria-label + role=search"
+  },
+  {
+   "finding": "h1 wraps leaving 'less.' alone",
+   "verdict": "real",
+   "why": "max-width:14ch; polish"
+  }
+ ]
+}

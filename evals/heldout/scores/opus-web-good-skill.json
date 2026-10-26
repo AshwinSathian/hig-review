@@ -1,0 +1,65 @@
+{
+ "items": {
+  "G1": "found",
+  "G2": "missed",
+  "G3": "found",
+  "G4": "missed",
+  "G5": "found",
+  "G6": "missed",
+  "G7": "partly",
+  "G8": "missed"
+ },
+ "blockers": 0,
+ "extra": [
+  {
+   "finding": "#4 Item head squeezes the name at 200% text, 390 px",
+   "verdict": "real",
+   "why": "Measured: .iname 65 px wide and 336 px tall at 200% root font size"
+  },
+  {
+   "finding": "#5 Items and people cannot be edited",
+   "verdict": "real",
+   "why": "No edit path in the source; fixing an entry means delete, re-add and re-tick"
+  },
+  {
+   "finding": "#6 Delete vs Remove verb inconsistency",
+   "verdict": "real",
+   "why": "Items say Delete/Deleted, people say Remove/Removed"
+  },
+  {
+   "finding": "#7 'e.g.' in placeholders",
+   "verdict": "real",
+   "why": "Placeholders are 'e.g. Ana' and 'e.g. Margherita pizza'; minor copy issue"
+  },
+  {
+   "finding": "#8 Spare-cents sentence long and jargon-heavy",
+   "verdict": "real",
+   "why": "The renderResult text is one long sentence: 'largest leftover fraction'"
+  },
+  {
+   "finding": "#9 Tax accepts any amount up to 99,999.99",
+   "verdict": "real",
+   "why": "parseMoney does not check tax against the subtotal"
+  },
+  {
+   "finding": "#10 Comma decimal gets an unhelpful generic message",
+   "verdict": "real",
+   "why": "The regex rejects 12,50 with the generic 'Use numbers only' message"
+  },
+  {
+   "finding": "#11 Pressed tip preset invisible in forced colours",
+   "verdict": "real",
+   "why": "The forced-colors block has no aria-pressed rule; system colours override the background"
+  },
+  {
+   "finding": "#12 Capital I and lowercase l look alike in system-ui",
+   "verdict": "wrong",
+   "why": "A system-font property, not an app defect; duplicate names are already checked case-insensitively"
+  },
+  {
+   "finding": "#14 Polish: Start over silent no-op, RTL padding, preset can't unpress",
+   "verdict": "real",
+   "why": "The reset handler returns silently when empty; padding-left is physical; minor"
+  }
+ ]
+}

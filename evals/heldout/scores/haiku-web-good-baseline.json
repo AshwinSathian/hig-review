@@ -1,0 +1,100 @@
+{
+ "items": {
+  "G1": "found",
+  "G2": "missed",
+  "G3": "partly",
+  "G4": "partly",
+  "G5": "missed",
+  "G6": "found",
+  "G7": "missed",
+  "G8": "missed"
+ },
+ "blockers": 5,
+ "extra": [
+  {
+   "finding": "H1 Invalid tax or tip silently zeroed in shares and copy",
+   "verdict": "real",
+   "why": "Tested: invalid tax gives tax $0.00 in the total"
+  },
+  {
+   "finding": "H2 Live validation fires on half-typed numbers",
+   "verdict": "real",
+   "why": "Input handler validates each keystroke; '3.' errors"
+  },
+  {
+   "finding": "H5 Mobile result far below the inputs",
+   "verdict": "real",
+   "why": "Single column puts the result last"
+  },
+  {
+   "finding": "M1 Undo cleared by any action; no timeout",
+   "verdict": "real",
+   "why": "save() clears the toast on every edit"
+  },
+  {
+   "finding": "M2 Assignment pills don't scale to many people",
+   "verdict": "real",
+   "why": "One pill per person per item; up to 30 per item"
+  },
+  {
+   "finding": "M3 Per-item split amounts don't name who",
+   "verdict": "real",
+   "why": "Note is 'Split N ways: a / b' with no names"
+  },
+  {
+   "finding": "M4 Spare-cent explanation is jargon",
+   "verdict": "real",
+   "why": "'largest leftover fraction' text"
+  },
+  {
+   "finding": "M5 Persistence is silent",
+   "verdict": "real",
+   "why": "localStorage restore with no on-page cue"
+  },
+  {
+   "finding": "M6 Focus after delete jumps to the Item field",
+   "verdict": "wrong",
+   "why": "Deliberate focus to a stable entry field; the toast announces; reasonable"
+  },
+  {
+   "finding": "M7 Tax in dollars but tip in percent",
+   "verdict": "wrong",
+   "why": "Intentional, labelled 'Tax ($)' with a receipt-amount hint"
+  },
+  {
+   "finding": "L1 Placeholders look like values",
+   "verdict": "real",
+   "why": "'0.00' and '0' placeholders in a muted tone close to the ink; minor"
+  },
+  {
+   "finding": "L2 Blank tip doesn't press 'No tip'",
+   "verdict": "real",
+   "why": "renderTip requires non-empty text"
+  },
+  {
+   "finding": "L3 Sticky result panel not capped",
+   "verdict": "real",
+   "why": "Measured: panel taller than viewport hides Copy"
+  },
+  {
+   "finding": "L4 Mixed control shapes; Everyone looks like a person",
+   "verdict": "wrong",
+   "why": "Taste; Everyone is a distinct button"
+  },
+  {
+   "finding": "L5 '=' step marker unclear",
+   "verdict": "wrong",
+   "why": "aria-hidden decoration; taste"
+  },
+  {
+   "finding": "L6 Tax hint wraps to three lines",
+   "verdict": "real",
+   "why": "140 px field width; cosmetic"
+  },
+  {
+   "finding": "L7 'Everything cleared' toast vague",
+   "verdict": "real",
+   "why": "Toast doesn't say what was cleared; polish"
+  }
+ ]
+}

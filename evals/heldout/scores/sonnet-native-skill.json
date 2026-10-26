@@ -1,0 +1,71 @@
+{
+ "items": {
+  "N1": "found",
+  "N2": "found",
+  "N3": "found",
+  "N4": "found",
+  "N5": "found",
+  "N6": "found",
+  "N7": "found",
+  "N8": "found",
+  "U1": "found",
+  "U2": "found",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found",
+  "U6": "partly"
+ },
+ "blockers": 4,
+ "extra": [
+  {
+   "finding": "'Taken' label/glyph .green 2.22:1 on white",
+   "verdict": "real",
+   "why": "TodayView.swift:53-54, system green light value"
+  },
+  {
+   "finding": "Strength never shown on Today/History rows",
+   "verdict": "real",
+   "why": "DoseRow and HistoryView show name only"
+  },
+  {
+   "finding": "Every pending row has a prominent Take button",
+   "verdict": "real",
+   "why": ".borderedProminent on each row"
+  },
+  {
+   "finding": "Clear dialog states no count",
+   "verdict": "wrong",
+   "why": "Key F2: dialog with message is the correct pattern"
+  },
+  {
+   "finding": "Placeholders used as only field labels",
+   "verdict": "real",
+   "why": "TextField placeholders 'Name', 'Strength...', 'Optional'"
+  },
+  {
+   "finding": "checkmark.seal empty-state icon implies 'done'",
+   "verdict": "real",
+   "why": "TodayView.swift:11; minor taste"
+  },
+  {
+   "finding": "Filled plus symbol in outline tab bar",
+   "verdict": "real",
+   "why": "plus.circle.fill vs outline symbols; minor"
+  },
+  {
+   "finding": "Portrait lock",
+   "verdict": "real",
+   "why": "Info.plist line 6 (cited as 5); design choice, polish"
+  },
+  {
+   "finding": "No haptic/animation on Take",
+   "verdict": "real",
+   "why": "No sensoryFeedback or withAnimation"
+  },
+  {
+   "finding": "Unreachable 'Unknown'/'Removed medicine' fallbacks",
+   "verdict": "real",
+   "why": "Doses deleted with medicine"
+  }
+ ]
+}

@@ -1,0 +1,77 @@
+{
+ "items": {
+  "D1": "found",
+  "D2": "found",
+  "D3": "found",
+  "D4": "found",
+  "D5": "found",
+  "D6": "found",
+  "D7": "found",
+  "D8": "found",
+  "D9": "found",
+  "D10": "found",
+  "U1": "found",
+  "U2": "missed",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found"
+ },
+ "blockers": 9,
+ "extra": [
+  {
+   "finding": "Hero paragraph white on #2f8f65 is 4.01:1, fails AA",
+   "verdict": "wrong",
+   "why": "Text sits over darker gradient; pixel-measured worst 4.55:1, passes"
+  },
+  {
+   "finding": "Search placeholder uses #a9b0ab",
+   "verdict": "wrong",
+   "why": "No placeholder style set; UA default colour, not --faint"
+  },
+  {
+   "finding": "No membership/sign-in story; fee only in footer",
+   "verdict": "real",
+   "why": "No join or identity anywhere in flow"
+  },
+  {
+   "finding": "Every Reserve button has same accessible name",
+   "verdict": "real",
+   "why": "No tool name in label; minor (card context exists)"
+  },
+  {
+   "finding": "'1 days' plural bug and ISO-only formatting",
+   "verdict": "real",
+   "why": "`${r.days} days` renders '1 days'"
+  },
+  {
+   "finding": "Hard-coded min date; Bank Holiday not blocked",
+   "verdict": "real",
+   "why": "min literal in renderDlg()"
+  },
+  {
+   "finding": "Nav links 18px tall, below 44px",
+   "verdict": "real",
+   "why": "Text-only links; passes 2.5.8 via spacing, minor"
+  },
+  {
+   "finding": "Hero stats (181 tools) contradict 6-item catalogue",
+   "verdict": "real",
+   "why": "Placeholder data mismatch; low impact"
+  },
+  {
+   "finding": "Help email not a mailto link",
+   "verdict": "real",
+   "why": "Plain text in #help"
+  },
+  {
+   "finding": "Toast timer can clear a newer message",
+   "verdict": "real",
+   "why": "setTimeout not cleared"
+  },
+  {
+   "finding": "No result count/visible labels on search",
+   "verdict": "wrong",
+   "why": "Key: aria-label + role=search acceptable; count is enhancement only"
+  }
+ ]
+}

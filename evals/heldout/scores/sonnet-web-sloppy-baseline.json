@@ -1,0 +1,82 @@
+{
+ "items": {
+  "D1": "found",
+  "D2": "found",
+  "D3": "found",
+  "D4": "found",
+  "D5": "found",
+  "D6": "found",
+  "D7": "found",
+  "D8": "found",
+  "D9": "found",
+  "D10": "found",
+  "U1": "partly",
+  "U2": "missed",
+  "U3": "partly",
+  "U4": "found",
+  "U5": "found"
+ },
+ "blockers": 4,
+ "extra": [
+  {
+   "finding": "Hard-coded date min=2026-10-27 goes stale; no closed-day logic",
+   "verdict": "real",
+   "why": "min is a literal string in renderDlg()"
+  },
+  {
+   "finding": "Search matches name only; results not announced, no count",
+   "verdict": "real",
+   "why": "filter uses t.name only; grid has no live region"
+  },
+  {
+   "finding": "Out-of-stock card offers no next step (notify/reserve from date)",
+   "verdict": "real",
+   "why": "Only a disabled button; 'Back 14 Nov' sits in faint meta"
+  },
+  {
+   "finding": "Membership requirement (\u00a312) surfaced only in footer",
+   "verdict": "real",
+   "why": "No join/sign-in anywhere near Reserve"
+  },
+  {
+   "finding": "Nav not sticky, no current state; help email not a mailto link",
+   "verdict": "real",
+   "why": "Plain text email; static header"
+  },
+  {
+   "finding": "Toast timer not cleared; later toast blanked early",
+   "verdict": "real",
+   "why": "setTimeout never cleared in toast()"
+  },
+  {
+   "finding": "Nav links and star below 44px targets",
+   "verdict": "real",
+   "why": "Text-height links; 20px glyph button (passes 2.5.8, minor)"
+  },
+  {
+   "finding": "Stats conflict ('over 180' vs 181)",
+   "verdict": "wrong",
+   "why": "181 is over 180; no contradiction (6-item demo list is placeholder)"
+  },
+  {
+   "finding": "Disabled Reserve may be low contrast (browser default)",
+   "verdict": "wrong",
+   "why": ".btn styles disabled same as enabled, not browser default"
+  },
+  {
+   "finding": "Hero h1 wraps awkwardly at 14ch",
+   "verdict": "real",
+   "why": "max-width:14ch; polish only"
+  },
+  {
+   "finding": "Reservations lost on reload; innerHTML injection risk",
+   "verdict": "real",
+   "why": "In-memory array; template-string innerHTML (prototype-level)"
+  },
+  {
+   "finding": "No dark mode",
+   "verdict": "wrong",
+   "why": "Absence of dark theme is a style choice, not a defect"
+  }
+ ]
+}
