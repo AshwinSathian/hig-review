@@ -38,14 +38,10 @@ def main():
     out += ["## Rule 1: preference", "", f"loupe preferred by at least 2 of 3 judges in **{wins} of 9** pairs (needs 6): **{'pass' if r1 else 'fail'}**", "",
             "| Pair | Model | Fixture | Judges for loupe | for baseline | tie |", "|---|---|---|---|---|---|", *per_pair, ""]
 
-    # Rule 2: judged wrong or inflated on the control, by at least 2 judges
+    # Rule 2: findings judged wrong or inflated on the control. Judges word findings
+    # differently, so findings can't be matched across judges; take the median of
+    # each judge's count (a deviation from the pre-registration, see notes.md).
     def flagged(name, side):
-        c = Counter()
-        for j in JUDGES:
-            a = judges[j][name]
-            for item in a["wrong"][side] + a["inflated"][side]:
-                c[item.split(":")[0].strip().lower()[:60]] += 1
-        # judges word findings differently, so count per judge and take the median
         counts = sorted(len(judges[j][name]["wrong"][side]) + len(judges[j][name]["inflated"][side]) for j in JUDGES)
         return counts[1]
 

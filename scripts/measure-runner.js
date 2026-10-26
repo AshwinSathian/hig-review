@@ -1,7 +1,7 @@
 async (page, opts = {}) => {
   // HOW TO RUN (Playwright MCP, one browser_run_code_unsafe call):
   //   Read this file, then pass as `code`, with this file's text pasted unchanged in place of <RUNNER>:
-  //     async (page) => (<RUNNER>)(page, { skillDir: "<SKILL_DIR as a JSON string>" })
+  //     async (page) => (<RUNNER>)(page, { skillDir: "<${CLAUDE_SKILL_DIR} as a JSON string>" })
   //   skillDir is ${CLAUDE_SKILL_DIR}, the skill's directory, written as a JSON string literal:
   //   escape every backslash and double quote, e.g. { skillDir: "C:\\Users\\me\\.claude\\skills\\loupe" }.
   //   Add full: true for every row of every combination: { skillDir: "...", full: true }.

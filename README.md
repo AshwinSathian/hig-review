@@ -47,7 +47,7 @@ The first time, loupe drafts a `.loupe.md` profile from your design docs, tokens
 
 ## What a review contains
 
-Each finding names the element and the screen (or file and line) and carries two tags. Impact is Blocker, Major, Minor or Polish, and a Blocker needs a measured WCAG A/AA failure or an Apple MUST whose breach stops the task, blocks an accessibility need, or risks App Review rejection or data loss. The Apple column says how strongly Apple states the rule (MUST, SHOULD or CONSIDER, copied from Apple's wording), or marks the check as Web, Research or Taste.
+Each finding names the element and the screen (or file and line) and carries two tags. Impact is Blocker, Major, Minor or Polish, and a Blocker needs evidence of one of these: a measured or source-confirmed WCAG A/AA failure; an Apple MUST on a native app whose breach stops the task, blocks an accessibility need or risks App Review rejection; data loss; deceptive design; or a task that can't be finished in a release build. The Apple column says how strongly Apple states the rule (MUST, SHOULD or CONSIDER, copied from Apple's wording), or marks the check as Web, Research or Taste.
 
 After the findings: the category landscape (3 to 6 peers, with sources), a distinctiveness verdict with theming sketches when the product has no direction yet, a measured verdict for each typeface, up to three reworks (only when the evidence clears a stated bar; "no rework warranted" is the usual answer for a well-built product), up to 8 enhancements, and a list of what it couldn't verify. loupe edits nothing until you pick findings to fix, and then measures again.
 
