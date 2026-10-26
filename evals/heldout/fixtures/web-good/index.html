@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Split the check</title>
+<link rel="icon" href="data:,">
+<style>
+:root {
+  --bg: #f5f0e6;
+  --surface: #fffdf8;
+  --ink: #1d1a16;
+  --muted: #5b544a;
+  --line: #8a8173;      /* UI boundaries: inputs, buttons, checkboxes */
+  --rule: #d9d1c1;      /* decorative hairlines only */
+  --accent: #8c2f1c;
+  --on-accent: #fffdf8;
+  --err: #a3201a;
+  --focus: #0b5cad;
+  --toast-bg: #1d1a16;
+  --toast-ink: #f5f0e6;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171411;
+    --surface: #211d19;
+    --ink: #efe8da;
+    --muted: #b3a999;
+    --line: #8c8373;
+    --rule: #3a342d;
+    --accent: #e8917a;
+    --on-accent: #1a1411;
+    --err: #ff9a8d;
+    --focus: #8ab8ff;
+    --toast-bg: #efe8da;
+    --toast-ink: #171411;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 1rem/1.5 var(--sans);
+  padding-bottom: 96px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+h1, h2 { font-family: var(--serif); font-weight: 700; margin: 0; line-height: 1.15; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.375rem; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* masthead */
+.top { border-bottom: 2px solid var(--ink); padding: 20px 0 16px; }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px 16px; }
+.kicker { margin: 0 0 4px; font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lede { margin: 8px 0 0; max-width: 34em; color: var(--ink); }
+
+/* layout */
+.grid { display: grid; gap: 24px; padding-top: 24px; }
+@media (min-width: 900px) {
+  .grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+  .out { position: sticky; top: 16px; }
+  h1 { font-size: 2.5rem; }
+}
+section { margin-bottom: 32px; }
+.out section { margin: 0; }
+.sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--rule); padding-bottom: 8px; }
+.step { font-family: var(--serif); color: var(--muted); font-size: 1.125rem; }
+
+/* form controls */
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+.field { display: flex; flex-direction: column; flex: 1 1 140px; min-width: 0; }
+.field.narrow { flex: 0 1 140px; }
+label, legend { font-weight: 600; font-size: .9375rem; padding: 0; }
+.hint, .error { margin: 2px 0 0; font-size: .875rem; }
+.hint { color: var(--muted); }
+.error { color: var(--err); font-weight: 600; }
+.error:empty { display: none; }
+input[type=text] {
+  font: inherit; color: var(--ink); background: var(--surface);
+  min-height: 44px; padding: 8px 12px; margin-top: 4px;
+  border: 1.5px solid var(--line); border-radius: 6px; width: 100%;
+}
+input[aria-invalid=true] { border-color: var(--err); border-width: 2px; }
+::placeholder { color: var(--muted); opacity: 1; }
+button { font: inherit; cursor: pointer; min-height: 44px; min-width: 44px; padding: 8px 16px; border-radius: 6px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 600; }
+button.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+button.add { margin-top: 28px; }
+@media (max-width: 480px) { button.add { margin-top: 0; width: 100%; } }
+button:hover { border-color: var(--ink); }
+button[aria-pressed=true] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+button.quiet { border-color: transparent; background: transparent; text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* people */
+.chips { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.person { display: inline-flex; align-items: center; border: 1.5px solid var(--line); border-radius: 22px; background: var(--surface); padding-left: 14px; }
+.person button { border: 0; background: transparent; border-radius: 22px; font-weight: 400; color: var(--muted); }
+.empty { margin: 12px 0 0; padding: 16px; border: 1.5px dashed var(--line); border-radius: 6px; color: var(--muted); }
+
+/* items */
+.items { list-style: none; margin: 16px 0 0; padding: 0; }
+.item { background: var(--surface); border: 1.5px solid var(--line); border-radius: 6px; padding: 12px 16px 16px; margin-bottom: 12px; }
+.item-head { display: flex; align-items: center; gap: 12px; }
+.iname { flex: 1; font-weight: 600; overflow-wrap: anywhere; }
+.money { font-variant-numeric: tabular-nums; white-space: nowrap; }
+fieldset { border: 0; padding: 0; margin: 8px 0 0; min-width: 0; }
+.assign { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.pick { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 14px 4px 10px; border: 1.5px solid var(--line); border-radius: 22px; cursor: pointer; font-weight: 400; }
+.pick:hover { border-color: var(--ink); }
+.pick:has(input:checked) { background: var(--rule); border-color: var(--ink); }
+.pick:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+.pick input { appearance: none; -webkit-appearance: none; margin: 0; width: 22px; height: 22px; border: 2px solid var(--line); border-radius: 4px; background: var(--surface); display: grid; place-content: center; flex: none; }
+.pick input:checked { background: var(--accent); border-color: var(--accent); }
+.pick input:checked::after { content: ""; width: 5px; height: 10px; border: solid var(--on-accent); border-width: 0 2.5px 2.5px 0; transform: translateY(-1px) rotate(45deg); }
+.pick input:focus-visible { outline: none; }
+.note { margin: 8px 0 0; font-size: .875rem; color: var(--muted); }
+.note.warn { color: var(--err); font-weight: 600; }
+
+/* tax & tip */
+.presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+/* result */
+.sheet { background: var(--surface); border: 1.5px solid var(--ink); border-radius: 6px; padding: 8px 16px 16px; }
+.shares { list-style: none; margin: 0; padding: 0; }
+.share { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px dotted var(--line); }
+.share .who { font-weight: 600; overflow-wrap: anywhere; }
+.share .parts { display: block; font-size: .875rem; color: var(--muted); font-weight: 400; }
+.share .amt { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; }
+.bill { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; font-weight: 700; border-top: 2px solid var(--ink); margin-top: -1px; }
+.bill .amt { font-family: var(--serif); font-size: 1.25rem; }
+.rounding { margin: 12px 0 0; font-size: .875rem; color: var(--muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 16px; }
+#copyStatus { margin: 0; font-weight: 600; min-height: 1.5em; }
+details { margin-top: 12px; }
+summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; }
+pre { margin: 0; padding: 12px; background: var(--bg); border: 1.5px solid var(--line); border-radius: 6px; white-space: pre-wrap; overflow-wrap: anywhere; font: .875rem/1.5 ui-monospace, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+
+/* undo toast */
+#toast { position: fixed; left: 0; right: 0; bottom: 16px; display: flex; justify-content: center; padding: 0 16px; pointer-events: none; }
+#toast .bar { pointer-events: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; background: var(--toast-bg); color: var(--toast-ink); border-radius: 8px; padding: 6px 8px 6px 16px; max-width: 560px; box-shadow: 0 2px 12px rgba(0,0,0,.3); animation: rise .18s ease-out; }
+#toast button { color: var(--toast-ink); border-color: transparent; background: transparent; text-decoration: underline; text-underline-offset: 3px; }
+#toast button:focus-visible { outline-color: var(--toast-ink); }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+@media (forced-colors: active) {
+  :focus-visible, .pick:has(input:focus-visible) { outline: 3px solid Highlight; }
+  .pick input:checked { background: Highlight; border-color: Highlight; forced-color-adjust: none; }
+  .pick input:checked::after { border-color: HighlightText; }
+  button.primary { border-color: ButtonText; }
+  #toast .bar { border: 2px solid CanvasText; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Group dinner</p>
+      <h1>Split the check</h1>
+      <p class="lede">Add who came and what was ordered, tick who had each dish, then enter tax and tip. Every share adds up to the exact total, to the cent.</p>
+    </div>
+    <button type="button" id="reset">Start over</button>
+  </div>
+</header>
+
+<main class="wrap grid">
+  <div class="in">
+    <section aria-labelledby="h-people">
+      <div class="sec-head"><span class="step" aria-hidden="true">1</span><h2 id="h-people">Who is at the table</h2></div>
+      <form id="personForm" class="row" novalidate>
+        <div class="field">
+          <label for="pName">Name</label>
+          <input type="text" id="pName" maxlength="24" autocomplete="off" placeholder="e.g. Ana" aria-describedby="pName-hint pName-err">
+          <p class="hint" id="pName-hint">Up to 24 characters. Each name must be different.</p>
+          <p class="error" id="pName-err"></p>
+        </div>
+        <button class="primary add" type="submit">Add person</button>
+      </form>
+      <div id="people"></div>
+    </section>
+
+    <section aria-labelledby="h-items">
+      <div class="sec-head"><span class="step" aria-hidden="true">2</span><h2 id="h-items">What was ordered</h2></div>
+      <form id="itemForm" class="row" novalidate>
+        <div class="field" style="flex-basis:200px">
+          <label for="iName">Item</label>
+          <input type="text" id="iName" maxlength="40" autocomplete="off" placeholder="e.g. Margherita pizza" aria-describedby="iName-hint iName-err">
+          <p class="hint" id="iName-hint">What it says on the receipt.</p>
+          <p class="error" id="iName-err"></p>
+        </div>
+        <div class="field narrow">
+          <label for="iPrice">Price ($)</label>
+          <input type="text" id="iPrice" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-describedby="iPrice-hint iPrice-err">
+          <p class="hint" id="iPrice-hint">Before tax and tip.</p>
+          <p class="error" id="iPrice-err"></p>
+        </div>
+        <button class="primary add" type="submit">Add item</button>
+      </form>
+      <div id="items"></div>
+    </section>
+
+    <section aria-labelledby="h-extra">
+      <div class="sec-head"><span class="step" aria-hidden="true">3</span><h2 id="h-extra">Tax and tip</h2></div>
+      <div class="row">
+        <div class="field narrow">
+          <label for="tax">Tax ($)</label>
+          <input type="text" id="tax" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-describedby="tax-hint tax-err">
+          <p class="hint" id="tax-hint">Total tax on the receipt. Blank means none.</p>
+          <p class="error" id="tax-err"></p>
+        </div>
+        <div class="field narrow">
+          <label for="tip">Tip (%)</label>
+          <input type="text" id="tip" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="tip-hint tip-err">
+          <p class="hint" id="tip-hint">Of the items, before tax. 0 to 100.</p>
+          <p class="error" id="tip-err"></p>
+        </div>
+      </div>
+      <div class="presets" role="group" aria-label="Tip presets">
+        <button type="button" data-tip="0">No tip</button>
+        <button type="button" data-tip="15">15%</button>
+        <button type="button" data-tip="18">18%</button>
+        <button type="button" data-tip="20">20%</button>
+      </div>
+    </section>
+  </div>
+
+  <aside class="out" aria-labelledby="h-shares">
+    <section>
+      <div class="sec-head"><span class="step" aria-hidden="true">=</span><h2 id="h-shares">Each person pays</h2></div>
+      <div id="result"></div>
+    </section>
+  </aside>
+</main>
+
+<div id="toast" role="status"></div>
+
+<script>
+/*LOGIC-START*/
+function parseMoney(raw, opts) {
+  opts = opts || {};
+  var s = String(raw == null ? "" : raw).trim();
+  if (s === "") return opts.blankOk ? { cents: 0 } : { error: "Enter an amount, like 12.50." };
+  if (/^[-−]/.test(s)) return { error: "Use a positive amount, without a minus sign." };
+  s = s.replace(/^\$\s*/, "");
+  if (!/^(\d{1,3}(,\d{3})+|\d+)?(\.\d{1,2})?$/.test(s) || s === "" || s === ".") return { error: "Use numbers only, with up to 2 decimals, like 12.50." };
+  var n = Math.round(parseFloat(s.replace(/,/g, "")) * 100);
+  if (n > 9999999) return { error: "That is more than 99,999.99. Check the amount." };
+  if (n === 0 && !opts.zeroOk) return { error: "Price must be more than 0.00." };
+  return { cents: n };
+}
+function parsePct(raw) {
+  var s = String(raw == null ? "" : raw).trim().replace(/%$/, "");
+  if (s === "") return { pct: 0 };
+  if (/^[-−]/.test(s)) return { error: "Use a positive percentage, without a minus sign." };
+  if (!/^(\d+(\.\d{1,2})?|\.\d{1,2})$/.test(s)) return { error: "Use a number like 18 or 17.5." };
+  var p = parseFloat(s);
+  if (p > 100) return { error: "Tip can be at most 100%." };
+  return { pct: p };
+}
+/* Largest-remainder split of integer cents. Returns {parts, extra:[indexes that got the spare cent]} or null. */
+function allocate(total, weights) {
+  var W = weights.reduce(function (a, b) { return a + BigInt(b); }, 0n), T = BigInt(total);
+  if (W <= 0n) return null;
+  var parts = [], rem = [];
+  weights.forEach(function (w, i) { var p = T * BigInt(w); parts.push(p / W); rem.push({ i: i, r: p % W }); });
+  var left = Number(T - parts.reduce(function (a, b) { return a + b; }, 0n));
+  rem.sort(function (a, b) { return a.r === b.r ? a.i - b.i : (a.r > b.r ? -1 : 1); });
+  var extra = [];
+  for (var k = 0; k < left; k++) { parts[rem[k].i] += 1n; extra.push(rem[k].i); }
+  return { parts: parts.map(Number), extra: extra };
+}
+/* state: {people:[{id,name}], items:[{id,name,cents,who:[ids]}], taxCents, tipPct} */
+function compute(st) {
+  var out = { ready: false, rows: [], unassigned: [], subtotal: 0, tax: 0, tip: 0, total: 0, rounding: [], itemSplits: {} };
+  var n = st.people.length;
+  if (!n) return out;
+  var ids = st.people.map(function (p) { return p.id; });
+  var base = ids.map(function () { return 0; });
+  var spare = ids.map(function () { return []; });
+  st.items.forEach(function (it) {
+    var who = ids.filter(function (id) { return it.who.indexOf(id) >= 0; });
+    if (!who.length) { out.unassigned.push(it); return; }
+    var a = allocate(it.cents, who.map(function () { return 1; }));
+    who.forEach(function (id, k) { base[ids.indexOf(id)] += a.parts[k]; });
+    a.extra.forEach(function (k) { spare[ids.indexOf(who[k])].push(it.name); });
+    out.itemSplits[it.id] = { n: who.length, parts: a.parts, who: who };
+    out.subtotal += it.cents;
+  });
+  if (out.subtotal <= 0) return out;
+  var tipCents = Math.round(out.subtotal * (st.tipPct || 0) / 100);
+  var taxA = allocate(st.taxCents || 0, base), tipA = allocate(tipCents, base);
+  taxA.extra.forEach(function (i) { spare[i].push("tax"); });
+  tipA.extra.forEach(function (i) { spare[i].push("tip"); });
+  out.tax = st.taxCents || 0; out.tip = tipCents;
+  out.rows = st.people.map(function (p, i) {
+    return { id: p.id, name: p.name, items: base[i], tax: taxA.parts[i], tip: tipA.parts[i], total: base[i] + taxA.parts[i] + tipA.parts[i] };
+  });
+  out.total = out.subtotal + out.tax + out.tip;
+  out.rounding = st.people.map(function (p, i) { return { name: p.name, cents: spare[i].length, where: spare[i] }; })
+    .filter(function (r) { return r.cents > 0; });
+  out.ready = true;
+  return out;
+}
+function fmt(c) { return "$" + (c / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function summary(st, r) {
+  var L = ["Dinner split"];
+  r.rows.forEach(function (x) { L.push(x.name + ": " + fmt(x.total)); });
+  L.push("", "Items " + fmt(r.subtotal) + " + tax " + fmt(r.tax) + " + tip " + fmt(r.tip) + " (" + (st.tipPct || 0) + "%) = " + fmt(r.total));
+  r.rounding.forEach(function (x) { L.push("Spare cent: " + x.name + " +" + x.cents + "¢ (" + x.where.join(", ") + ")"); });
+  if (r.unassigned.length) L.push("Not included (nobody assigned): " + r.unassigned.map(function (i) { return i.name; }).join(", "));
+  return L.join("\n");
+}
+/*LOGIC-END*/
+
+var KEY = "splitcheck.v1";
+var st = { people: [], items: [], taxText: "", tipText: "", nextId: 1 };
+var undoSnap = null;
+
+function load() {
+  try {
+    var d = JSON.parse(localStorage.getItem(KEY));
+    if (d && Array.isArray(d.people) && Array.isArray(d.items)) {
+      st = { people: d.people, items: d.items, taxText: String(d.taxText || ""), tipText: String(d.tipText || ""), nextId: d.nextId || 1000 };
+    }
+  } catch (e) {}
+}
+function save() { undoSnap = null; toast(""); try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+function snap() { return JSON.stringify(st); }
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+var $ = function (id) { return document.getElementById(id); };
+
+function setErr(id, msg) {
+  var inp = $(id), e = $(id + "-err");
+  e.textContent = msg || "";
+  if (msg) inp.setAttribute("aria-invalid", "true"); else inp.removeAttribute("aria-invalid");
+}
+function model() {
+  var t = parseMoney(st.taxText, { blankOk: true, zeroOk: true }), p = parsePct(st.tipText);
+  return { taxCents: t.cents || 0, tipPct: p.pct || 0, people: st.people, items: st.items };
+}
+function toast(msg, undo) {
+  var t = $("toast");
+  if (!msg) { t.innerHTML = ""; return; }
+  t.innerHTML = '<div class="bar"><span>' + esc(msg) + '</span>' +
+    (undo ? '<button type="button" id="undoBtn">Undo</button>' : '') +
+    '<button type="button" id="dismissBtn" aria-label="Dismiss message">Dismiss</button></div>';
+  $("dismissBtn").onclick = function () { undoSnap = null; toast(""); };
+  if (undo) $("undoBtn").onclick = function () {
+    st = JSON.parse(undoSnap); undoSnap = null; toast(""); save(); renderAll();
+    announce("Restored.");
+  };
+}
+function announce(m) { var t = $("toast"); t.innerHTML = '<span class="sr-only">' + esc(m) + '</span>'; }
+
+function renderPeople() {
+  var h = "";
+  if (!st.people.length) h = '<p class="empty">No one yet. Add the first name above, then everyone else.</p>';
+  else h = '<ul class="chips" aria-label="People at the table">' + st.people.map(function (p) {
+    return '<li class="person"><span>' + esc(p.name) + '</span><button type="button" data-rm-person="' + p.id + '" aria-label="Remove ' + esc(p.name) + '">Remove</button></li>';
+  }).join("") + '</ul>';
+  $("people").innerHTML = h;
+}
+function renderItems(r) {
+  var h = "";
+  if (!st.items.length) h = '<p class="empty">No items yet. Add each dish or drink from the receipt, with its price.</p>';
+  else h = '<ul class="items" aria-label="Items">' + st.items.map(function (it) {
+    var assigned = it.who.filter(function (id) { return st.people.some(function (p) { return p.id === id; }); });
+    var sp = r.itemSplits[it.id], note;
+    if (!st.people.length) note = '<p class="note">Add people above to assign this item.</p>';
+    else if (!assigned.length) note = '<p class="note warn">Nobody assigned yet, so this is not counted.</p>';
+    else note = '<p class="note num">Split ' + sp.n + (sp.n === 1 ? " way" : " ways") + ': ' + sp.parts.map(fmt).join(" / ") + '</p>';
+    var picks = st.people.map(function (p) {
+      return '<label class="pick"><input type="checkbox" data-key="chk-' + it.id + '-' + p.id + '" data-item="' + it.id + '" data-person="' + p.id + '"' + (assigned.indexOf(p.id) >= 0 ? " checked" : "") + '>' + esc(p.name) + '</label>';
+    }).join("");
+    return '<li class="item"><div class="item-head"><span class="iname">' + esc(it.name) + '</span><span class="money">' + fmt(it.cents) + '</span>' +
+      '<button type="button" data-rm-item="' + it.id + '" aria-label="Delete ' + esc(it.name) + '">Delete</button></div>' +
+      (st.people.length ? '<fieldset><legend>Who had it?</legend><div class="assign">' + picks +
+        '<button type="button" data-all="' + it.id + '" aria-label="Everyone shares ' + esc(it.name) + '">Everyone</button></div></fieldset>' : '') + note + '</li>';
+  }).join("") + '</ul>';
+  $("items").innerHTML = h;
+}
+function renderResult(r) {
+  var h;
+  if (!r.ready) {
+    h = '<p class="empty">' + (!st.people.length ? "Add at least one person and one item to see each share." :
+      !st.items.length ? "Add an item to see each share." : "Tick who had each item to see each share.") + '</p>';
+  } else {
+    h = '<div class="sheet"><ul class="shares">' + r.rows.map(function (x) {
+      return '<li class="share"><span class="who">' + esc(x.name) + '<span class="parts num">items ' + fmt(x.items) + ' + tax ' + fmt(x.tax) + ' + tip ' + fmt(x.tip) + '</span></span><span class="amt money">' + fmt(x.total) + '</span></li>';
+    }).join("") + '</ul>' +
+      '<div class="bill"><span>Check total</span><span class="amt money">' + fmt(r.total) + '</span></div>' +
+      '<p class="note num">Items ' + fmt(r.subtotal) + ' + tax ' + fmt(r.tax) + ' + tip ' + fmt(r.tip) + '. Shares add up to ' + fmt(r.rows.reduce(function (a, x) { return a + x.total; }, 0)) + '.</p>';
+    if (r.rounding.length) h += '<p class="rounding"><strong>Spare cents.</strong> Splitting does not always divide evenly, so ' +
+      r.rounding.reduce(function (a, x) { return a + x.cents; }, 0) + ' spare ' + (r.rounding.reduce(function (a, x) { return a + x.cents; }, 0) === 1 ? "cent was" : "cents were") +
+      ' handed out, one at a time, to whoever had the largest leftover fraction (ties go to the person listed first): ' +
+      r.rounding.map(function (x) { return esc(x.name) + " +" + x.cents + "¢ on " + esc(x.where.join(", ")); }).join("; ") + '.</p>';
+    else h += '<p class="rounding">Everything divided evenly. No spare cents to hand out.</p>';
+    if (r.unassigned.length) h += '<p class="note warn">Not included until someone is assigned: ' + esc(r.unassigned.map(function (i) { return i.name; }).join(", ")) + '.</p>';
+    h += '<div class="actions"><button type="button" class="primary" id="copy">Copy summary</button><p id="copyStatus" role="status"></p></div>' +
+      '<details><summary>Preview summary</summary><pre id="sumText">' + esc(summary(model(), r)) + '</pre></details></div>';
+  }
+  $("result").innerHTML = h;
+  var c = $("copy"); if (c) c.onclick = copy;
+}
+function renderTip() {
+  var p = parsePct(st.tipText);
+  document.querySelectorAll("[data-tip]").forEach(function (b) {
+    b.setAttribute("aria-pressed", String(!p.error && parseFloat(b.dataset.tip) === p.pct && st.tipText.trim() !== "" ));
+  });
+}
+function renderAll() {
+  var key = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.key : null;
+  var r = compute(model());
+  renderPeople(); renderItems(r); renderResult(r); renderTip();
+  $("tax").value = st.taxText; $("tip").value = st.tipText;
+  if (key) { var el = document.querySelector('[data-key="' + key + '"]'); if (el) el.focus(); }
+}
+function refresh() { save(); var key = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.key : null; var r = compute(model()); renderItems(r); renderResult(r); renderTip(); if (key) { var el = document.querySelector('[data-key="' + key + '"]'); if (el) el.focus(); } }
+
+function destructive(msg, focusId, fn) {
+  var before = snap(); fn(); save(); undoSnap = before; renderAll(); toast(msg, true);
+  var f = $(focusId); if (f) f.focus();
+}
+$("personForm").onsubmit = function (e) {
+  e.preventDefault();
+  var v = $("pName").value.trim().replace(/\s+/g, " ");
+  if (!v) return setErr("pName", "Enter a name."), $("pName").focus();
+  if (st.people.some(function (p) { return p.name.toLowerCase() === v.toLowerCase(); })) return setErr("pName", v + " is already at the table. Use a different name."), $("pName").focus();
+  if (st.people.length >= 30) return setErr("pName", "That is the most people this can split between (30)."), $("pName").focus();
+  setErr("pName", ""); st.people.push({ id: "p" + st.nextId++, name: v }); $("pName").value = ""; save(); renderAll(); $("pName").focus();
+};
+$("itemForm").onsubmit = function (e) {
+  e.preventDefault();
+  var name = $("iName").value.trim().replace(/\s+/g, " "), pr = parseMoney($("iPrice").value), bad = null;
+  setErr("iName", name ? "" : "Enter what it was."); setErr("iPrice", pr.error || "");
+  if (!name) bad = "iName"; else if (pr.error) bad = "iPrice";
+  if (bad) return $(bad).focus();
+  if (st.items.length >= 200) return setErr("iName", "That is the most items this can hold (200)."), $("iName").focus();
+  st.items.push({ id: "i" + st.nextId++, name: name, cents: pr.cents, who: [] });
+  $("iName").value = ""; $("iPrice").value = ""; save(); renderAll(); $("iName").focus();
+};
+["pName", "iName", "iPrice"].forEach(function (id) { $(id).addEventListener("input", function () { setErr(id, ""); }); });
+$("tax").addEventListener("input", function () {
+  st.taxText = this.value; var p = parseMoney(this.value, { blankOk: true, zeroOk: true }); setErr("tax", p.error || ""); refresh();
+});
+$("tip").addEventListener("input", function () {
+  st.tipText = this.value; var p = parsePct(this.value); setErr("tip", p.error || ""); refresh();
+});
+document.querySelector(".presets").addEventListener("click", function (e) {
+  var b = e.target.closest("[data-tip]"); if (!b) return;
+  st.tipText = b.dataset.tip; $("tip").value = st.tipText; setErr("tip", ""); refresh();
+});
+document.addEventListener("click", function (e) {
+  var b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.rmPerson) {
+    var p = st.people.filter(function (x) { return x.id === b.dataset.rmPerson; })[0];
+    destructive("Removed " + p.name + ".", "pName", function () {
+      st.people = st.people.filter(function (x) { return x !== p; });
+      st.items.forEach(function (it) { it.who = it.who.filter(function (id) { return id !== p.id; }); });
+    });
+  } else if (b.dataset.rmItem) {
+    var it = st.items.filter(function (x) { return x.id === b.dataset.rmItem; })[0];
+    destructive("Deleted " + it.name + ".", "iName", function () { st.items = st.items.filter(function (x) { return x !== it; }); });
+  } else if (b.dataset.all) {
+    var item = st.items.filter(function (x) { return x.id === b.dataset.all; })[0];
+    item.who = st.people.map(function (p) { return p.id; }); refresh();
+  } else if (b.id === "reset") {
+    if (!st.people.length && !st.items.length && !st.taxText && !st.tipText) return;
+    destructive("Everything cleared.", "pName", function () { st = { people: [], items: [], taxText: "", tipText: "", nextId: 1 }; ["tax", "tip"].forEach(function (i) { setErr(i, ""); }); });
+  }
+});
+document.addEventListener("change", function (e) {
+  var c = e.target;
+  if (c.dataset && c.dataset.item) {
+    var it = st.items.filter(function (x) { return x.id === c.dataset.item; })[0];
+    it.who = it.who.filter(function (id) { return id !== c.dataset.person; });
+    if (c.checked) it.who.push(c.dataset.person);
+    refresh();
+  }
+});
+function copy() {
+  var text = $("sumText").textContent, s = $("copyStatus");
+  var ok = function () { s.textContent = "Summary copied to clipboard."; };
+  var fail = function () { s.textContent = "Could not copy automatically. Open the preview and select the text."; $("sumText").closest("details").open = true; };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fail);
+  else fail();
+}
+load(); renderAll();
+</script>
+</body>
+</html>

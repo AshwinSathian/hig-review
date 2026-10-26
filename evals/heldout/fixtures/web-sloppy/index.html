@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lendwell - Neighbourhood Tool Library</title>
+<style>
+:root{--bg:#faf8f4;--ink:#1f2a24;--muted:#5f6b64;--faint:#a9b0ab;--brand:#1f6b4a;--line:#ddd8cc;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-bottom:1px solid var(--line);background:#fff}
+header.top b{font-size:18px}
+nav a{margin-left:16px;color:var(--ink);text-decoration:none}
+.ticker{overflow:hidden;white-space:nowrap;background:#e7efe9;font-size:14px;padding:6px 0}
+.ticker span{display:inline-block;padding-left:100%;animation:tick 14s linear infinite}
+@keyframes tick{to{transform:translateX(-100%)}}
+.hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:48px 24px;background:linear-gradient(135deg,#1f6b4a,#2f8f65);color:#fff}
+.hero h1{font-size:clamp(36px,6vw,64px);margin:0 0 16px;max-width:14ch;line-height:1.05}
+.hero p{max-width:52ch;font-size:18px}
+.stats{display:flex;gap:32px;margin-top:24px;flex-wrap:wrap}
+.stats div b{display:block;font-size:28px}
+main{max-width:980px;margin:0 auto;padding:24px}
+h2{font-size:22px;margin:32px 0 12px}
+.search{display:flex;gap:8px;flex-wrap:wrap}
+input,select,button{font:inherit}
+input,select{padding:10px 12px;border:1px solid #8a8f8c;border-radius:8px;background:#fff}
+button,input,select,a{outline:none}
+.btn{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;position:relative}
+.card h3{margin:0 0 4px;font-size:18px}
+.meta{color:var(--faint);font-size:14px}
+.avail{font-size:14px;color:var(--muted);margin:8px 0 12px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#2f8f65}
+.dot.out{background:#b3472f}
+.save{position:absolute;top:10px;right:10px;background:none;border:0;font-size:20px;cursor:pointer;color:#444}
+table{border-collapse:collapse;min-width:640px;width:100%;background:#fff}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted)}
+dialog{border:0;border-radius:14px;padding:24px;width:min(420px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog label{display:block;margin:12px 0 4px;font-weight:600}
+dialog input,dialog select{width:100%}
+.row{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#1f2a24;color:#fff;padding:10px 16px;border-radius:8px}
+.toast:empty{display:none}
+footer{padding:32px 24px;color:var(--muted);font-size:14px;text-align:center}
+</style>
+</head>
+<body>
+<header class="top"><b>Lendwell</b><nav><a href="#tools">Tools</a><a href="#mine">My reservations</a><a href="#help">Help</a></nav></header>
+<div class="ticker"><span>New this week: pressure washer, tile saw, 3 hedge trimmers &nbsp;•&nbsp; Library closed Bank Holiday Monday &nbsp;•&nbsp; Volunteers needed Saturdays</span></div>
+
+<section class="hero">
+  <h1>Share more. Own less.</h1>
+  <p>Lendwell started in a garage on Alder Street in 2019. Today 412 neighbours share over 180 tools, keeping hundreds of drills out of landfill and a lot of money in your pocket.</p>
+  <div class="stats"><div><b>412</b>members</div><div><b>181</b>tools</div><div><b>3,960</b>loans</div></div>
+</section>
+
+<main>
+  <section id="tools">
+    <h2>Browse tools</h2>
+    <form class="search" id="searchForm" role="search">
+      <input id="q" type="search" placeholder="Search tools" aria-label="Search tools">
+      <select id="cat" aria-label="Category"><option value="">All categories</option><option>Power</option><option>Hand</option><option>Garden</option></select>
+    </form>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="mine">
+    <h2>My reservations</h2>
+    <div id="resv"></div>
+  </section>
+  <section id="help"><h2>Help</h2><p class="meta" style="color:var(--muted)">Questions? Email hello@lendwell.example or ask a volunteer on Saturday.</p></section>
+</main>
+<footer>Lendwell is run by volunteers. Membership £12 a year.</footer>
+
+<dialog id="dlg"></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const tools=[
+ {id:1,name:"Cordless drill",cat:"Power",qty:3,note:"18V, two batteries"},
+ {id:2,name:"Orbital sander",cat:"Power",qty:1,note:"Dust bag included"},
+ {id:3,name:"Wallpaper steamer",cat:"Hand",qty:0,note:"Back 14 Nov"},
+ {id:4,name:"Hedge trimmer",cat:"Garden",qty:2,note:"Petrol, bring own fuel"},
+ {id:5,name:"Socket set",cat:"Hand",qty:4,note:"Metric and imperial"},
+ {id:6,name:"Lawn aerator",cat:"Garden",qty:1,note:"Heavy, bring a trolley"}
+];
+let resv=[{tool:"Socket set",date:"2026-11-02",days:2}];
+const $=s=>document.querySelector(s);
+function toast(m){const t=$("#toast");t.textContent=m;setTimeout(()=>t.textContent="",3000)}
+function renderTools(){
+ const q=$("#q").value.toLowerCase(),c=$("#cat").value;
+ const list=tools.filter(t=>t.name.toLowerCase().includes(q)&&(!c||t.cat===c));
+ $("#grid").innerHTML=list.map(t=>`<article class="card">
+  <button class="save" onclick="this.textContent=this.textContent=='☆'?'★':'☆'">☆</button>
+  <h3>${t.name}</h3><div class="meta">${t.cat} · ${t.note}</div>
+  <div class="avail"><span class="dot ${t.qty?'':'out'}"></span>${t.qty?t.qty+' available':'Out on loan'}</div>
+  <button class="btn" ${t.qty?'':'disabled'} onclick="openDlg(${t.id})">Reserve</button></article>`).join("");
+}
+function renderResv(){
+ $("#resv").innerHTML=resv.length?`<table><thead><tr><th>Tool</th><th>Pickup date</th><th>Length</th><th>Pickup</th><th></th></tr></thead><tbody>`+
+ resv.map((r,i)=>`<tr><td>${r.tool}</td><td>${r.date}</td><td>${r.days} days</td><td>Collect from the usual place</td>
+ <td><button class="btn ghost" onclick="cancelR(${i})">Cancel</button></td></tr>`).join("")+`</tbody></table>`:"";
+}
+function cancelR(i){resv.splice(i,1);renderResv();toast("Done")}
+let cur=null,days=1,date="";
+function openDlg(id){cur=tools.find(t=>t.id===id);days=1;date="";renderDlg();$("#dlg").showModal()}
+function renderDlg(){
+ $("#dlg").innerHTML=`<form method="dialog" id="f"><h2 style="margin-top:0">Reserve ${cur.name}</h2>
+ <label for="d">Pickup date</label><input id="d" type="date" required min="2026-10-27" value="${date}">
+ <label for="n">Loan length</label><select id="n"><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="7">1 week</option></select>
+ <div class="row"><button type="button" class="btn ghost" onclick="$('#dlg').close()">Close</button><button class="btn" id="go">Submit</button></div></form>`;
+ $("#n").value=days;
+ $("#n").onchange=e=>{days=+e.target.value;renderDlg()};
+ $("#f").onsubmit=e=>{resv.push({tool:cur.name,date:$("#d").value,days:+$("#n").value});renderResv();toast("Success")};
+}
+$("#q").oninput=renderTools;$("#cat").onchange=renderTools;$("#searchForm").onsubmit=e=>e.preventDefault();
+renderTools();renderResv();
+</script>
+</body>
+</html>

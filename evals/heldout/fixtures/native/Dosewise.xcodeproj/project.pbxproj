@@ -1,0 +1,15 @@
+// !$*UTF8*$!  (fragment; build settings only)
+// Toolchain: Xcode 26 (iOS 26 SDK)
+{
+  buildSettings = {
+    SDKROOT = iphoneos;
+    IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+    SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+    TARGETED_DEVICE_FAMILY = 1;
+    SWIFT_VERSION = 6.0;
+    INFOPLIST_FILE = Info.plist;
+    PRODUCT_BUNDLE_IDENTIFIER = com.example.dosewise;
+    DEFAULT_COMPILER = "com.apple.compilers.llvm.clang.1_0";
+    XCODE_VERSION_ACTUAL = 2600;
+  };
+}
