@@ -1,5 +1,8 @@
 # 10 — Research-backed product and government design systems
 
+Sources: GOV.UK Design System, design-system.service.gov.uk; GOV.UK Service Manual, gov.uk/service-manual; NHS digital service manual; IBM Carbon, carbondesignsystem.com; Shopify Polaris (archived Shopify/polaris-react-archive repository); GitHub Primer, primer.style; Atlassian Design System, atlassian.design; Adobe Spectrum, spectrum.adobe.com. Fetched 2026-10-23. Contains public sector information licensed under the Open Government Licence v3.0.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Scope: GOV.UK Design System + Service Manual (with NHS content guidance), IBM Carbon, Shopify Polaris, GitHub Primer, Atlassian, Adobe Spectrum.
 Fetched 2026-10-23. Everything below was fetched from the URL given unless marked "(unverified, from memory)". Figures are copied as published. Where the fetch summarised instead of quoting, the wording here is close paraphrase; numbers were not changed.
 

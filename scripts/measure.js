@@ -1,19 +1,53 @@
-// Also loadable as a <script> (page.addScriptTag): the assignment defines window.__loupeMeasure.
-window.__loupeMeasure = () => {
+// Page measurement for one viewport/media combination. The file is a single function expression:
+// pass its text unchanged as browser_evaluate's `function`, or evaluate `(<text>)()` from
+// page.evaluate. It defines no globals. scripts/measure-runner.js runs it for every combination.
+// Colours are converted to sRGB through a canvas, so Display-P3 and other wide-gamut colours outside
+// sRGB are clamped to the sRGB gamut before the ratio is computed.
+() => {
   const CAP = 400;
   let sampled = false;
   const cs = (el) => getComputedStyle(el);
+  const clip = (s, n = 80) => (s.length > n ? s.slice(0, n - 1) + "…" : s); // page-controlled strings
+
+  // ---- roots: the document and every open shadow root (closed roots cannot be reached) ----
+  const roots = [document];
+  const coverage = { shadowRoots: 0, iframesSameOrigin: 0, iframesCrossOrigin: 0 };
+  for (let i = 0; i < roots.length; i++)
+    for (const el of roots[i].querySelectorAll("*")) {
+      if (el.shadowRoot) { roots.push(el.shadowRoot); coverage.shadowRoots++; }
+      if (el.tagName === "IFRAME" || el.tagName === "FRAME") {
+        let same = false;
+        try { same = !!el.contentDocument; } catch (e) { /* cross-origin */ }
+        coverage[same ? "iframesSameOrigin" : "iframesCrossOrigin"]++;
+      }
+    }
+  const qsa = (sel) => roots.flatMap((r) => [...r.querySelectorAll(sel)]);
+  const all = [document.body, ...document.body.querySelectorAll("*"), ...roots.slice(1).flatMap((r) => [...r.querySelectorAll("*")])];
+  // Parent in the flattened tree: slot for slotted nodes, host for a shadow root's top level.
+  const up = (n) => n.assignedSlot || n.parentElement || (n.parentNode && n.parentNode.host) || null;
+  const closestUp = (el, f) => { for (let n = el; n; n = up(n)) if (n.nodeType === 1 && f(n)) return n; return null; };
 
   // ---- helpers ----
+  // Shortest child-combinator path that matches exactly one element in its root; a unique id anchors it.
+  // Shadow content is written `<host selector> >>> <selector inside the root>`.
+  const selCache = new Map();
   const selectorOf = (el) => {
+    if (selCache.has(el)) return selCache.get(el);
+    const root = el.getRootNode();
+    const unique = (s) => { try { return root.querySelectorAll(s).length === 1; } catch (e) { return false; } };
     const parts = [];
-    for (let n = el; n && n.nodeType === 1 && parts.length < 4; n = n.parentElement) {
-      if (n.id) { parts.unshift(`#${CSS.escape(n.id)}`); break; }
+    for (let n = el; n && n.nodeType === 1 && parts.length < 16; n = n.parentElement) {
+      const id = n.id && `#${CSS.escape(n.id)}`;
+      if (id && unique(id)) { parts.unshift(id); break; }
       const tag = n.tagName.toLowerCase();
       const same = n.parentElement ? [...n.parentElement.children].filter((c) => c.tagName === n.tagName) : [n];
       parts.unshift(same.length > 1 ? `${tag}:nth-of-type(${same.indexOf(n) + 1})` : tag);
+      if (unique(parts.join(" > "))) break;
     }
-    return parts.join(" > ");
+    let sel = parts.join(" > ");
+    if (root.host) sel = `${selectorOf(root.host)} >>> ${sel}`;
+    selCache.set(el, sel);
+    return sel;
   };
   // Any CSS colour (rgb, oklch, lab, color(), color-mix...) -> sRGB via a 1x1 canvas.
   // rgb()/rgba() strings are parsed directly so they stay exact.
@@ -41,12 +75,6 @@ window.__loupeMeasure = () => {
     colorCache.set(str, out);
     return out;
   };
-  const over = (top, under) => ({ // alpha-composite top over opaque under
-    r: top.r * top.a + under.r * (1 - top.a),
-    g: top.g * top.a + under.g * (1 - top.a),
-    b: top.b * top.a + under.b * (1 - top.a),
-    a: 1,
-  });
   const lum = (c) => {
     const f = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
     return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
@@ -57,80 +85,156 @@ window.__loupeMeasure = () => {
     const s = cs(el);
     return r.width > 0 && r.height > 0 && s.visibility !== "hidden" && s.display !== "none";
   };
-  const all = [...document.querySelectorAll("body, body *")];
-  const isDisabled = (el) => !!el.closest(':disabled,[aria-disabled="true"]');
+  const isDisabled = (el) => !!closestUp(el, (n) => n.matches(':disabled,[aria-disabled="true"]'));
+
+  // Content a user cannot see or reach: "hidden" (aria-hidden, inert, content-visibility, opacity 0,
+  // visibility) or "offscreen" (outside the document horizontally or above it, or clipped away by an
+  // overflow:hidden/clip ancestor, e.g. inactive carousel slides). Both are skipped and counted.
+  const skipped = { hidden: 0, offscreen: 0 };
+  const VIS = { contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true };
+  const hiddenReason = (el, r) => {
+    if (closestUp(el, (n) => n.getAttribute("aria-hidden") === "true" || n.hasAttribute("inert"))) return "hidden";
+    const boxed = closestUp(el, (n) => cs(n).display !== "contents");
+    if (boxed && boxed.checkVisibility && !boxed.checkVisibility(VIS)) return "hidden";
+    const x0 = r.left + scrollX, x1 = r.right + scrollX;
+    if (x1 <= 0 || x0 >= document.documentElement.scrollWidth || r.bottom + scrollY <= 0) return "offscreen";
+    for (let n = up(el); n && n !== document.documentElement; n = up(n)) {
+      const s = cs(n);
+      if (!/hidden|clip/.test(s.overflowX + s.overflowY)) continue;
+      const c = n.getBoundingClientRect();
+      if (r.right <= c.left || r.left >= c.right || r.bottom <= c.top || r.top >= c.bottom) return "offscreen";
+    }
+    return null;
+  };
 
   // ---- text nodes (shared by contrast and type) ----
   const textParents = [];
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  for (let n; (n = walker.nextNode()); ) {
-    const el = n.parentElement;
-    if (!n.nodeValue.trim() || !el || /^(SCRIPT|STYLE|NOSCRIPT)$/.test(el.tagName) || !visible(el)) continue;
-    let opacity = 1;
-    for (let a = el; a; a = a.parentElement) opacity *= parseFloat(cs(a).opacity);
-    if (opacity === 0) continue;
-    textParents.push({ opacity, el, text: n.nodeValue.trim().slice(0, 60) });
+  const range = document.createRange();
+  for (const root of roots) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    for (let n; (n = walker.nextNode()); ) {
+      const el = n.parentElement;
+      if (!n.nodeValue.trim() || !el || /^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE)$/.test(el.tagName)) continue;
+      if (cs(el).visibility !== "visible") continue;
+      // The text's own boxes, so display:contents parents still count.
+      range.selectNodeContents(n);
+      const r = range.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
+      const why = hiddenReason(el, r);
+      if (why) { skipped[why]++; continue; }
+      textParents.push({ el, node: n, rect: [...range.getClientRects()].find((x) => x.width && x.height) || r, text: clip(n.nodeValue.trim(), 60) });
+    }
   }
 
   // ---- contrast ----
+  // Each element in the flattened ancestor chain is a layer: background colour, background image,
+  // opacity, and effects (filter, mix-blend-mode) the model cannot follow. Elements with opacity < 1
+  // form a group: their content is composited first, then blended over what lies beneath.
+  const layerOf = (n) => {
+    const s = cs(n);
+    if (s.display === "contents") return { bg: null, img: false, o: 1, fx: false };
+    return {
+      bg: parseColor(s.backgroundColor), img: s.backgroundImage !== "none", o: parseFloat(s.opacity),
+      fx: s.filter !== "none" || s.mixBlendMode !== "normal",
+    };
+  };
+  // Premultiplied pixel with a `dirty` flag (depends on an unknown background image).
+  const EMPTY = { r: 0, g: 0, b: 0, a: 0, dirty: false };
+  const paint = (p, c) => ({ r: c.r * c.a + p.r * (1 - c.a), g: c.g * c.a + p.g * (1 - c.a), b: c.b * c.a + p.b * (1 - c.a), a: c.a + p.a * (1 - c.a), dirty: c.a < 1 && p.dirty });
+  const blend = (p, grp, o) => {
+    const k = grp.a * o;
+    return { r: grp.r * o + p.r * (1 - k), g: grp.g * o + p.g * (1 - k), b: grp.b * o + p.b * (1 - k), a: k + p.a * (1 - k), dirty: grp.dirty || (k < 1 && p.dirty) };
+  };
+  // chain[0] is the text's element, chain[last] the root element; fg is null for the background pixel.
+  const pixel = (chain, fg) => {
+    const group = (i) => {
+      const L = chain[i];
+      let p = L.bg && L.bg.a > 0 ? paint(EMPTY, L.bg) : EMPTY;
+      if (L.img) p = { ...p, dirty: true };
+      return i === 0 ? (fg ? paint(p, fg) : p) : blend(p, group(i - 1), chain[i - 1].o);
+    };
+    const top = chain.length - 1;
+    return blend({ r: 255, g: 255, b: 255, a: 1, dirty: false }, group(top), chain[top].o);
+  };
+  const isAncestor = (x, el) => { for (let n = up(el); n; n = up(n)) if (n === x) return true; return false; };
+  const REPLACED = /^(IMG|VIDEO|CANVAS|SVG|IFRAME|PICTURE|OBJECT|EMBED)$/i;
+  // A painted element under (or over) the text that is not one of its ancestors: the chain model
+  // does not see it. elementsFromPoint skips pointer-events:none elements and text outside the viewport.
+  const occluded = (el, rect) => {
+    const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2;
+    if (x < 0 || y < 0 || x >= innerWidth || y >= innerHeight) return false;
+    for (const h of document.elementsFromPoint(x, y)) {
+      if (h === el || el.contains(h)) continue;
+      if (isAncestor(h, el)) { const L = layerOf(h); if (L.bg && L.bg.a === 1) return false; continue; }
+      const L = layerOf(h);
+      if ((L.bg && L.bg.a > 0) || L.img || REPLACED.test(h.tagName)) return true;
+    }
+    return false;
+  };
   const contrast = [];
   if (textParents.length > CAP) sampled = true;
-  for (const { el, text, opacity } of textParents.slice(0, CAP)) {
+  for (const { el, text, rect } of textParents.slice(0, CAP)) {
     const s = cs(el);
     const size = parseFloat(s.fontSize);
     const weight = parseInt(s.fontWeight, 10) || 400;
     const large = size >= 24 || (size >= 18.66 && weight >= 700);
+    // -webkit-text-fill-color paints the glyphs when it differs from color.
+    const fill = s.webkitTextFillColor;
+    const fgStr = fill && fill !== s.color ? fill : s.color;
     // disabled: WCAG 1.4.3 and 2.5.8 exempt inactive components.
-    const row = { selector: selectorOf(el), text, fg: s.color, bg: null, ratio: null, size, weight, large, pass: null, status: "unmeasurable", disabled: isDisabled(el) };
-    // Layers from the element up to the first opaque background, then white.
-    const layers = [];
-    let blocked = s.textShadow !== "none";
-    for (let n = el; n && !blocked; n = n.parentElement) {
-      const ns = cs(n);
-      if (ns.backgroundImage !== "none") { blocked = true; break; }
-      const bg = parseColor(ns.backgroundColor);
-      if (!bg) { blocked = true; break; }
-      if (bg.a > 0) layers.push(bg);
-      if (bg.a === 1) break;
+    const row = { selector: selectorOf(el), text, fg: fgStr, bg: null, ratio: null, size, weight, large, pass: null, status: "unmeasurable", disabled: isDisabled(el) };
+    const chain = [];
+    for (let n = el; n; n = up(n)) if (n.nodeType === 1) chain.push(layerOf(n));
+    const fgRaw = parseColor(fgStr);
+    let reason = null;
+    if (s.textShadow !== "none") reason = "text-shadow";
+    else if (chain.some((L) => L.fx)) reason = "filter or blend mode";
+    else if (!fgRaw) reason = "unparsed colour";
+    else if (fgRaw.a === 0) reason = "transparent text";
+    if (!reason) {
+      const fp = pixel(chain, fgRaw), bp = pixel(chain, null);
+      if (fp.dirty || bp.dirty) reason = "background image";
+      else if (occluded(el, rect)) reason = "overlapping layer";
+      else {
+        const [hi, lo] = [lum(fp), lum(bp)].sort((a, b) => b - a);
+        const ratio = (hi + 0.05) / (lo + 0.05);
+        row.bg = hex(bp);
+        row.pass = ratio >= (large ? 3 : 4.5); // WCAG 1.4.3, on the unrounded ratio
+        // Shown to 2 places, rounded down when rounding would reach a threshold the text misses.
+        row.ratio = Math.round(ratio * 100) / 100;
+        if ([3, 4.5, 7].some((t) => row.ratio >= t && ratio < t)) row.ratio = Math.floor(ratio * 100) / 100;
+        row.status = row.pass ? "ok" : "fail";
+      }
     }
-    const fgRaw = parseColor(s.color);
-    if (!blocked && fgRaw) {
-      let bg = { r: 255, g: 255, b: 255, a: 1 };
-      for (const l of layers.reverse()) bg = over(l, bg);
-      const fg = over({ ...fgRaw, a: fgRaw.a * opacity }, bg);
-      const [hi, lo] = [lum(fg), lum(bg)].sort((a, b) => b - a);
-      const ratio = (hi + 0.05) / (lo + 0.05);
-      row.bg = hex(bg);
-      row.ratio = Math.round(ratio * 100) / 100;
-      row.pass = ratio >= (large ? 3 : 4.5); // WCAG 1.4.3
-      row.status = row.pass ? "ok" : "fail";
-    }
+    if (reason) row.reason = reason;
     contrast.push(row);
   }
 
   // ---- targets ----
   const TARGET = 'a[href], button, input:not([type=hidden]), select, textarea, summary, [role=button], [role=link], [role=tab], [role=menuitem], [role=checkbox], [role=switch], [tabindex]:not([tabindex="-1"])';
+  // sr-only / peer inputs: tiny or fully transparent; their visible label is the real target.
   const visuallyHidden = (el) => {
-    const r = el.getBoundingClientRect(), s = cs(el);
-    const out = s.position === "absolute" || s.position === "fixed";
-    return (r.width <= 1 && r.height <= 1) || (out && (s.clip !== "auto" || s.clipPath !== "none" || parseFloat(s.opacity) === 0));
+    const r = el.getBoundingClientRect();
+    return (r.width <= 1 && r.height <= 1) || parseFloat(cs(el).opacity) === 0;
   };
   const hasOwnText = (el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.nodeValue.trim());
-  const targets = [], rects = [];
-  for (const el of document.querySelectorAll(TARGET)) {
+  const targets = [], entries = [];
+  for (const el of qsa(TARGET)) {
     if (!visible(el)) continue;
-    // WCAG 2.5.8 inline exception: links within running text are exempt.
-    if (el.tagName === "A" && cs(el).display === "inline" && el.parentElement && hasOwnText(el.parentElement)) continue;
+    // WCAG 2.5.8 inline exception: links within running text are exempt, but still count as
+    // neighbours in the spacing test, so they are kept in entries and left out of the rows.
+    const inline = el.tagName === "A" && cs(el).display === "inline" && !!el.parentElement && hasOwnText(el.parentElement);
     let box = el;
-    if (visuallyHidden(el)) {
-      // sr-only / peer inputs: the visible label is the real target.
+    if (!inline && visuallyHidden(el)) {
       box = [...(el.labels || [])].find(visible);
       if (!box) continue;
     }
-    if (targets.length >= CAP) { sampled = true; break; }
     const r = box.getBoundingClientRect();
-    rects.push(r);
-    targets.push({
+    const why = hiddenReason(box, r);
+    if (why) { skipped[why]++; continue; }
+    if (inline) { entries.push({ rects: [...el.getClientRects()] }); continue; }
+    if (targets.length >= CAP) { sampled = true; continue; }
+    const t = {
       selector: selectorOf(box),
       role: el.getAttribute("role") || (el.tagName === "INPUT" ? `input:${el.type}` : el.tagName.toLowerCase()),
       width: Math.round(r.width * 10) / 10,
@@ -138,23 +242,28 @@ window.__loupeMeasure = () => {
       under24: r.width < 24 || r.height < 24,
       under44: r.width < 44 || r.height < 44,
       disabled: isDisabled(el),
-    });
+    };
+    targets.push(t);
+    entries.push({ rects: [r], t });
   }
 
   // WCAG 2.5.8 spacing exception: a 24px circle centred on an undersized target must not
   // intersect another target or another undersized target's circle (touching counts).
   const centre = (r) => [r.x + r.width / 2, r.y + r.height / 2];
-  targets.forEach((t, i) => {
-    if (!t.under24) return;
-    const [cx, cy] = centre(rects[i]);
-    t.spacingOk = rects.every((r, j) => {
-      if (j === i) return true;
-      const dx = Math.max(r.left - cx, 0, cx - r.right), dy = Math.max(r.top - cy, 0, cy - r.bottom);
-      if (Math.hypot(dx, dy) <= 12) return false;
-      const [ox, oy] = centre(r);
-      return !targets[j].under24 || Math.hypot(ox - cx, oy - cy) > 24;
+  for (const e of entries) {
+    if (!e.t || !e.t.under24) continue;
+    const [cx, cy] = centre(e.rects[0]);
+    e.t.spacingOk = entries.every((o) => {
+      if (o === e) return true;
+      for (const r of o.rects) {
+        const dx = Math.max(r.left - cx, 0, cx - r.right), dy = Math.max(r.top - cy, 0, cy - r.bottom);
+        if (Math.hypot(dx, dy) <= 12) return false;
+      }
+      if (!o.t || !o.t.under24) return true;
+      const [ox, oy] = centre(o.rects[0]);
+      return Math.hypot(ox - cx, oy - cy) > 24;
     });
-  });
+  }
 
   // ---- type ----
   const families = new Set();
@@ -162,7 +271,7 @@ window.__loupeMeasure = () => {
   const letterSpacingBySize = {};
   for (const { el } of textParents) {
     const s = cs(el);
-    families.add(s.fontFamily.split(",")[0].trim().replace(/^["']|["']$/g, ""));
+    families.add(clip(s.fontFamily.split(",")[0].trim().replace(/^["']|["']$/g, "")));
     const px = String(parseFloat(s.fontSize));
     sizes[px] = (sizes[px] || 0) + 1;
     const ls = (letterSpacingBySize[px] ||= []);
@@ -176,19 +285,22 @@ window.__loupeMeasure = () => {
   };
 
   // ---- motion ----
-  const transitionAll = [], animatedOnLoad = [];
+  const MOTION_CAP = 20;
+  const transitionAllEls = [], animatedEls = [];
   for (const el of all) {
     const s = cs(el);
     const live = (d) => d.split(",").some((v) => parseFloat(v) > 0);
     // Default transition-property is "all" with 0s duration; only a nonzero duration counts.
-    if (s.transitionProperty.split(",").map((v) => v.trim()).includes("all") && live(s.transitionDuration)) transitionAll.push(selectorOf(el));
-    if (s.animationName !== "none" && live(s.animationDuration)) animatedOnLoad.push(selectorOf(el));
+    if (s.transitionProperty.split(",").map((v) => v.trim()).includes("all") && live(s.transitionDuration)) transitionAllEls.push(el);
+    if (s.animationName !== "none" && live(s.animationDuration)) animatedEls.push(el);
   }
   // One walk over every rule feeds reducedMotionRule and logicalProps (for the RTL check).
   // logicalProps counts authored inline-axis margin/padding/inset on rules that match an element
   // in the page, plus inline styles; a side counts only when its opposite side differs, so
   // symmetric values (margin: 0 auto) are ignored. ponytail: @media conditions are not evaluated.
-  let reducedMotionRule = false;
+  // reducedMotionRule false with unreadableSheets > 0 is unverified: a cross-origin sheet may hold it.
+  const RM = "prefers-reduced-motion";
+  let reducedMotionRule = false, unreadableSheets = 0;
   const logicalProps = { physical: 0, logical: 0 };
   const SIDES = [["margin-left", "margin-right", "physical"], ["padding-left", "padding-right", "physical"], ["left", "right", "physical"],
     ["margin-inline-start", "margin-inline-end", "logical"], ["padding-inline-start", "padding-inline-end", "logical"], ["inset-inline-start", "inset-inline-end", "logical"]];
@@ -198,29 +310,38 @@ window.__loupeMeasure = () => {
       if (va !== vb) logicalProps[kind] += !!va + !!vb;
     }
   };
-  const matches = (sel) => { try { return !!document.querySelector(sel); } catch (e) { return false; } };
-  const scan = (rules) => {
-    for (const r of rules) {
-      if (r instanceof CSSMediaRule && r.conditionText.includes("prefers-reduced-motion")) reducedMotionRule = true;
-      if (r instanceof CSSStyleRule && matches(r.selectorText)) countSides(r.style);
-      if (r.cssRules) scan(r.cssRules);
-      try { if (r.styleSheet) scan(r.styleSheet.cssRules); } catch (e) { /* cross-origin @import */ }
-    }
+  const scanSheet = (sheet, root) => {
+    if (sheet.media && sheet.media.mediaText.includes(RM)) reducedMotionRule = true; // <link media>, @import media
+    let rules;
+    try { rules = sheet.cssRules; } catch (e) { unreadableSheets++; return; } // cross-origin or not loaded
+    const matches = (sel) => { try { return !!root.querySelector(sel); } catch (e) { return false; } };
+    const scan = (list) => {
+      for (const r of list) {
+        if ((r instanceof CSSMediaRule && r.conditionText.includes(RM)) || (r instanceof CSSImportRule && r.media.mediaText.includes(RM))) reducedMotionRule = true;
+        if (r instanceof CSSStyleRule && matches(r.selectorText)) countSides(r.style);
+        if (r.cssRules) scan(r.cssRules);
+        if (r.styleSheet) scanSheet(r.styleSheet, root);
+      }
+    };
+    scan(rules);
   };
-  for (const sheet of [...document.styleSheets, ...(document.adoptedStyleSheets || [])]) {
-    try { scan(sheet.cssRules); } catch (e) { /* cross-origin sheet */ }
-  }
+  for (const root of roots)
+    for (const sheet of [...root.styleSheets, ...(root.adoptedStyleSheets || [])]) scanSheet(sheet, root);
   for (const el of all) if (el.style && el.style.length) countSides(el.style);
-  const motion = { transitionAll, reducedMotionRule, animatedOnLoad };
+  const motion = {
+    transitionAll: transitionAllEls.slice(0, MOTION_CAP).map(selectorOf), transitionAllCount: transitionAllEls.length,
+    animatedOnLoad: animatedEls.slice(0, MOTION_CAP).map(selectorOf), animatedOnLoadCount: animatedEls.length,
+    reducedMotionRule, unreadableSheets,
+  };
 
   // ---- library / trend default tells ----
   const defaults = [];
   // next/font renames families to "__Inter_a1b2c3"; strip that before matching.
-  const cleanFamily = (f) => f.split(",")[0].trim().replace(/^["']|["']$/g, "").replace(/^__/, "").replace(/_[0-9a-f]{5,}$/i, "").replace(/_/g, " ");
-  const roots = [document.documentElement, document.body, ...document.body.children];
-  const fontHits = roots.filter((el) => /^(Inter|Geist)\b/i.test(cleanFamily(cs(el).fontFamily)));
+  const cleanFamily = (f) => clip(f.split(",")[0].trim().replace(/^["']|["']$/g, "").replace(/^__/, "").replace(/_[0-9a-f]{5,}$/i, "").replace(/_/g, " "));
+  const topEls = [document.documentElement, document.body, ...document.body.children];
+  const fontHits = topEls.filter((el) => /^(Inter|Geist)\b/i.test(cleanFamily(cs(el).fontFamily)));
   if (fontHits.length) {
-    defaults.push({ tell: `Font stack starts with ${cleanFamily(cs(fontHits[0]).fontFamily)}`, evidence: fontHits.map((el) => `${selectorOf(el)}: ${cs(el).fontFamily}`).join("; ") });
+    defaults.push({ tell: `Font stack starts with ${cleanFamily(cs(fontHits[0]).fontFamily)}`, evidence: fontHits.slice(0, 5).map((el) => `${selectorOf(el)}: ${clip(cs(el).fontFamily)}`).join("; ") });
   }
 
   // Tailwind default ramps, steps 500-900. v3 values are hex, v4 (tailwindcss 4.3.3 theme.css) oklch;
@@ -271,7 +392,7 @@ window.__loupeMeasure = () => {
     defaults.push({ tell: "shadcn default card (8px/12px radius + default shadow)", evidence: `${shadcn.length} of ${cards.length} cards` });
   }
 
-  const glass = [...document.querySelectorAll("main *, [role=main] *")].filter((el) => {
+  const glass = qsa("main *, [role=main] *").filter((el) => {
     const s = cs(el);
     return (s.backdropFilter || s.webkitBackdropFilter || "none") !== "none";
   });
@@ -293,6 +414,6 @@ window.__loupeMeasure = () => {
 
   return {
     viewport: { width: innerWidth, height: innerHeight, dpr: devicePixelRatio },
-    sampled, contrast, targets, type, motion, defaults, logicalProps,
+    sampled, skipped, coverage, contrast, targets, type, motion, defaults, logicalProps,
   };
 }

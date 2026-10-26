@@ -1,11 +1,17 @@
+<!-- contents -->
+Contents: Signifiers: flat and ghost UI (NN/g, 2017) · Response time and loading indicators (NN/g 1993, updated 2014; skeleton screens 2023, reviewed 2026; Laws of UX Doherty threshold) · Hidden navigation and hamburger menus (NN/g 2016; mobile navigation patterns 2015) · Reading and scanning patterns (NN/g, 2017; F-pattern first reported 2006) · Error messages (NN/g, 2023) · Icons and labels (NN/g icon usability 2014; sparkles icon 2024) · Dark mode versus light mode (NN/g) · Infinite scroll and carousels (NN/g 2022; carousels 2013, reviewed 2026) · Tooltips and empty states (NN/g tooltips 2019; empty states 2021) · Accordions, progressive disclosure and cards (NN/g 2023, 2006, 2016) · AI and chatbot UX (NN/g, 2023–2026) · Handmade as a trust signal (NN/g, 2026; opinion piece) · Inline form validation (Baymard, 2024) · Checkout fields, abandonment, passwords and labels (Baymard) · Form design authors: labels, fields and questions (Wroblewski, Silver, Jarrett, GOV.UK, NN/g) · Laws of UX: non-obvious applications · Trust gate: deceptive design (pass/fail) · Validity conditions for patterns that became generic · Sources not reached (treat related claims as unverified) · Thresholds the review can test
+<!-- /contents -->
+
+
 Covers: NN/g, Baymard, Laws of UX, form-design authors (Wroblewski, Silver, Jarrett, GOV.UK) and deceptive-design research: thresholds, form and validation data, web behavior, AI and chat UI, and the Trust gate.
 Loaded by: structure, content, interaction and motion, accessibility
 Snapshot: 2026-10-23
+Digest numbers are provenance only; do not load them during a review.
 Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'. [Taste] always shows 'Taste' in reports, whatever its label.
 
 `(unverified)` marks items recalled from memory or seen only as a search snippet; the skill weights them lower and never makes them Blockers alone. Numbers are quoted from the fetched pages. Slop tells for these patterns live in references/slop-catalog.md. Apple claims below were checked against references/apple/*.md.
 
-Conflict policy applied: on a native Apple target, Apple wins on platform conventions, so borderless or glass buttons and icon-only toolbar items are fine inside Apple system bars (toolbar, navigation bar). When an app copies that style into content areas, or on web, the research decides: visible labels and clear signifiers. Placeholder-only labels are not accepted on any target except search fields; Apple's rule (placeholder hint plus a separate persistent label) and the research agree.
+Conflict policy applied: on a native Apple target, Apple wins on platform conventions, so borderless or glass buttons and icon-only toolbar items are fine inside Apple system bars (toolbar, navigation bar). When an app copies that style into content areas, or on web, the research decides: visible labels and clear signifiers. Placeholder-only labels are not accepted on any target except search fields. Apple suggests a separate label beside the placeholder; the research makes that persistent label the baseline.
 Evidence tiers: topic 1 is measured (71 participants); topic 12 is an opinion piece with examples, so weigh it below measured studies.
 
 ## Signifiers: flat and ghost UI (NN/g, 2017)
@@ -156,7 +162,7 @@ Sources: checkout average form fields (2024); cart abandonment rate (updated 202
 - [MUST] Total cost (fees, tax, shipping) is visible before the payment step. — adds to Apple
 - [MUST] Guest checkout is available. Account creation is optional and offered after purchase. — adds to Apple
 - [MUST] Password rules are visible before typing, not revealed one at a time on error. No composition rules beyond a length minimum unless there's a regulatory reason. — adds to Apple
-- [MUST] Every form field has a persistent visible label; a placeholder is only a hint and never the sole label. Baymard's evidence (avoid inline labels in forms of 3 or more fields) adds weight to Apple's rule, which pairs a placeholder hint with a separate persistent label. Search fields are the one exception, where Apple's scoped placeholder is the norm. — adds to Apple
+- [MUST] Every form field has a persistent visible label; a placeholder is only a hint and never the sole label. Baymard's evidence (avoid inline labels in forms of 3 or more fields) adds weight to what Apple suggests (a separate label beside the placeholder, which Apple calls "useful", not required). Search fields are the one exception, where Apple's scoped placeholder is the norm. — adds to Apple
 - [SHOULD] One full-name field unless there's a real need for split names. Collapse Address Line 2 behind "Add apartment, suite…". Collapse the coupon field behind a link. — Apple silent
 - [SHOULD] Count fields in any checkout or sign-up and flag anything over about 8 that the question protocol (next topic) can't justify. — Apple silent
 - [SHOULD] Support autofill, password managers and passkeys (correct `autocomplete` / `textContentType`). — adds to Apple
@@ -177,7 +183,7 @@ Sources: Wroblewski on label alignment eye tracking, citing Matteo Penzo's UXmat
 - [SHOULD] Long or branching flows use one question or topic per screen, with eligibility first. — CONFLICT: Apple's grouped, scrolling form (iOS Settings style) vs GOV.UK one question per page; resolution: a native Apple target uses Apple's grouped form by default; on web, use one question per page for branching and eligibility flows aimed at an occasional-public audience, and grouped forms for daily-professional use, settings and frequent edits; read the profile's audience before flagging either way, and show the conflict in the report.
 - [SHOULD] Hint text is persistent and placed between the label and the field. — adds to Apple
 - [CONSIDER] Review forms through Jarrett's layers: does the relationship (trust, reason for asking) justify the conversation? (unverified) — Apple silent
-**Apple note**: Verified in the Apple digests: placeholder hints should come with a separate persistent label, and the web translation bans placeholder-only labels on every audience, so Apple's own text-field rule is close to the research. The tension is the Apple-style settings row copied into long data-entry forms. Apple is silent on question protocol and field budgets; on one-thing-per-page it differs (see the CONFLICT above).
+**Apple note**: Verified against the Text fields page: Apple suggests a separate label beside placeholder text ("it can also be useful"), and the web translation bans placeholder-only labels on every audience, so Apple's suggestion is close to the research. The tension is the Apple-style settings row copied into long data-entry forms. Apple is silent on question protocol and field budgets; on one-thing-per-page it differs (see the CONFLICT above).
 
 ## Laws of UX: non-obvious applications
 **Intent** (fetched pages):

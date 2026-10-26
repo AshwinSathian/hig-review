@@ -1,5 +1,8 @@
 # 14: Accessibility (beyond Apple), cognition, ethics, i18n
 
+Sources: W3C WCAG 2.2, w3.org/TR/WCAG22; W3C COGA, Making Content Usable for People with Cognitive and Learning Disabilities, w3.org/TR/coga-usable; WAI-ARIA Authoring Practices; APCA, git.apcacontrast.com; European Commission (European Accessibility Act) and EN 301 549; Android, React Native and Angular Material accessibility docs; MDN; Center for Humane Technology; Calm Technology. Fetched 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Fetched 2026-10-23. Framing: **Apple HIG is the base.** Everything here either **adds to Apple** (stricter or more specific), covers ground where **Apple is silent**, or is a **CONFLICT** (flagged explicitly). In accessibility the strictest source wins. In everything else Apple wins unless a conflict is called out.
 
 Test tags: `[DOM]` automatable against the rendered DOM/accessibility tree, `[SHOT]` judgeable from a screenshot, `[MANUAL]` needs a human or a scripted interaction (keyboard, AT, settings toggles).

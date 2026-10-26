@@ -1,8 +1,13 @@
+<!-- contents -->
+Contents: Component selection decision guide · Charts · Image views · Text views · Web views · Boxes · Collections · Column views · Disclosure controls · Labels · Lists and tables · Outline views · Split views · Tab views · Activity views · Buttons · Context menus · Dock menus · Edit menus · Home Screen quick actions · Menus · Pop-up buttons · Pull-down buttons · The menu bar · Toolbars · Path controls · Search fields · Sidebars · Tab bars · Token fields · Cross-cutting rules
+<!-- /contents -->
+
+
 Covers: components that structure content, actions and navigation: charts, image/text/web views, boxes, collections, column/outline/split/tab views, disclosure, labels, lists and tables, share sheet, buttons, all menu types, menu bar, toolbars, path controls, search fields, sidebars, tab bars, token fields.
 Loaded by: structure, platform fit
 Snapshot: 2026-10-23
 
-Tags: [MUST] [SHOULD] [CONSIDER] follow the Apple strength rule in global constraints. Web lines are our translation of the principle, not Apple text; web is never flagged for lacking an Apple-only idiom, only for breaking the principle behind it. Slop tells are ours. `(26+)` marks Liquid Glass-era checks: apply only when the deployment target is iOS/iPadOS/macOS 26 or later.
+Tags: [MUST] [SHOULD] [CONSIDER] follow the Apple column rule in SKILL.md Rules. Web lines are our translation of the principle, not Apple text; web is never flagged for lacking an Apple-only idiom, only for breaking the principle behind it. Slop tells are ours. `(26+)` marks Liquid Glass-era checks: apply only when the deployment target is iOS/iPadOS/macOS 26 or later.
 Note: parity checks (context menu vs main UI, toolbar vs menu bar, menu bar completeness) need a command inventory built first; do not judge them from one screen.
 Presentation components (sheets, alerts, popovers) and inputs (segmented controls, toggles), standard icons and shortcut tables live in the sibling reference files; this file points to them rather than repeating.
 

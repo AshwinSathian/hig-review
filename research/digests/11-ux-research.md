@@ -1,5 +1,8 @@
 # 11 — Empirical UX research beyond Apple (NN/g, Baymard, Laws of UX, forms authors, deceptive design)
 
+Sources: Nielsen Norman Group, nngroup.com; Baymard Institute, baymard.com; Laws of UX, lawsofux.com; Luke Wroblewski, lukew.com; Adam Silver, Smashing Magazine; Jarrett and Gaffney, Forms That Work; deceptive.design; Princeton Web Transparency and Accountability Project; FTC. Fetched 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 **Framing rule (from coordinator):** Apple HIG is the base of loupe. Everything here *augments* it: it adds evidence, thresholds and numbers, or covers ground where Apple says nothing. Each section labels its relation to HIG as **Adds to Apple**, **Apple silent**, or **CONFLICT** (a real tension, flagged for a human to decide; we do not recommend overriding Apple). Each section also lists **Overused / slop tells**: patterns the research blessed for a narrow case that are now applied everywhere and look generic.
 
 Fetched 2026-10-23. Numbers are quoted from the fetched page unless marked **(unverified, from memory)**. Statements about what Apple HIG says are from memory of the HIG and should be checked against the HIG digest in this repo.

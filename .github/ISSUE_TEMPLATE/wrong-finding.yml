@@ -1,0 +1,28 @@
+name: Wrong or inflated finding
+description: A review flagged something that is fine, or rated it too high
+labels: [false-positive]
+body:
+  - type: textarea
+    id: finding
+    attributes:
+      label: The finding
+      description: Paste the row from the report (number, impact, Apple column, finding, fix).
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it's wrong
+      description: What the interface actually does, and the rule or measurement that shows the finding is wrong.
+    validations:
+      required: true
+  - type: input
+    id: input
+    attributes:
+      label: Input type and platform
+      description: For example "running web app, Next.js", "SwiftUI source, iOS 26 SDK", "screenshots only".
+  - type: input
+    id: model
+    attributes:
+      label: Model and loupe version
+      description: For example "Claude Opus 5.5, loupe 1.0.0".

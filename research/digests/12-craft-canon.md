@@ -1,10 +1,13 @@
 # 12 — Craft canon: typography, grids, visual principles, interaction, motion
 
+Sources: Bringhurst, The Elements of Typographic Style (via Rutter, webtypography.net); Butterick, practicaltypography.com; Every Layout, every-layout.dev; Utopia, utopia.fyi; Dieter Rams (Vitsoe); Tufte; Wathan and Schoger, Refactoring UI; Vercel Web Interface Guidelines; Rauno Freiberg, rauno.me; Emil Kowalski, emilkowal.ski; Josh Comeau, joshwcomeau.com; Nielsen Norman Group. Compiled 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Scope: non-Apple craft literature that can give a product its own typographic, spatial and motion character. Compiled 2026-10-23.
 
 **Framing rule (per coordinator):** Apple HIG is the base of loupe. Everything below either **adds to Apple** (more detail, evidence or numbers where the HIG agrees in spirit), covers ground where **Apple is silent**, or is a **conflict** with Apple. Conflicts are flagged, not resolved against Apple. On Apple platforms the HIG rule wins unless the skill has a stated reason to deviate.
 
-**Provenance:** "(fetched)" means the text or number was read from the live page during this session. "(unverified, from memory)" means recalled, not confirmed. Quotes are verbatim only when marked as quotes. Raw page dumps are in `scratchpad/hig/raw12/`.
+**Provenance:** "(fetched)" means the text or number was read from the live page during this session. "(unverified, from memory)" means recalled, not confirmed. Quotes are verbatim only when marked as quotes. Raw page dumps were not kept in the repo.
 
 Tags: [MUST] = a review should fail without it. [SHOULD] = strong default. [CONSIDER] = a lever for character, applied with judgement.
 

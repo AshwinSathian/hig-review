@@ -2,6 +2,11 @@ import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
+import { fileURLToPath } from "node:url";
+import vm from "node:vm";
+import { mkdtempSync, mkdirSync, copyFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), "utf8");
 // Same text the MCP receives as browser_evaluate `function`.
@@ -147,15 +152,22 @@ test("targets: WCAG 2.5.8 spacing exception (4px apart fails, 30px apart passes)
   assert.equal(by(targets, "#n1").under24, true);
 });
 
-// Same evaluation path as Playwright MCP's browser_run_code_unsafe: vm context with only `page`.
-async function runner(fixture, opts) {
-  const vm = await import("node:vm");
-  const skillDir = new URL("..", import.meta.url).pathname.replace(/\/$/, "");
-  const code = read("../scripts/measure-runner.js").replaceAll("<SKILL_DIR>", skillDir);
-  await page.setContent(read(`./fixtures/${fixture}.html`));
-  const fn = vm.runInContext("(" + code + ")", vm.createContext({ page }));
-  return JSON.parse(JSON.stringify(await fn(page, opts)));
+// The exact invocation documented in the runner's header, run the way Playwright MCP's
+// browser_run_code_unsafe runs `code`: a vm context holding only `page`, called with (page).
+const skillDir = fileURLToPath(new URL("..", import.meta.url)).replace(/[\\/]$/, "");
+async function runRunner(opts = {}, dir = skillDir) {
+  const code = `async (page) => (${read("../scripts/measure-runner.js")})(page, ${JSON.stringify({ skillDir: dir, ...opts })})`;
+  const ctx = vm.createContext({ page });
+  const fn = vm.runInContext("(" + code + ")", ctx);
+  return JSON.parse(JSON.stringify(await fn(page)));
 }
+async function runner(fixture, opts) {
+  await page.setContent(read(`./fixtures/${fixture}.html`));
+  return runRunner(opts);
+}
+// Compact rows are grouped: the selector lives in examples[].
+const sel = (x) => x.selector || x.examples.map((e) => e.selector || e).join(" ");
+const byC = (list, id) => list.find((x) => sel(x).includes(id));
 
 test("runner: { full: true } covers 3 widths x 2 schemes x 2 motion prefs", async () => {
   const before = page.viewportSize();
@@ -175,16 +187,20 @@ test("runner: { full: true } covers 3 widths x 2 schemes x 2 motion prefs", asyn
 test("runner: compact default keeps only failing rows, deduped, under 20 KB", async () => {
   const media = await runner("media");
   assert.equal(media.combinations.length, 12);
-  const t = by(media.contrast, "#t");
+  const t = byC(media.contrast, "#t");
   assert.equal(t.status, "fail");
   assert.equal(t.in.length, 6); // light runs only; dark #t passes and is dropped
-  assert.ok(media.combinations.every((c) => c.counts && c.type && c.motion && c.defaults));
+  assert.ok(media.combinations.every((c) => c.counts && !c.motion && !c.type));
+  // motion differs between reduce and no-preference: two variants; type is the same everywhere.
+  assert.equal(media.motion.length, 2);
+  assert.deepEqual(media.motion.map((v) => v.in.length).sort(), [6, 6]);
+  assert.deepEqual(media.type.map((v) => v.in), ["all"]);
   for (const [fixture, id] of [["contrast", "#low"], ["targets", "#b20"], ["huge-table", null], ["opacity", "#half"]]) {
     const out = await runner(fixture);
     assert.ok(JSON.stringify(out).length < 20000, fixture);
     assert.ok(out.contrast.every((r) => r.status !== "ok"), fixture);
     assert.ok(out.targets.every((r) => r.under24 || r.under44), fixture);
-    if (id) assert.ok(by([...out.contrast, ...out.targets], id), `${fixture} ${id}`);
+    if (id) assert.ok(byC([...out.contrast, ...out.targets], id), `${fixture} ${id}`);
   }
 });
 
@@ -204,4 +220,115 @@ test("motion: reduced-motion rule found via @import and adoptedStyleSheets", asy
 
 test("logicalProps: asymmetric physical vs logical inline props on present elements", async () => {
   assert.deepEqual((await measure("logical")).logicalProps, { physical: 2, logical: 1 });
+});
+
+// ---- audit fixes ----
+
+test("runner: waits for matchMedia and resize listeners before measuring", async () => {
+  const out = await runner("theme-js", { full: true });
+  const pick = (w, cs) => out.find((r) => r.width === w && r.colorScheme === cs && r.reducedMotion === "no-preference");
+  assert.equal(by(pick(1440, "light").contrast, "#t").bg, "#ffffff");
+  assert.equal(by(pick(1440, "dark").contrast, "#t").bg, "#111111");
+  assert.equal(by(pick(390, "light").contrast, "#r").fg, "rgb(204, 204, 204)");
+  assert.equal(by(pick(1440, "light").contrast, "#r").fg, "rgb(0, 0, 0)");
+});
+
+test("runner: works under strict CSP and Trusted Types, leaves no globals or nodes behind", async () => {
+  await page.route("http://csp.test/", (r) => r.fulfill({ contentType: "text/html", headers: { "content-security-policy": "script-src 'self'; require-trusted-types-for 'script'" }, body: "<!doctype html><body style='background:#fff'><p id='c' style='color:#777'>hi</p>" }));
+  await page.goto("http://csp.test/");
+  const out = await runRunner();
+  assert.equal(byC(out.contrast, "#c").status, "fail");
+  assert.deepEqual(await page.evaluate(() => [typeof window.__loupeMeasure, document.querySelectorAll("script,input").length]), ["undefined", 0]);
+  await page.unroute("http://csp.test/");
+  await page.goto("about:blank");
+});
+
+test("runner: skill dir with backslashes and quotes is passed as data, not code", async () => {
+  const dir = join(mkdtempSync(join(tmpdir(), "loupe-")), 'we"ird\\\\dir');
+  mkdirSync(join(dir, "scripts"), { recursive: true });
+  copyFileSync(new URL("../scripts/measure.js", import.meta.url), join(dir, "scripts", "measure.js"));
+  await page.setContent(read("./fixtures/contrast.html"));
+  const out = await runRunner({}, dir);
+  assert.ok(byC(out.contrast, "#low"));
+});
+
+test("runner: compact output of a large page stays under 40 KB", async () => {
+  const block = (i) => `<section style="transition:all .2s;animation:spin 1s infinite"><h2 style="color:#999;font-size:${12 + (i % 3)}px">Heading ${i}</h2>
+    <p style="color:#aaa">Body copy number ${i} with low contrast</p><button style="width:16px;height:16px;padding:0;margin:${i % 5}px">${i}</button>
+    <a href="#" style="display:inline-block;width:30px;height:30px">L</a></section>`;
+  const html = `<!doctype html><style>@keyframes spin{to{opacity:.5}}</style><body style="background:#fff">${Array.from({ length: 300 }, (_, i) => block(i)).join("")}`;
+  await page.setContent(html);
+  const out = await runRunner();
+  const kb = JSON.stringify(out).length / 1024;
+  assert.ok(kb < 40, `${kb.toFixed(1)} KB`);
+  const m = out.motion[0].value;
+  assert.ok(m.transitionAll.length <= 20 && m.transitionAllCount >= 300);
+  assert.ok(m.animatedOnLoad.length <= 20);
+  for (const r of [...out.contrast, ...out.targets]) if (r.in !== "all") assert.equal(new Set(r.in).size, r.in.length);
+});
+
+test("contrast: group opacity blends the composited group over what is beneath", async () => {
+  const { contrast: c } = await measure("group-opacity");
+  const g = by(c, "#g");
+  assert.equal(g.bg, "#808080");
+  assert.equal(g.ratio, 3.98);
+  assert.equal(g.status, "fail");
+  assert.equal(by(c, "#inner").ratio, 3.98);
+});
+
+test("contrast/targets: off-screen, aria-hidden and inert content is skipped and counted", async () => {
+  const r = await measure("offscreen");
+  assert.equal(by(r.contrast, "#on").status, "fail");
+  for (const id of ["#slide", "#ah", "#in", "#vh"]) assert.equal(by(r.contrast, id), undefined, id);
+  for (const id of ["#slidebtn", "#inbtn"]) assert.equal(by(r.targets, id), undefined, id);
+  assert.ok(r.skipped.offscreen >= 1 && r.skipped.hidden >= 2, JSON.stringify(r.skipped));
+});
+
+test("shadow DOM: open roots measured; roots and iframes counted", async () => {
+  await page.setContent(read("./fixtures/shadow.html"));
+  await page.waitForFunction(() => document.querySelectorAll("iframe").length === 2);
+  const r = await page.evaluate(`(${src()})()`);
+  assert.equal(by(r.contrast, "#sp").status, "fail");
+  assert.equal(by(r.targets, "#sb").under24, true);
+  assert.equal(r.motion.reducedMotionRule, true);
+  assert.deepEqual(r.coverage, { shadowRoots: 1, iframesSameOrigin: 1, iframesCrossOrigin: 1 });
+});
+
+test("motion: <link media> and @import media for reduced motion; unreadable sheets counted", async () => {
+  await page.route("http://x.test/**", (r) => r.fulfill({ contentType: "text/css", body: "p{color:red}" }));
+  const link = await measure("motion-link");
+  assert.equal(link.motion.reducedMotionRule, true);
+  assert.equal(link.motion.unreadableSheets, 2);
+  assert.equal((await measure("motion-import-media")).motion.reducedMotionRule, true);
+  await page.unroute("http://x.test/**");
+});
+
+test("targets: an inline link is a neighbour for the 2.5.8 spacing test but not an output row", async () => {
+  const { targets } = await measure("spacing-inline");
+  assert.equal(by(targets, "#il"), undefined);
+  assert.equal(by(targets, "#x").spacingOk, false);
+  assert.equal(by(targets, "#alone").spacingOk, true);
+});
+
+test("contrast: text-fill-color, display:contents, occluding sibling, filter, blend, transparent", async () => {
+  const r = await measure("minor");
+  const c = r.contrast;
+  assert.equal(by(c, "#tf").fg, "rgb(204, 204, 204)");
+  assert.equal(by(c, "#tf").status, "fail");
+  assert.equal(by(c, "#dc").status, "fail");
+  for (const id of ["#abs", "#inv", "#blend", "#tt"]) assert.equal(by(c, id).status, "unmeasurable", id);
+  assert.equal(by(c, "#tt").ratio, null);
+  assert.ok(by(r.targets, "#cp"), "clip-path rounded button is a visible target");
+  for (const row of [...c, ...r.targets]) assert.equal(await page.evaluate((s) => document.querySelectorAll(s).length, row.selector), 1, row.selector);
+});
+
+test("defaults: page-controlled font names are truncated in evidence", async () => {
+  const d = (await measure("fontname")).defaults.find((x) => /Inter/.test(x.tell));
+  assert.ok(d.tell.length <= 120 && d.evidence.split("; ").every((e) => e.length <= 200), JSON.stringify(d));
+});
+
+test("contrast: thresholds use the unrounded ratio (4.496:1 fails and shows 4.49)", async () => {
+  const e = by((await measure("threshold")).contrast, "#edge");
+  assert.equal(e.status, "fail");
+  assert.equal(e.ratio, 4.49);
 });

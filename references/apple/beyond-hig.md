@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: Cross-cutting takeaways · Wayfinding, feedback and consistency · Motion and fluid interfaces · Typography and symbols · Liquid Glass and design system (26+) · Navigation, menus and search · Brand, widgets, AI and platform surfaces · Writing and the Apple Style Guide · Accessibility and inclusion · App Review design rules · Apple Design Awards criteria · Web (WebKit)
+<!-- /contents -->
+
+
 Covers: Apple non-HIG design literature: WWDC design sessions (2017 to 2026), Apple Style Guide, Apple Design Awards criteria, Accessibility Nutrition Label criteria, App Review design rules, WebKit guidance.
 Loaded by: interaction and motion, visual, content, accessibility, slop scan
 Snapshot: 2026-10-23
@@ -101,7 +106,7 @@ Source: The details of UI typography, WWDC20 (10175); Adopt the new look of macO
 
 ## Liquid Glass and design system (26+)
 
-Source: Meet Liquid Glass, WWDC25 (219); Get to know the new design system, WWDC25 (356); State of the Union, WWDC26 (102); Build an AppKit app with the new design, WWDC25 (310).
+Source: Meet Liquid Glass, WWDC25 (219); Get to know the new design system, WWDC25 (356); Platforms State of the Union, WWDC26 (102); Build an AppKit app with the new design, WWDC25 (310).
 
 **Intent** rules for using, and not using, the 2025+ material. It is also the most misused aesthetic in AI "Apple-like" UI.
 
@@ -134,7 +139,7 @@ Source: Explore navigation design for iOS, WWDC22 (10001); Elevate the design of
 - [SHOULD] Resizing is non-destructive: it must not permanently alter layout.
 - [SHOULD] Wrap toolbars around window controls rather than reserving a safe area. Each document gets its own window with a descriptive name.
 - [SHOULD] Menu bar (iPad and Mac): populate with every relevant action ordered by frequency, not alphabetically, in sections.
-- [MUST] Never hide menus or items by context; disable them so spatial memory works.
+- [MUST] In the menu bar and app menus (iPad and Mac), never hide menus or items by context; disable them so spatial memory works. Context menus are the opposite: the HIG says to hide unavailable items there, not dim them (references/apple/components-structure.md).
 - [SHOULD] (WWDC26) iOS apps handle arbitrary scene sizes: no layout from interface orientation, use size classes and available view size, never the main screen. The prominent tab stays visible when the tab bar collapses.
 - [SHOULD] (WWDC26 AppKit) View corners near a container corner follow its curve, with a minimum radius so every corner stays rounded.
 - [SHOULD] Everything works from keyboard as well as mouse. Apps quit without pushback unless data would be lost and restore state as if never quit. No invisible sibling views over buttons.
@@ -253,10 +258,10 @@ Source: App Store Review Guidelines, section 4 and nearby (last updated 2026-10-
 
 Pass/fail list (App Review enforces these, so they are MUST and Blocker candidates). Release-bound only: the 4.2 minimum-functionality and 2.1 app-completeness checks (placeholder content, broken links or features) apply only to builds the profile or the user marks as release-bound. For in-development code, report placeholders as notes in Unverified, not Blockers. 4.1 Copycats, 4.2.6 template apps and 4.3 Spam are not gated: report them at any stage.
 - [MUST] 4 Design: products should be simple, refined, innovative, easy to use; this sets minimum standards. A degraded experience may be removed.
-- [MUST] (unverified) 2.1 App Completeness: submit final versions, with no placeholder content, broken links or incomplete features. Source: App Review Guidelines 2.1 App Completeness.
+- [MUST] 2.1 App Completeness: submit final versions, with no placeholder content, broken links or incomplete features. Source: App Review Guidelines 2.1 App Completeness.
 - [MUST] 4.1 Copycats: do not copy a popular app or make minor changes to another app's name or UI.
 - [MUST] 4.2 Minimum Functionality: features, content and UI that elevate beyond a repackaged website; useful, unique or app-like. 4.2.2: not primarily marketing, ads, web clippings, aggregators or link collections. 4.2.3(ii): disclose the size of any first-launch download and prompt before downloading.
-- [MUST] 4.2.6 template apps: apps from commercial templates or app-generation services are rejected unless the content provider submits them. This anchors the slop scan in something Apple enforces.
+- [MUST] 4.2.6 template apps: "Apps created from a commercialized template or app generation service will be rejected unless they are submitted directly by the provider of the app's content." The rule is about who submits, not how the app looks. Cite it only with evidence that the app came from such a template or service and is submitted on someone else's behalf. A generic look alone cites 4.3 at most, as a Taste finding of Major impact, never a Blocker.
 - [MUST] 4.3 Spam: not indistinguishable from what is widely available. Saturated categories (flashlight, wallpaper, simple timers) need a meaningfully different or improved experience.
 - [MUST] 2.5.9: do not alter or disable standard switches or native UI behaviors (for example blocking links out).
 - [MUST] 4.5.4: push is not required for function; marketing pushes need opt-in plus an in-app opt-out.
@@ -267,7 +272,7 @@ Pass/fail list (App Review enforces these, so they are MUST and Blocker candidat
 - for PWAs and web wrappers 4.2 is the bar; a WKWebView wrapper of a website gets rejected. A repackaged-website smell (web-style nav, no native gestures, hamburger, no pull-to-refresh) is a store risk as well as a UX issue.
 
 **Slop tells (ours)**
-- template-generated apps with an interchangeable brand skin (4.2.6 and 4.3 risk); login wall before any value; no account-deletion path (see references/apple/patterns.md, section 'Managing accounts').
+- template-looking apps with an interchangeable brand skin (a 4.3 risk at most, Taste and Major; 4.2.6 only with evidence of template or app-generation-service origin submitted for a client); login wall before any value; no account-deletion path (see references/apple/patterns.md, section 'Managing accounts').
 
 ## Apple Design Awards criteria
 

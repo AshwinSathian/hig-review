@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: Design principles overview · Purpose · Agency · Responsibility · Familiarity · Flexibility · Simplicity · Craft · Delight · Designing for iOS · Designing for iPadOS · Designing for macOS · Designing for iPhone Duo · Transferable from visionOS · Transferable from watchOS · Transferable from tvOS · Transferable from games · Cross-cutting principles · Review setup notes
+<!-- /contents -->
+
+
 Covers: Apple's eight design principles, per-platform guidance for iOS, iPadOS, macOS and iPhone Duo, and the principles from visionOS, watchOS, tvOS and games that transfer to phone, desktop and web.
 Loaded by: platform fit, distinctiveness
 Snapshot: 2026-10-23
@@ -221,7 +226,7 @@ Split views expand on the inner display and collapse to one pane on the outer, s
 - [MUST] Get the player's permission before sensor or personal data access (Apple: "you must first get the player's permission").
 - [SHOULD] Defer permission and rating requests to the moment the feature needs them and integrate the request into that scenario. Ask for a review only after quality time in the product.
 - [SHOULD] Text contrasts with the background and meets platform minimums. Default/minimum text: iOS/iPadOS 17 pt / 11 pt, macOS 13 pt / 10 pt.
-- [MUST] Buttons in iOS are at least 44x44 pt (Apple: "must be at least 44x44 pt"). Default/minimum buttons: iOS/iPadOS 44x44 pt default, 28x28 pt minimum; macOS 28x28/20x20 (default/minimum).
+- [MUST] Buttons in iOS are at least 28x28 pt; 44x44 pt is the default to aim for. The games page says "must be at least 44x44 pt", but its own table and the Accessibility and Buttons pages give 44x44 pt as the default and 28x28 pt as the minimum, so a 32 pt control is a [SHOULD] miss against the 44 pt default, not a MUST breach. Default/minimum buttons: iOS/iPadOS 44x44 pt default, 28x28 pt minimum; macOS 28x28/20x20 (default/minimum).
 - [SHOULD] Prefer resolution-independent (vector) assets.
 - [SHOULD] Respect device features (rounded corners, camera housing) using safe areas.
 - [SHOULD] Menus adapt to aspect ratios 16:10, 19.5:9 and 4:3 with relative constraints. Device-specific layouts only when necessary.
@@ -251,6 +256,6 @@ Split views expand on the inner display and collapse to one pane on the outer, s
 ## Review setup notes
 - **Platforms**: Infer the platform set from the project profile and code (Xcode project, app.json, package.json); ask only if missing. Checks differ sharply between platforms (44 vs 28 pt targets, menu bar vs tab bar).
 - **Strictness on web**: Do not apply Apple point values literally. Use the web mapping: 44 px goal, 24 px minimum (WCAG 2.2), 16 px body (17 px for comfortable apps measured against the iOS scale), WCAG 2 ratios as the floor. Apple-native feel is not a goal for web.
-- **Severity**: Apple's wording sets the strength tag. User impact sets the sort, so a SHOULD on reachability, undo, permission timing or missing labels can still be Major or Blocker.
+- **Severity**: Apple's wording sets the strength tag. User impact sets the sort, so a SHOULD on reachability, undo, permission timing or missing labels can still be Major; it reaches Blocker only through a WCAG criterion or a Trust-gate item.
 - **Evidence**: Resizing, Dynamic Type, Dark Mode and fold checks need multiple renders or code inspection. List what a single static image could not verify.
 - **Stress content**: Check with long strings, empty, error, loading, RTL and the largest Dynamic Type.

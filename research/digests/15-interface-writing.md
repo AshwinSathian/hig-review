@@ -1,12 +1,15 @@
 # 15 — Interface writing: merged rules for the copy pass
 
+Sources: Apple Human Interface Guidelines (Writing) and Apple Style Guide via digests 03 and 08; the humanizing-writing skill, https://github.com/AshwinSathian/humanize-writing-skill; Mailchimp Content Style Guide; Atlassian Design System; Microsoft Writing Style Guide; GOV.UK content guidance; Shopify Polaris; Nielsen Norman Group; Cloudscape; Red Hat; SAP. Compiled 2026-10-23. Contains public sector information licensed under the Open Government Licence v3.0.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Compiled 2026-10-23 for the `loupe` skill's writing and microcopy pass.
 
 **Precedence (decided by the user).** Apple's writing guidance is the base layer. The `humanizing-writing` skill and the non-Apple literature add to it. When Apple and another source conflict, the conflict is flagged in §3, and Apple wins on native Apple targets (iOS, iPadOS, macOS). The humanizing-writing rules apply to all UI copy. Each product's voice is defined in its project profile (§4). The user's personal voice traits apply only when a product opts in. Spelling (en-US or en-GB) is set per product, and the skill flags any mixing.
 
 **Provenance.**
 - Apple: digests `03-content-foundations.md` (Writing, Inclusion, Privacy) and `08-beyond-hig.md` (WWDC22 10037, WWDC24 10140, WWDC25 404, WWDC26 290 and 250, Apple Style Guide). Those digests were built from fetched first-party text.
-- humanizing-writing: read in full from `/Users/ashwinsathian/Documents/Personal/humanize-writing-skill/` (SKILL.md, voices/ashwin-sathian.md, examples/1–4, reference/claude-tics.md, research.md, research/*.md, README.md, scripts/measure.py).
+- humanizing-writing: read in full from https://github.com/AshwinSathian/humanize-writing-skill (SKILL.md, voices/ashwin-sathian.md, examples/1–4, reference/claude-tics.md, research.md, research/*.md, README.md, scripts/measure.py).
 - Fetched today: Mailchimp voice and tone; GOV.UK "clear language" and the A to Z style guide; Microsoft "Top 10 tips" and "Bias-free communication" (pages updated 2026-10-15); NN/g "Error-message guidelines" (2023-05-14) and "The AI sparkles icon problem" (Kaplan, 2024-09-20); Atlassian voice and tone and error messages; Cloudscape gen-AI output label and gen-AI loading states; VTEX's adaptation of Podmajersky's voice chart.
 - From search snippets only, because the pages redirected or render client-side: Shopify Polaris (now at shopify.dev), Material 3 (read through the Chrome DevTools UX writing guide, which cites it), SAP Fiori AI notice, PatternFly and Red Hat AI iconography, PAIR Guidebook. These are tagged *(snippet)*.
 - Not reachable: the text of Podmajersky's *Strategic Writing for UX* and of Yifrah's *Microcopy: The Complete Guide*. Claims about their contents are tagged **(unverified, from memory)**.
@@ -399,7 +402,7 @@ Tone fit per message type and user state; whether an error names the real cause;
 ## Sources
 
 - Apple: see digests `03-content-foundations.md` and `08-beyond-hig.md` for URLs (HIG writing, alerts, privacy and other pages; WWDC22 10037, WWDC24 10140, WWDC25 404, WWDC26 290/250/227; Apple Style Guide; App Review Guidelines, updated 2026-10-16).
-- humanizing-writing: `/Users/ashwinsathian/Documents/Personal/humanize-writing-skill/SKILL.md`, `voices/ashwin-sathian.md`, `reference/claude-tics.md`, `reference/research.md`, `reference/research/{2026-update,editorial,tells-catalog,academic,oss-skills}.md`, `examples/before-after-{1..4}.md`, `scripts/measure.py`.
+- humanizing-writing: https://github.com/AshwinSathian/humanize-writing-skill (`SKILL.md`), `voices/ashwin-sathian.md`, `reference/claude-tics.md`, `reference/research.md`, `reference/research/{2026-update,editorial,tells-catalog,academic,oss-skills}.md`, `examples/before-after-{1..4}.md`, `scripts/measure.py`.
 - Mailchimp Content Style Guide, Voice and tone: https://styleguide.mailchimp.com/voice-and-tone/
 - GOV.UK, Use clear language: https://guidance.publishing.service.gov.uk/writing-to-gov-uk-standards/writing-guidelines/clear-language/
 - GOV.UK, A to Z style guide: https://guidance.publishing.service.gov.uk/writing-to-gov-uk-standards/style-guides/a-to-z-style-guide/

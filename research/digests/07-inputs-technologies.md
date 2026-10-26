@@ -1,5 +1,8 @@
 # 07 — Inputs & Technologies (HIG digest)
 
+Sources: Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23 (the Inputs and Technologies pages); App Store Review Guidelines, developer.apple.com/app-store/review/guidelines.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Severity key: [MUST] = Apple says must/never/always/don't, or it's an App Review/legal requirement. [SHOULD] = imperative guideline ("Use…", "Avoid…", "Prefer…"). [CONSIDER] = "Consider…"/"might". "Web translation" lines and "Slop tells" are **our inference** unless noted.
 
 ---
@@ -22,7 +25,7 @@ Severity key: [MUST] = Apple says must/never/always/don't, or it's an App Review
   - [SHOULD] Ask for confirmation before significant actions taken on someone's behalf. Don't automate destructive actions (deleting photos) or hard-to-undo ones (purchases).
   - [CONSIDER] Offer several *meaningfully different* results to pick from (Image Playground). Near-duplicates don't count.
   - [SHOULD] Feedback is voluntary, placed where it doesn't interrupt; quick thumbs up/down plus an optional detailed path.
-  - [SHOULD] Privacy: tell people if data leaves the device, show *what* is shared, say whether it's stored off-device or used for training. Ask permission before using personal or usage data; give an opt-out. Kids' apps have stricter rules.
+  - [SHOULD] Privacy: tell people if data leaves the device, show *what* is shared, say whether it's kept off the device or used to train models. Get permission before using personal or usage data; offer an opt-out. Kids' apps have stricter rules.
   - [SHOULD] Inclusion: when generating images or descriptions of people, ask for attributes instead of inferring gender, culture or relationship type.
   - [SHOULD] Copyright: build on models with protections, curate inputs, consider pre-approved prompts.
   - [CONSIDER] Keep the model separable from the UX so it can be swapped later.
@@ -55,7 +58,7 @@ Severity key: [MUST] = Apple says must/never/always/don't, or it's an App Review
     - Note: favorites and social reactions count as *implicit* feedback, not explicit.
   - *Implicit feedback*:
     - [SHOULD] Tell people how data flows across apps and let them restrict it.
-    - [SHOULD] Don't narrow exploration (filter bubble); beware confirmation bias.
+    - [SHOULD] Don't let implicit feedback reduce people's chances to explore; beware of confirmation bias and avoid relying only on implicit feedback ("filter bubble" is our term, not Apple's).
     - [SHOULD] Withhold suggestions on private or sensitive topics (devices are shared).
     - [SHOULD] Weight recent signals over older ones.
     - [SHOULD] Update cadence matches the mental model: typing suggestions update instantly; song recommendations should not reshuffle continuously.

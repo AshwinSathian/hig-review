@@ -1,5 +1,8 @@
 # 13 · Distinctiveness: how an interface earns its own identity and stays usable
 
+Sources: Published design case studies and essays (Linear, Stripe, Panic, Airbnb via It's Nice That), the pixelslop tool (pixelslop@0.3.8), prg.sh and Canatselis on generated-page signatures, and Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23. Compiled 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Digest for the `loupe` skill. Compiled 2026-10-23.
 
 **Ground rule (from the user, binding):** Apple HIG is the base. Everything here augments it. A distinctiveness finding never asks a product to break HIG clarity, hierarchy, consistency, platform conventions or accessibility. Identity is a layer of brand expression on top of a correct HIG base. It is not a license to replace system controls, invent navigation, or trade legibility for mood.

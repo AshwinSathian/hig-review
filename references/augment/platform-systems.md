@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: M3 Expressive research (Google UX research) · M3 Expressive tactics and the hero-moment budget · M3 motion physics · M3 shape system · M3 color: HCT and contrast levels · M3 type scale · M3 adaptive layout and window size classes · Fluent 2 principles · Fluent 2 motion, layout and color · Windows 11 app design · Microsoft Inclusive Design · Cross-system synthesis (what Apple does not give) · Not reached in this pass
+<!-- /contents -->
+
+
 Covers: Material 3 and M3 Expressive, Fluent 2, Windows 11 app design, and the Microsoft Inclusive Design toolkit. Non-Apple; augments the HIG and never replaces it.
 Loaded by: visual, interaction and motion, distinctiveness, platform fit
 Snapshot: 2026-10-23

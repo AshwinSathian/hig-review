@@ -1,5 +1,8 @@
 # 02 — Visual Foundations digest
 
+Sources: Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23 (layout, typography, color, dark mode, materials, motion, spatial layout, images, immersive experiences).
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Pages covered: layout, typography, color, dark-mode, materials, motion, spatial-layout, images, immersive-experiences. All read in full.
 Severity key: [MUST] = Apple says "must/essential/always/don't" or an error results; [SHOULD] = "prefer/avoid/use/make sure"; [CONSIDER] = "consider/if necessary/in rare cases".
 "Web translation" and "Slop tells" are **our inference**, not Apple text.

@@ -1,5 +1,8 @@
 # Digest 05: Components (content, layout/organization, menus/actions, navigation/search)
 
+Sources: Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23 (the Components pages for content, layout and organization, menus and actions, navigation and search).
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Severity mapping (how Apple phrases it): **[MUST]** = "Don't / Always / essential / never / reserve"; **[SHOULD]** = plain imperative "Use / Avoid / Prefer / Make sure"; **[CONSIDER]** = "Consider / When possible / If it makes sense".
 "Web translation" and "Slop tells" lines are **our inference**, not HIG text.
 Index pages (components, content, layout-and-organization, menus-and-actions, navigation-and-search) are table-of-contents only; no guidance. Not repeated below.

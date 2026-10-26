@@ -15,12 +15,13 @@ def png(path, w, h, pixel, channels=3, ft=1):
     """Write an 8-bit RGB/RGBA PNG; rows use filter type ft (1 Sub, 4 Paeth) to exercise unfiltering."""
     raw, prev = b"", [0] * (w * channels)
     for y in range(h):
+        f = ft(y) if callable(ft) else ft
         row = [pixel(x, y)[:channels] for x in range(w)]
         flat = [v for p in row for v in p]
         a = lambda i: flat[i - channels] if i >= channels else 0
         c = lambda i: prev[i - channels] if i >= channels else 0
-        pred = (lambda i: a(i)) if ft == 1 else (lambda i: paeth(a(i), prev[i], c(i)))
-        raw += bytes([ft]) + bytes((flat[i] - pred(i)) % 256 for i in range(len(flat)))
+        pred = (lambda i: a(i)) if f != 4 else (lambda i: paeth(a(i), prev[i], c(i)))
+        raw += bytes([f]) + bytes((flat[i] - pred(i)) % 256 for i in range(len(flat)))
         prev = flat
     chunk = lambda t, d: struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d))
     ihdr = struct.pack(">IIBBBBB", w, h, 8, 2 if channels == 3 else 6, 0, 0, 0)
@@ -73,5 +74,20 @@ with tempfile.TemporaryDirectory() as d:
         f.write(data)
     code, _, err = run(p, 0, 0, 20, 12)
     assert code != 0 and "interlace" in err.lower(), err
+
+    # Decoding stops after the box: a corrupt row below it is never read.
+    p = os.path.join(d, "tail.png")
+    png(p, 20, 12, block((0, 0, 0, 255)), ft=lambda y: 5 if y >= 9 else 1)
+    code, out, err = run(p, 0, 0, 20, 9)
+    assert code == 0 and json.loads(out)["ratio"] == 21.0, (code, out, err)
+
+    # Non-integer coordinates get a usage message, not a traceback.
+    code, _, err = run(p, 0, 0, "1.5", 9)
+    assert code != 0 and "integer" in err and "Traceback" not in err, err
+
+    # 4.496:1 is shown as 4.49, not rounded up to the 4.5 threshold.
+    p = os.path.join(d, "edge.png")
+    png(p, 20, 12, block((0x63, 0x63, 0xF8, 255)))
+    assert json.loads(run(p, 0, 0, 20, 12)[1])["ratio"] == 4.49
 
 print("png_contrast: ok")

@@ -39,7 +39,7 @@ Examples (illustrative only, fictional "Trailhead" hiking app):
 
 | # | Finding | Where | Impact | Apple | Fix |
 |---|---|---|---|---|---|
-| 1 (example) | "Delete route" confirm button sits exactly under the trigger and the sheet has no Cancel; one tap deletes a saved route with no undo | Route detail, overflow menu | Blocker | MUST | Move the destructive confirm away from the trigger, add Cancel, offer Undo for 8 s |
+| 1 (example) | "Delete route" is the sheet's primary (default) button, sits exactly under the trigger, and the sheet has no Cancel; one tap deletes a saved route with no undo. Breaks Apple's Buttons rule "Don't assign the primary role to a button that performs a destructive action" | Route detail, overflow menu | Blocker | MUST | Give "Delete route" the destructive role, not primary; move it away from the trigger; add Cancel; offer Undo after the delete |
 | 2 (example) | First tab is a "Home" feed repeating Routes and Saved as cards | Tab bar, Home | Major | SHOULD | Remove Home; make Routes the first tab, surface recent items there |
 | 3 (example) | Section footers at 11 px on desktop web | Settings, footers | Minor | Web | Raise to 12 px, set in rem |
 | 4 (example) | Two spellings in one screen: "Colour" label, "Favorite" button | Settings, Appearance | Minor | Taste | Pick profile spelling (british): "Favourite" |

@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: Stance · The attack ladder · Root-cause clustering · The rework bar · Proposal classes · Softness audit · Red flags
+<!-- /contents -->
+
+
 Covers: the red-team pass: the adversarial stance, the attack ladder from premise down to pixels, the rework bar, the three proposal classes (fix, enhancement, rework), and the softness audit of the review itself.
 Loaded by: red team (pass 9); every pass reads "Stance"
 Snapshot: 2026-10-26
@@ -13,7 +18,7 @@ The red team does not replace the Apple passes or change how Impact is assigned.
 - [Taste] Attack the decision, not just the execution. "The button label is vague" is a fix; "this step should not exist" is the question the red team adds. — Apple silent
 - [Taste] Every attack needs evidence: a measured value, a file and line, a screenshot region, a step count, a peer comparison with a source, or a profile goal it breaks. An attack with no evidence is dropped, not softened into a "consider". — Apple silent
 - [Taste] Aggressive means direct, not inflated. Impact still follows the Rules in SKILL.md: a rework argument never raises a finding to Blocker. Say "this is the wrong model" plainly when the evidence supports it; do not say it when it does not. — Apple silent
-- [Taste] Restraint is part of the stance. If nothing clears the rework bar, say "No rework warranted" and why. That is a valid result. Inventing an overhaul to look bold is noise, the same as a generic finding. — Apple silent
+- [Taste] Restraint is part of the stance. If nothing clears the rework bar, say "No rework warranted" and why. That is the expected result for a well-built product, not a failure. Inventing an overhaul to look bold is noise, the same as a generic finding. — Apple silent
 
 ## The attack ladder
 **Intent**: attack top-down. Each layer can invalidate everything below it, so a premise problem outranks a hundred pixel fixes. Stop descending a branch once a higher layer has failed: polishing a step that should be deleted is wasted work. Write each attack as: the claim, the evidence, what it would cost to change, what it would unlock.
@@ -64,14 +69,15 @@ The red team does not replace the Apple passes or change how Impact is assigned.
 **Intent**: keeps the red team aggressive without inventing overhauls. A rework is proposed only when at least one condition holds, and the report states which one.
 
 A rework clears the bar when at least one of these holds:
-1. **Cluster**: three or more findings share one root cause that per-row fixes cannot remove.
-2. **Premise**: the primary screen or core flow does not serve the product's purpose or core job (attack ladder layers 1 and 2).
+1. **Cluster**: three or more findings share one stated root cause that per-row fixes cannot remove, and every cited finding has that same cause. Findings that only sit on the same screen, or share a cause loosely, do not count.
+2. **Premise**: the primary screen or core flow does not serve the product's purpose or core job (attack ladder layers 1 and 2). A missing feature does not meet this condition; propose it as an enhancement.
 3. **Peer gap**: the core task takes at least two more inputs, or 25% more, whichever is larger, than a named peer from the landscape, shown as side-by-side step lists, with the peer's count sourced (an `(unverified)` count cannot satisfy this), and nothing in the profile explains the extra cost.
 4. **Identity**: the distinctiveness verdict is `default-assembled` and fixing the listed tells one by one would only swap them for other defaults.
 5. **System**: three or more findings, cited by number, whose fixes each touch literal values or untokenised components in three or more files, so the fixes cannot be applied consistently without the token, theming or component layer.
 
 **Checks**
 - [Taste] A rework that clears none of the five is downgraded to an enhancement or dropped. — Apple silent
+- [Taste] A rework that adds a feature and costs one screen or less is an Enhancement, not a Rework, whatever condition it cites. — Apple silent
 - [Taste] Every rework states: what changes, the bar condition it clears, the evidence (finding numbers, step counts, peer source), what it would cost (screens and components touched, migration risk), what it unlocks, and the smallest experiment that would test it before committing (a prototype of one flow, a five-user test, an A/B on the first screen). — Apple silent
 - [Taste] Reworks stay buildable on HIG-conformant components and keep task flows conventional. A rework that replaces standard navigation with a novel scheme must argue why the learnability cost is worth it (references/augment/distinctiveness.md, Arc's sidebar check). — Apple silent
 - [Taste] Cap: at most three reworks per report, ranked by what they unlock. More than three means the red team has not prioritised. — Apple silent

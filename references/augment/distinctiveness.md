@@ -1,6 +1,12 @@
+<!-- contents -->
+Contents: Why this pass exists · The procedure · No brand direction · Theming and identity proposals · "Make it feel like X" · Case-study principles · Guardrail: the skill is not a recipe · Taste skills: process only · Detection signals
+<!-- /contents -->
+
+
 Covers: the distinctiveness procedure: whether a product has its own point of view on Apple's base, the brand tests, the no-brand direction path, "make it feel like X", and how to detect defaults in code.
 Loaded by: distinctiveness, red team (identity reworks), enhancements
 Snapshot: 2026-10-23 (theming rules added 2026-10-26)
+Digest numbers are provenance only; do not load them during a review.
 Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule. In reports, a check labelled 'adds to Apple' shows the Apple file's tag; 'Apple silent' shows 'Research'; [Taste] shows 'Taste'. [Taste] always shows 'Taste' in reports, whatever its label.
 
 `(unverified)` items were recalled or came from search snippets; weight them lower and never make them Blockers on their own. Apple HIG stays the base: no finding here may ask a product to break HIG clarity, hierarchy, platform conventions or accessibility. Identity is a layer on top of a correct base, not a license to replace system controls or trade legibility for mood. The pass judges whether a point of view exists and is applied. When it proposes one (directions, theming sketches, identity reworks), every concrete value traces to the product's own inputs and to its landscape, never to what looks good to the model (see "Theming and identity proposals").
@@ -62,7 +68,7 @@ Convergence tells: see references/slop-catalog.md.
 - [Taste] Three emotion questions, one per Norman level: what the first screenshot makes you feel and whether that is on-brief; which interaction is a pleasure to repeat; what a user would show a friend. Missing answers are findings in `register: expressive`; in `register: utilitarian`, "calm, fast, trustworthy" on-brief answers pass. (unverified framing) — Apple silent
 9. **Voice.** Sample 20+ user-facing strings across onboarding, errors, empty states and notifications. One voice; tone flexes with the reader's state; errors, destructive confirmations, money and permissions get the plainest tone. Writing detail lives in the writing reference.
 - [Taste] One voice across the 20+ strings, with tone flexing by the reader's state and the plainest tone on errors, destructive confirmations, money and permissions. — adds to Apple
-10. **Verdict.** One of `authored`, `partly authored`, `default-assembled`, followed by the counts that back it: channels authored of 9, signature element present or not (and whether visual, behavioural or verbal), signature moments counted (and whether visual or behavioural), matched catalog tells per catalog section, logo-off answer. No numeric score. Rough guide, `register: expressive`: `authored` = at least two authored channels including one on the primary screen, a signature element, one or two moments, and a logo-off answer that names something owned. Rough guide, `register: utilitarian`: `authored` = at least two authored channels including one on the primary screen (voice, layout or behaviour count), a signature element or behavioural moment, and a logo-off answer that names something owned; no visual moment is required. Either register: `default-assembled` = fewer than two authored channels and an empty logo-off answer; anything between is `partly authored`. This step sets the verdict; the slop-catalog cluster threshold (tells across 3 or more of the nine channels, or 5 or more tells in total) is an input that forces `default-assembled` when met.
+10. **Verdict.** One of `authored`, `partly authored`, `default-assembled`, followed by the counts that back it: channels authored of 9, signature element present or not (and whether visual, behavioural or verbal), signature moments counted (and whether visual or behavioural), matched catalog tells per catalog section, logo-off answer. No numeric score. Rough guide, `register: expressive`: `authored` = at least two authored channels including one on the primary screen, a signature element, one or two moments, and a logo-off answer that names something owned. Rough guide, `register: utilitarian`: `authored` = at least two authored channels including one on the primary screen (voice, layout or behaviour count), a signature element or behavioural moment, and a logo-off answer that names something owned; no visual moment is required. Either register: `default-assembled` = fewer than two authored channels and an empty logo-off answer; anything between is `partly authored`. This step sets the verdict; the slop-catalog cluster threshold (6 or more tells in total spanning 3 or more of the nine channels; both must hold) is an input that forces `default-assembled` when met.
 
 ## No brand direction
 **Intent**: when the profile has no `direction` and the team has no brand doc, the pass proposes directions before judging. The user picks one; it is saved to the profile's `direction` field, and later runs judge against it.
@@ -81,7 +87,7 @@ Convergence tells: see references/slop-catalog.md.
 
 **Where values may come from**, in this order:
 1. Existing brand assets: logo colors, an existing typeface, icon drawing style, past campaigns, the App Store icon.
-2. The subject's material and vernacular: the colors, typography and forms of the domain itself (for a tide app, nautical charts and tide-table print; for a ledger app, accounting paper and bank statements). Name the artifact.
+2. The subject's material and vernacular: the colors, typography and forms of the domain itself (for a CAD tool, engineering drawings and drafting templates; for a ledger app, accounting paper and bank statements). Name the artifact.
 3. The landscape gap: what every researched peer does on a channel, so the proposal can sit deliberately elsewhere (references/augment/landscape.md).
 4. The audience and register: density, reading conditions (outdoors, at night, glanced at on a watch), accessibility needs.
 

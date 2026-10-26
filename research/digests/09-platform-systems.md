@@ -1,5 +1,8 @@
 # 09 — Other platform design systems (Material 3 / M3 Expressive, Fluent 2, Windows, Microsoft Inclusive)
 
+Sources: Google Material Design 3, m3.material.io; Microsoft Fluent 2, fluent2.microsoft.design; Windows app design, learn.microsoft.com/windows/apps/design; Microsoft Inclusive Design, inclusive.microsoft.design. Fetched 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Scope: Google Material Design 3 including M3 Expressive (May 2025), Microsoft Fluent 2, Windows 11 app design, and the Microsoft Inclusive Design toolkit. Fetched 2026-10-23.
 
 **How to read this.** Apple's HIG is the base of loupe. Nothing here replaces it. Each item is tagged with how it relates to Apple:
