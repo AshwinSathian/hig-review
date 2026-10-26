@@ -15,35 +15,28 @@ export default function Cases() {
   return (
     <>
       <header className="page-head">
-        <p className="eyebrow">Cases</p>
-        <h1>Reports, unedited</h1>
+        <h1>Unedited reports</h1>
         <p className="lede">
           The first three cases are fixtures from the blind round. You can read loupe&rsquo;s report from each model next to the
           review the same model wrote without the skill, and see what the judges made of the pair. The fourth is loupe&rsquo;s review of this site.
         </p>
       </header>
       <ol className="case-list">
-        {cases().map((c, n) => (
+        {cases().map((c) => (
           <li key={c.slug} className="frame">
-            <div className="frame-label">
-              <span>Frame {String(n + 1).padStart(2, '0')}</span>
-              <span>{c.kind}</span>
-            </div>
             <h2>
               <Link href={`/cases/${c.slug}`}>{c.title}</Link>
             </h2>
+            <p className="frame-label">{c.kind}</p>
             <p>{c.summary}</p>
           </li>
         ))}
         <li className="frame">
-          <div className="frame-label">
-            <span>Frame 04</span>
-            <span>Dogfood</span>
-          </div>
           <h2>
-            <Link href="/specimen#review-h">This website</Link>
+            <Link href="/specimen#second-h">This website</Link>
           </h2>
-          <p>loupe&rsquo;s review of the site you are reading, run before launch, with the fixes that followed.</p>
+          <p className="frame-label">loupe&rsquo;s review of its own site</p>
+          <p>Two reviews of the site you are reading: one before launch, and one asking whether it looks AI-made. Each comes with the fixes that followed.</p>
         </li>
       </ol>
       <JsonLd data={breadcrumb('Cases', '/cases')} />

@@ -35,7 +35,6 @@ export default function Testing() {
   return (
     <>
       <header className="page-head">
-        <p className="eyebrow">Testing</p>
         <h1>{results.headline}</h1>
         <p className="lede">{results.summary}</p>
       </header>
@@ -77,7 +76,7 @@ export default function Testing() {
 
       <section className="section" aria-labelledby="reading-h">
         <header>
-          <h2 id="reading-h">Reading the result, and what we changed</h2>
+          <h2 id="reading-h">What the result means and what changed</h2>
           <p>
             From <a href={blob('evals/heldout/notes.md')}>notes.md</a>, written after the tally.
           </p>
@@ -87,7 +86,7 @@ export default function Testing() {
 
       <section className="section" aria-labelledby="pairs-h">
         <header>
-          <h2 id="pairs-h">Every pair, every judge</h2>
+          <h2 id="pairs-h">All nine pairs and each judge&rsquo;s vote</h2>
           <p>
             Each judge saw the two reports as A and B and was not told which used loupe. &ldquo;Flagged&rdquo; counts the
             findings that judge called wrong or inflated.

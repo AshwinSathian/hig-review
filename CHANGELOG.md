@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.1.0 (26 October 2026)
+
+loupe's own site, reviewed after launch with one question: does it look AI-made? It did. It met the slop catalogue's cluster threshold with 6 tells across 5 channels; the pre-launch review had counted 5 across 4 and stopped one short. The report and the fixes are on the site's [specimen page](https://loupe.ashwinsathian.com/specimen#second-h) and in `site/review/second-review.md`.
+
+**Skill**
+
+- `measure.js` reports two more template tells: an eyebrow label above most page and section headings, and monospace on more than two text elements that aren't code. Monospace is detected by glyph width, so code fonts without "mono" in their name count; dates above posts, icon fonts and pages set entirely in mono don't. The catalogue listed both patterns but `measure.js` didn't check them, so reviews counted them by eye and missed some.
+- The distinctiveness verdict counts every matched tell. A tell is no longer excused because the direction explains it or the owner chose it. A direction that shows up only in code comments or a style page doesn't count as authored.
+- When a count is one tell short of the threshold, section titles and labels above headings are recounted before the verdict.
+- The logo-off test is answered from the first viewport of the primary screen. Elements that only appear after scrolling don't count.
+
+**Site**
+
+- The hero headline is measured live in the visitor's browser and marked in redline.
+- Eyebrows, decorative crop marks, frame numbers and mono labels are gone. Mono is used only for code and commands.
+- Plain headings. The testing headline no longer reads two ways.
+- The nav fits on one row on a phone, and every install command wraps.
+
 ## 1.0.0 (26 October 2026)
 
 First public release, renamed from hig-review to loupe. The name change keeps an Apple term out of the product name; Apple's guidelines are still the base, and NOTICE says loupe is not affiliated with Apple.

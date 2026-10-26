@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Command } from '@/components/Command'
 import { Loupe } from '@/components/Loupe'
+import { MeasuredHeading } from '@/components/MeasuredHeading'
 import { steps } from '@/lib/steps'
 import { specimen } from '@/lib/specimen'
 import { results } from '@/lib/results'
@@ -17,10 +18,9 @@ export default function Home() {
   return (
     <>
       <section className="page-head hero">
-        <p className="eyebrow">A Claude Code skill, version {site.version}</p>
-        <h1>A design review that shows its measurements.</h1>
+        <MeasuredHeading>A design review that shows its measurements.</MeasuredHeading>
         <p className="lede">
-          loupe reviews an interface against Apple&rsquo;s Human Interface Guidelines and the research around them. It
+          loupe is a Claude Code skill. It reviews an interface against Apple&rsquo;s Human Interface Guidelines and the research around them. It
           measures what it can in the running app, says how strongly Apple states each rule it cites, and tells you
           when a screen looks like every other template. It works on iOS, iPadOS and macOS apps and on the web.
         </p>
@@ -33,11 +33,10 @@ export default function Home() {
 
       <section className="section" aria-labelledby="specimen-h">
         <header>
-          <p className="eyebrow">Specimen</p>
-          <h2 id="specimen-h">One page, under the loupe</h2>
+          <h2 id="specimen-h">{specimen.spots.length} findings from a blind run</h2>
           <p>
-            A tool-lending library page, written for our tests by a separate model that was told not to read
-            loupe&rsquo;s rules. These are findings loupe returned in a blind run. Pick one to move the ring.
+            On a tool-lending library page, written for our tests by a separate model that was told not to read
+            loupe&rsquo;s rules. Pick a finding to move the ring to it.
           </p>
         </header>
         <Loupe {...specimen} />
@@ -48,8 +47,7 @@ export default function Home() {
 
       <section className="section" aria-labelledby="tags-h">
         <header>
-          <p className="eyebrow">Two tags on every finding</p>
-          <h2 id="tags-h">How bad it is, and how sure Apple is</h2>
+          <h2 id="tags-h">Every finding has two tags</h2>
         </header>
         <div className="sheet-grid">
           <div className="frame">
@@ -105,8 +103,7 @@ export default function Home() {
 
       <section className="section" aria-labelledby="steps-h">
         <header>
-          <p className="eyebrow">Method</p>
-          <h2 id="steps-h">The steps of a review, report before edits</h2>
+          <h2 id="steps-h">The steps of a review</h2>
           <p>Numbered as in the skill.</p>
         </header>
         <ol className="steps">
@@ -119,13 +116,12 @@ export default function Home() {
           ))}
         </ol>
         <p>
-          <Link href="/method">How it reads and measures, and the rules it won&rsquo;t bend</Link>
+          <Link href="/method">What it reads and measures, and its rules</Link>
         </p>
       </section>
 
       <section className="section" aria-labelledby="results-h">
         <header>
-          <p className="eyebrow">Testing</p>
           <h2 id="results-h">{results.headline}</h2>
           <p>{results.summary}</p>
         </header>
@@ -136,8 +132,7 @@ export default function Home() {
 
       <section className="section" id="install" aria-labelledby="install-h">
         <header>
-          <p className="eyebrow">Install</p>
-          <h2 id="install-h">Three ways in</h2>
+          <h2 id="install-h">Install</h2>
         </header>
         <div className="install-list">
           <div className="field">

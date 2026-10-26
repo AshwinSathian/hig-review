@@ -97,8 +97,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </li>
             </ul>
             <p>
-              Version {site.version}, MIT licence. Built by <a href={site.authorUrl}>{site.author}</a>. This site was
-              reviewed with loupe before it shipped; <Link href="/specimen">the review and its fixes</Link> are public.
+              Version {site.version}, MIT licence. Built by <a href={site.authorUrl}>{site.author}</a>. This site has been
+              reviewed with loupe twice; <Link href="/specimen">the reviews and their fixes</Link> are public.
             </p>
             <p className="disclaimer">{site.disclaimer}</p>
           </footer>

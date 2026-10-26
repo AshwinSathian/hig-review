@@ -142,6 +142,38 @@ test("defaults: shadcn v4 card (12px + v4 shadow-sm); transparent ring-only boxe
   assert.match(tells(await measure("shadcn-v4")), /shadcn.*3 of 3/);
 });
 
+test("defaults: tracked caps eyebrow above 3 of 4 headings", async () => {
+  const t = tells(await measure("eyebrows"));
+  assert.match(t, /Eyebrow label above 3 of 4 headings/);
+  assert.match(t, /"Features"/);
+});
+
+test("defaults: sentence-case eyebrows smaller than body text still count", async () => {
+  assert.match(tells(await measure("eyebrows-sentence")), /Eyebrow label above 3 of 3 headings/);
+});
+
+test("defaults: 2 eyebrows, and dates or reading times above posts, are not a pattern", async () => {
+  assert.doesNotMatch(tells(await measure("eyebrows-clean")), /Eyebrow/);
+});
+
+const measureFile = async (fixture) => {
+  await page.goto(new URL(`./fixtures/${fixture}.html`, import.meta.url).href);
+  await page.evaluate(() => document.fonts.ready);
+  return page.evaluate(`(${src()})()`);
+};
+
+test("defaults: mono found by glyph width, not name; code, fields, hidden and non-mono names excluded", async () => {
+  const t = tells(await measureFile("mono-labels"));
+  assert.match(t, /Monospace on 3 non-code text elements/);
+  assert.match(t, /#m1/);
+  assert.doesNotMatch(t, /corsiva|#c1|#p1|#i1|#h1/);
+});
+
+test("defaults: a mono body, or exactly 2 mono labels, is not the tell", async () => {
+  assert.doesNotMatch(tells(await measure("mono-body")), /Monospace/);
+  assert.doesNotMatch(tells(await measure("mono-two")), /Monospace/);
+});
+
 test("defaults: two matching cards are not a pattern", async () => {
   assert.doesNotMatch(tells(await measure("shadcn-two")), /shadcn/);
 });

@@ -20,8 +20,7 @@ export default function Method() {
   return (
     <>
       <header className="page-head">
-        <p className="eyebrow">Method</p>
-        <h1>Apple first, evidence always</h1>
+        <h1>How loupe reviews</h1>
         <p className="lede">
           loupe treats Apple&rsquo;s Human Interface Guidelines as the base and lets other research add to it, never
           replace it. Each outside check says whether it adds to an Apple rule, covers ground Apple leaves open, or
@@ -55,21 +54,21 @@ export default function Method() {
           measurement script in your own browser on the <Link href="/tools">tools page</Link>.
         </p>
 
-        <h2 id="rules-h">The rules it won&rsquo;t bend</h2>
+        <h2 id="rules-h">The rules, quoted from the skill</h2>
         <p>
           Quoted from <a href={blob('SKILL.md')}>SKILL.md</a> at build time, so this section can&rsquo;t drift from
           the skill. It is written for the agent, so a few terms need a key:
         </p>
         <dl className="key">
-          <dt>[Taste]</dt>
+          <dt><code>[Taste]</code></dt>
           <dd>reviewer judgement, labelled as such.</dd>
-          <dt>Apple silent</dt>
+          <dt>&ldquo;Apple silent&rdquo;</dt>
           <dd>Apple has no rule on it; the check comes from outside research.</dd>
-          <dt>release_stage</dt>
+          <dt><code>release_stage</code></dt>
           <dd>development or release, from the project&rsquo;s profile file.</dd>
-          <dt>(26+)</dt>
+          <dt><code>(26+)</code></dt>
           <dd>checks that apply only to apps built with the iOS, iPadOS or macOS 26 SDK.</dd>
-          <dt>step 7</dt>
+          <dt>&ldquo;step 7&rdquo;</dt>
           <dd>the last step, where it fixes the findings you pick.</dd>
         </dl>
       </div>

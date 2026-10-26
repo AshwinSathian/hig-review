@@ -20,7 +20,6 @@ export default function Tools() {
   return (
     <>
       <header className="page-head">
-        <p className="eyebrow">Tools</p>
         <h1>Measure it yourself</h1>
         <p className="lede">
           Two pieces of loupe that work without Claude. Both run in your browser and send nothing anywhere.
