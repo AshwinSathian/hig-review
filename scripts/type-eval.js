@@ -1,9 +1,9 @@
-// Typeface evaluation, run in the page. Also loadable as a <script>: the assignment defines window.__higTypeEval.
+// Typeface evaluation, run in the page. Also loadable as a <script>: the assignment defines window.__loupeTypeEval.
 // Usage (browser_evaluate / page.evaluate): `(<this file's text>)({ families?, sizes? })`. Async: await the result.
 // Run it once per page load: it loads font subsets for its coverage test, which a second run would count as the page's.
 // families: names to test (default: the first family of every font-family stack in use on the page).
 // sizes: px sizes for the confusable-glyph test (default [12, 13, 16]).
-window.__higTypeEval = async (opts = {}) => {
+window.__loupeTypeEval = async (opts = {}) => {
   // Keywords that name a system or generic font and must stay unquoted.
   const GENERIC = new Set(["serif", "sans-serif", "monospace", "cursive", "fantasy", "system-ui", "ui-sans-serif", "ui-serif", "ui-monospace", "ui-rounded", "math", "emoji", "fangsong", "-apple-system", "blinkmacsystemfont"]);
   const isGeneric = (f) => GENERIC.has(f.toLowerCase());

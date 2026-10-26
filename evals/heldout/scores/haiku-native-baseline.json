@@ -1,0 +1,66 @@
+{
+ "items": {
+  "N1": "found",
+  "N2": "found",
+  "N3": "found",
+  "N4": "found",
+  "N5": "found",
+  "N6": "found",
+  "N7": "found",
+  "N8": "found",
+  "U1": "found",
+  "U2": "found",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found",
+  "U6": "partly"
+ },
+ "blockers": 5,
+ "extra": [
+  {
+   "finding": "Missed doses disappear (in neither Today nor History)",
+   "verdict": "real",
+   "why": "Pending excluded from history; today filters to current day"
+  },
+  {
+   "finding": "Dose can be taken hours early with no check",
+   "verdict": "real",
+   "why": "Take enabled on every pending dose regardless of time"
+  },
+  {
+   "finding": "'Removed medicine' fallback unreachable since doses deleted too",
+   "verdict": "real",
+   "why": "delete(at:) removes doses for the medicine"
+  },
+  {
+   "finding": "Today empty-state copy wrong when medicines exist",
+   "verdict": "real",
+   "why": "From day 2 shows 'Add a medicine...' with medicines present"
+  },
+  {
+   "finding": "Dose rows lack combined accessibility element",
+   "verdict": "real",
+   "why": "No accessibilityElement/label on DoseRow"
+  },
+  {
+   "finding": "Medicines list lacks times and add action",
+   "verdict": "real",
+   "why": "MedicinesView has no toolbar; rows show name/strength"
+  },
+  {
+   "finding": "'Take' label vague; prefer 'Mark taken'",
+   "verdict": "wrong",
+   "why": "Pure wording taste; 'Take' is clear in context"
+  },
+  {
+   "finding": ".insetGrouped redundant (default style)",
+   "verdict": "wrong",
+   "why": "Not a problem; harmless explicit style"
+  },
+  {
+   "finding": "No autocap/submit label; no haptic on Take",
+   "verdict": "real",
+   "why": "Absent in AddMedicineView and DoseRow"
+  }
+ ]
+}

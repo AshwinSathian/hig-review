@@ -1,0 +1,59 @@
+{
+ "seed": 20261026,
+ "pairs": {
+  "pair01": {
+   "model": "opus",
+   "fixture": "web-sloppy",
+   "A": "skill",
+   "B": "baseline"
+  },
+  "pair02": {
+   "model": "haiku",
+   "fixture": "web-sloppy",
+   "A": "baseline",
+   "B": "skill"
+  },
+  "pair03": {
+   "model": "haiku",
+   "fixture": "native",
+   "A": "baseline",
+   "B": "skill"
+  },
+  "pair04": {
+   "model": "sonnet",
+   "fixture": "web-good",
+   "A": "baseline",
+   "B": "skill"
+  },
+  "pair05": {
+   "model": "opus",
+   "fixture": "web-good",
+   "A": "baseline",
+   "B": "skill"
+  },
+  "pair06": {
+   "model": "opus",
+   "fixture": "native",
+   "A": "skill",
+   "B": "baseline"
+  },
+  "pair07": {
+   "model": "sonnet",
+   "fixture": "native",
+   "A": "baseline",
+   "B": "skill"
+  },
+  "pair08": {
+   "model": "sonnet",
+   "fixture": "web-sloppy",
+   "A": "baseline",
+   "B": "skill"
+  },
+  "pair09": {
+   "model": "haiku",
+   "fixture": "web-good",
+   "A": "baseline",
+   "B": "skill"
+  }
+ }
+}

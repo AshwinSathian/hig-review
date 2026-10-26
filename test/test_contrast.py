@@ -23,4 +23,17 @@ assert code == 2 and "pairs" in err, (code, err)
 
 code, _, err = run("#ggg", "#fff")
 assert code == 2 and "#ggg" in err, (code, err)
+# Thresholds use the unrounded ratio: #6363f8 on white is 4.496:1 and fails AA text.
+code, out, _ = run("#6363f8", "#fff")
+r = json.loads(out)
+assert code == 0 and r["aa_text"] is False and r["ratio"] == 4.49, r
+
+# #rgba, clamping of channels and alpha.
+code, out, _ = run("#0008", "#fff", "rgb(300 -5 0 / 2)", "#ff0000")
+rows = [json.loads(l) for l in out.splitlines()]
+assert code == 0 and rows[0]["ratio"] == 4.48 and rows[1]["ratio"] == 1.0, rows
+
+for bad in ("rgb(nan 0 0)", "rgb(inf 0 0)", "rgb(0 0 0 / nan)"):
+    code, _, err = run(bad, "#fff")
+    assert code == 2 and "finite" in err, (bad, code, err)
 print("ok")

@@ -1,0 +1,7 @@
+<!doctype html><body style="margin:0;background:#fff;font-size:16px">
+<div id="host"></div>
+<iframe srcdoc="<p>same origin</p>"></iframe><iframe src="data:text/html,<p>opaque origin</p>"></iframe>
+<script>
+const r = document.getElementById("host").attachShadow({ mode: "open" });
+r.innerHTML = '<style>@media (prefers-reduced-motion: reduce){p{animation:none}}</style><p id="sp" style="color:#ccc">shadow text</p><button id="sb" style="width:10px;height:10px;padding:0">b</button>';
+</script>

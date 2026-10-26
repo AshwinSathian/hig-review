@@ -1,4 +1,4 @@
-# Profile template: `.hig-review.md`
+# Profile template: `.loupe.md`
 
 Lives at the reviewed repo root. The skill infers what it can on first run, asks only for the rest, writes the file, and reuses it. Edit freely; later runs obey it. Brand expression follows the profile on display-only surfaces; Apple wins in task flows.
 
@@ -13,7 +13,9 @@ areas:                 # Optional per-area audience override. Delete if the whol
 register: utilitarian  # utilitarian | expressive. Professional tool vs consumer/expressive. Sets motion and emphasis expectations. Infer from product type (editor, dashboard, admin vs consumer, media, game), the audience, and any brand or voice docs; ask if they disagree.
 motion_personality: { tone: serious, pace: relaxed }  # tone: serious..playful; pace: relaxed..fast. Apple's axes. Infer from existing motion tokens; else ask.
 platforms: []          # ios, ipados, macos, iphone-duo, web, android. Infer from *.xcodeproj / project.pbxproj, Package.swift, app.json, package.json (react, next, expo, @angular/core, vue), framework configs.
-deployment_targets:    # Gates Liquid Glass (26+) checks. Omit a platform not targeted. If undetected, ask in the bootstrap batch; if still unknown, (26+) checks are skipped and listed under Unverified.
+build_sdk: ""          # Xcode / platform SDK the app is built with (e.g. "Xcode 26, iOS 26 SDK"). Gates (26+) checks with the opt-out below. Sources: .xcode-version, LastUpgradeCheck in project.pbxproj, CI image, eas.json build image, Xcode-26-only APIs (glassEffect) in source.
+design_compatibility_opt_out: false  # true when Info.plist sets UIDesignRequiresCompatibility; (26+) checks are then skipped.
+deployment_targets:    # Fallback for the (26+) gate only when build_sdk is unknown. Omit a platform not targeted. If both are undetected, ask in the bootstrap batch; if still unknown, (26+) checks are skipped and listed under Unverified.
   ios: ""              # Native: project.pbxproj IPHONEOS_DEPLOYMENT_TARGET, Package.swift platforms (.iOS(...)), Info.plist MinimumOSVersion. Expo: the expo-build-properties plugin (plugins: [["expo-build-properties", {"ios": {"deploymentTarget": "..."}}]]) in app.json or app.config.*. Bare React Native: ios/Podfile `platform :ios, '...'` and ios/*.xcodeproj project.pbxproj.
   macos: ""            # project.pbxproj MACOSX_DEPLOYMENT_TARGET, Package.swift platforms (.macOS(...)), Info.plist LSMinimumSystemVersion
   web: ""              # browserslist in package.json, if set
@@ -38,7 +40,7 @@ voice:
   contractions: per-voice  # per-voice | all | positive-only | none. Native Apple targets allow them; elsewhere this decides.
   humor: unset         # unset | none | light | free. unset = the skill asks during profile bootstrap; until answered, no humor anywhere. Never in errors, destructive confirmations, money or permission requests, whatever this says.
   reading_level_target: null    # e.g. grade 8. Reading level is reported, not enforced, unless set.
-category: ""           # Product category in a few words, e.g. "surf forecast", "personal finance", "issue tracker". Infer from purpose and README; ask if unclear. Drives the landscape research.
+category: ""           # Product category in a few words, e.g. "pharmacy refills", "personal finance", "issue tracker". Infer from purpose and README; ask if unclear. Drives the landscape research.
 peers: []              # Products the team measures itself against. Ask in the bootstrap batch; the landscape step adds the category leader and challengers.
 landscape:             # Cached landscape research (step 1b). Reused for 180 days while category and peers are unchanged; then refreshed.
   date: ""
@@ -63,7 +65,8 @@ Free notes below: context the skill should know, links to brand or voice docs, a
 - `audience`, `areas`: resolve source conflicts (one question per page vs grouped form, compact vs comfortable rows, autosave vs explicit save, toast vs inline confirmation). A finding in an area uses that area's audience.
 - `register`, `motion_personality`: set motion and emphasis expectations. A serious, relaxed tool is flagged for bouncy springs; a playful one is not flagged for personality, only for broken basics.
 - `platforms`: decides which platform-fit rules and which reference files load. Web-only profiles never get native rules.
-- `deployment_targets`: Liquid Glass (26+) checks run only where the target is 26 or later; below, they are skipped, not downgraded.
+- `build_sdk`, `design_compatibility_opt_out`: Liquid Glass and other (26+) checks run when the build SDK is 26 or later and the opt-out is absent; otherwise they are skipped, not downgraded.
+- `deployment_targets`: used for the (26+) gate only when `build_sdk` is unknown, with an Unverified line saying so.
 - `release_stage`: App Review 4.2 minimum-functionality and 2.1 app-completeness checks (placeholder content, broken links or features) run only when it is `release` (or the user says the build is going to App Review). Otherwise placeholders are notes under Unverified, not Blockers. 4.1 Copycats, 4.2.6 template apps and 4.3 Spam are not gated.
 - `density`: picks the type scale for web and native measurement (iOS 17 pt vs macOS 13 pt body) and row-height expectations.
 - `brand`: brand wins on display-only surfaces if accessibility passes; Apple wins in task flows. `licensed_fonts` limits font suggestions; `signature_elements` feed the distinctiveness verdict.

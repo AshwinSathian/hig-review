@@ -1,18 +1,34 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
-  "name": "hig-review",
-  "owner": {"name": "Ashwin Sathian", "url": "https://ashwinsathian.com/"},
-  "description": "Self-hosted marketplace for the hig-review Claude Code skill, no Anthropic review or account required.",
+  "name": "loupe",
+  "owner": {
+    "name": "Ashwin Sathian",
+    "url": "https://ashwinsathian.com/"
+  },
+  "description": "Self-hosted marketplace for the loupe Claude Code skill.",
   "plugins": [
     {
-      "name": "hig-review",
+      "name": "loupe",
       "source": ".",
-      "description": "Reviews UI and UX against Apple's Human Interface Guidelines, with research-backed augments and an anti-slop catalog. Covers native Apple platforms and the web.",
-      "version": "0.1.0",
-      "author": {"name": "Ashwin Sathian", "url": "https://ashwinsathian.com/"},
-      "repository": "https://github.com/AshwinSathian/hig-review",
+      "description": "Design review for Claude Code: checks UI and UX against Apple's Human Interface Guidelines and the research around them, measures contrast, targets, type and motion in the running app, and flags template-made interfaces. iOS, iPadOS, macOS and the web. Independent; not affiliated with Apple.",
+      "author": {
+        "name": "Ashwin Sathian",
+        "url": "https://ashwinsathian.com/"
+      },
+      "repository": "https://github.com/AshwinSathian/loupe",
       "license": "MIT",
-      "keywords": ["hig","apple","design-review","ux","ui","accessibility","design-systems"]
+      "keywords": [
+        "design-review",
+        "ui-review",
+        "ux-audit",
+        "accessibility",
+        "wcag",
+        "human-interface-guidelines",
+        "swiftui",
+        "design-systems",
+        "ai-slop"
+      ],
+      "homepage": "https://loupe.ashwinsathian.com"
     }
   ]
 }

@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: Charting data · Collaboration and sharing · Drag and drop · Entering data · Feedback · File management · Going full screen · Launching · Live-viewing apps · Loading · Managing accounts · Managing notifications · Modality · Multitasking · Offering help · Onboarding · Playing audio · Playing haptics · Playing video · Printing · Ratings and reviews · Searching · Settings · Undo and redo · Workouts · Cross-cutting principles
+<!-- /contents -->
+
+
 Covers: Apple's behavior and flow patterns: charts, sharing, drag and drop, data entry, feedback, files, full screen, launching, live viewing, loading, accounts, notifications, modality, multitasking, help, onboarding, audio, haptics, video, printing, ratings, search, settings, undo, workouts.
 Loaded by: structure, content, interaction and motion
 Snapshot: 2026-10-23
@@ -224,7 +229,7 @@ Apple lists none (tvOS-centric, applies everywhere). tvOS can auto-start playbac
 
 ## Loading
 **Intent**
-"The best content-loading experience finishes before people become aware of it." An empty screen looks broken.
+Ideally loading is done before people notice it is happening. An empty screen looks broken.
 **Checks**
 - [SHOULD] Show something right away: placeholder text, graphics, or animation, replaced as content arrives.
 - [SHOULD] Let people keep using other parts of the app while content loads in the background.

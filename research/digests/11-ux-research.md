@@ -1,6 +1,9 @@
 # 11 — Empirical UX research beyond Apple (NN/g, Baymard, Laws of UX, forms authors, deceptive design)
 
-**Framing rule (from coordinator):** Apple HIG is the base of hig-review. Everything here *augments* it: it adds evidence, thresholds and numbers, or covers ground where Apple says nothing. Each section labels its relation to HIG as **Adds to Apple**, **Apple silent**, or **CONFLICT** (a real tension, flagged for a human to decide; we do not recommend overriding Apple). Each section also lists **Overused / slop tells**: patterns the research blessed for a narrow case that are now applied everywhere and look generic.
+Sources: Nielsen Norman Group, nngroup.com; Baymard Institute, baymard.com; Laws of UX, lawsofux.com; Luke Wroblewski, lukew.com; Adam Silver, Smashing Magazine; Jarrett and Gaffney, Forms That Work; deceptive.design; Princeton Web Transparency and Accountability Project; FTC. Fetched 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
+**Framing rule (from coordinator):** Apple HIG is the base of loupe. Everything here *augments* it: it adds evidence, thresholds and numbers, or covers ground where Apple says nothing. Each section labels its relation to HIG as **Adds to Apple**, **Apple silent**, or **CONFLICT** (a real tension, flagged for a human to decide; we do not recommend overriding Apple). Each section also lists **Overused / slop tells**: patterns the research blessed for a narrow case that are now applied everywhere and look generic.
 
 Fetched 2026-10-23. Numbers are quoted from the fetched page unless marked **(unverified, from memory)**. Statements about what Apple HIG says are from memory of the HIG and should be checked against the HIG digest in this repo.
 
@@ -406,6 +409,6 @@ Sources:
 1. **Conflict policy:** when an app copies Apple chrome styling (glass buttons, icon-only, placeholder labels) into content areas, is that [SHOULD] or [MUST]? Proposal: [SHOULD], with an explicit "Apple-convention vs. research" note in the finding.
 2. **Platform split:** should web reviews weight NN/g and Baymard above HIG, since HIG doesn't target the web, while iOS and macOS reviews keep HIG primary?
 3. **Evidence grading:** tag each check with an evidence tier (measured study with n / benchmark / expert guideline / opinion piece) so the skill can rank findings. For example, §1 is measured (n=71) while §12 is opinion with examples.
-4. **Measuring without running the app:** many checks (100 ms response, skeleton under 1 s, scroll restoration) need runtime observation. Does hig-review drive the app (Playwright / simulator) or only read code and screenshots?
+4. **Measuring without running the app:** many checks (100 ms response, skeleton under 1 s, scroll restoration) need runtime observation. Does loupe drive the app (Playwright / simulator) or only read code and screenshots?
 5. **Legal checks:** should deceptive-pattern hits carry a jurisdiction note (US ROSCA/state law, EU DSA/UCPD), or stay purely UX? These rules are moving (DFA pending, FTC rule vacated), so they need a dated "as of" stamp.
 6. **Slop detection thresholds:** the inferred numbers (≤1–2 accent emphases per view, ~300–500 ms indicator delay, ~8 field budget outside checkout) are our inference. Validate them on real apps before making them [MUST].

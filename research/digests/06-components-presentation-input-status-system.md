@@ -1,5 +1,8 @@
 # 06 — Components: Presentation, Selection & Input, Status, System Experiences
 
+Sources: Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23 (the Components pages for presentation, selection and input, status, and system experiences).
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Source: Apple HIG crawl (md/<slug>.md). Severity follows Apple's wording: **[MUST]** = "always / never / don't / must"; **[SHOULD]** = "avoid / prefer / use X — not Y / make sure"; **[CONSIDER]** = "consider / if it helps / when possible". Lines tagged *(inference)* are our additions, not Apple text.
 
 Index pages `presentation`, `selection-and-input`, `status`, `system-experiences` are TOC stubs only (no guidance).

@@ -1,5 +1,8 @@
 # 03 — Content & Foundations digest
 
+Sources: Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23 (accessibility, inclusion, writing, icons, SF Symbols, app icons, branding, privacy, right to left, VoiceOver).
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Scope: accessibility, inclusion, writing, icons, sf-symbols, app-icons, branding, privacy, right-to-left, voiceover, foundations.
 
 Coverage notes:

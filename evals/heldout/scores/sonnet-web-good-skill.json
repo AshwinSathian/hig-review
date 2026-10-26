@@ -1,0 +1,65 @@
+{
+ "items": {
+  "G1": "found",
+  "G2": "partly",
+  "G3": "partly",
+  "G4": "missed",
+  "G5": "found",
+  "G6": "missed",
+  "G7": "found",
+  "G8": "missed"
+ },
+ "blockers": 0,
+ "extra": [
+  {
+   "finding": "#1 Sticky result panel taller than viewport hides Copy",
+   "verdict": "real",
+   "why": "Measured: 1584 px panel; Copy at y=1483 in an 800 px viewport"
+  },
+  {
+   "finding": "#2 Phone result far from the inputs",
+   "verdict": "real",
+   "why": "Single-column layout"
+  },
+  {
+   "finding": "#3 Invalid tax silently 0; no error shown after reload",
+   "verdict": "real",
+   "why": "Tested: tax $0.00; after reload 'abc' is restored with an empty error"
+  },
+  {
+   "finding": "#5 People and items not editable",
+   "verdict": "real",
+   "why": "No edit path"
+  },
+  {
+   "finding": "#7 Everyone can't clear",
+   "verdict": "real",
+   "why": "Handler only sets all"
+  },
+  {
+   "finding": "#8 Comma decimal unhelpful message",
+   "verdict": "real",
+   "why": "Generic regex message for 12,50"
+  },
+  {
+   "finding": "#9 Spare-cents paragraph verbose",
+   "verdict": "real",
+   "why": "Long algorithm text"
+  },
+  {
+   "finding": "#10 Split note amounts unnamed",
+   "verdict": "real",
+   "why": "'Split N ways: a / b / c' has no names"
+  },
+  {
+   "finding": "#12 Missing autocapitalize/enterkeyhint gives lowercase names",
+   "verdict": "wrong",
+   "why": "iOS autocapitalises text inputs by default; enterkeyhint is optional polish"
+  },
+  {
+   "finding": "#13 Empty result panel could cue the next step",
+   "verdict": "wrong",
+   "why": "The empty state already says to add a person and an item"
+  }
+ ]
+}

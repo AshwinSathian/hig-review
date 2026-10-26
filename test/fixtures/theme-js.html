@@ -1,0 +1,9 @@
+<!doctype html><style>body{background:#fff;color:#111;margin:0}.dark body{background:#111;color:#eee}</style>
+<p id="t">themed by a matchMedia listener</p><p id="r">resized by a resize listener</p>
+<script>
+const mq = matchMedia("(prefers-color-scheme: dark)");
+const f = () => document.documentElement.classList.toggle("dark", mq.matches);
+mq.addEventListener("change", f); f();
+const u = () => requestAnimationFrame(() => { document.getElementById("r").style.color = innerWidth < 500 ? "#ccc" : "#000"; });
+addEventListener("resize", u); u();
+</script>

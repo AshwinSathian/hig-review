@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: Accessibility · Inclusion · Icons · SF Symbols · App icons · Branding · Privacy · Right to left · VoiceOver · Cross-cutting principles
+<!-- /contents -->
+
+
 Covers: accessibility, inclusion, icons, SF Symbols, app icons, branding, privacy, right to left, VoiceOver
 Loaded by: accessibility, visual
 Snapshot: 2026-10-23
@@ -38,7 +43,8 @@ Foundations (index page only, no guidance of its own): Accessibility, App icons,
 - [SHOULD] No autoplaying audio or video without discoverable start and stop controls. [CONSIDER] a global "no autoplay" setting.
 - [SHOULD] Video playback respects Dim Flashing Lights.
 - [SHOULD] With Reduce Motion on, reduce automatic and repeating animations (zoom, scale, peripheral motion). Tactics: tighter springs with less bounce, animation tracked directly to the gesture, no animated z-depth changes, fades instead of x/y/z translation, no animating into or out of blur.
-- [SHOULD] (iOS/iPadOS) Under Assistive Access: strip non-critical flows, one interaction per screen, and ask for confirmation twice before hard-to-undo actions such as delete.
+- [SHOULD] (iOS/iPadOS) Under Assistive Access: strip non-critical flows and keep one interaction per screen.
+- [MUST] (iOS/iPadOS) Under Assistive Access: always ask for confirmation twice before hard-to-undo actions such as delete.
 - [CONSIDER] Games offer difficulty, reaction-time and control-assist options.
 - **Platform deltas**: Beyond the size tables the page lists nothing specific for iOS, iPadOS or macOS. macOS has smaller targets (28 pt default, 20 pt min) and a 13 pt base text size. Transferable visionOS principles: keep UI in the field of view, prefer horizontal over vertical layouts, slow down peripheral motion, never head-lock content (it breaks Pointer Control), avoid large repetitive gestures.
 - **Web (our translation)**: WCAG ratios are the pass/fail floor: 4.5:1 body, 3:1 large text and non-text (WCAG 1.4.3, 1.4.11); APCA is an extra check. Apple's 18 pt is points; use roughly 24 px regular or 18.66 px bold as the WCAG large-text threshold. Minimum text is 12 px on desktop and web, 16 px body on mobile web (11 pt applies to native iOS). 200% text maps to 1.4.4 (Resize Text) plus 1.4.10 (Reflow) with `rem` units. Target size: 44 px is the goal (2.5.5, 44×44 CSS px, AAA) and 24 px is the minimum (2.5.8, 24×24 px, AA, with its spacing exception); use 48 px for shared cross-platform code. Color-only maps to 1.4.1. Reduce Motion maps to `@media (prefers-reduced-motion: reduce)`. Increase Contrast maps to `prefers-contrast: more` and `forced-colors`. Timed UI maps to 2.2.1, autoplay to 1.4.2, flashing to 2.3.1, keyboard-only to 2.1.1, "don't override shortcuts" to 2.1.4, gesture alternatives to 2.5.1, Voice Control labels to 2.5.3 (Label in Name). Honor `prefers-color-scheme` and user font size.

@@ -1,0 +1,24 @@
+loupe
+Copyright (c) 2026 Ashwin Sathian
+
+loupe is an independent project. It is not affiliated with, endorsed by, or
+sponsored by Apple Inc. Apple, the Apple logo, Human Interface Guidelines,
+Liquid Glass, SF Pro, SF Symbols, iOS, iPadOS, macOS and other Apple marks are
+trademarks of Apple Inc., registered in the U.S. and other countries. Other
+product names are the trademarks of their owners.
+
+The MIT license in LICENSE covers the code and the original text in this
+repository. The files in references/ and research/ summarise published
+guidance from Apple and other sources for the purpose of review and
+commentary. Short quoted passages are attributed where they appear and remain
+the property of their owners. Consult the cited sources for the authoritative
+text; Apple's guidance is at https://developer.apple.com/design/human-interface-guidelines/.
+
+GOV.UK material: contains public sector information licensed under the Open
+Government Licence v3.0.
+
+Microsoft Learn material is quoted under its documentation licence (CC BY 4.0
+where stated), with attribution at each quotation.
+
+test/fixtures/fonts/jetbrains-mono-latin-400-normal.woff2: JetBrains Mono,
+SIL Open Font License 1.1 (test/fixtures/fonts/JetBrainsMono-OFL.txt).

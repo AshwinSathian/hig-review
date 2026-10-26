@@ -1,7 +1,8 @@
 {
-  "name": "hig-review",
+  "name": "loupe",
   "private": true,
   "type": "module",
-  "scripts": { "test": "node --test && python3 -I test/test_png_contrast.py && python3 -I test/test_contrast.py" },
+  "scripts": { "test": "node --test && python3 -I test/test_png_contrast.py && python3 -I test/test_contrast.py && python3 -I tools/test_tools.py" },
+  "engines": { "node": ">=20" },
   "devDependencies": { "playwright": "^1.50.0" }
 }

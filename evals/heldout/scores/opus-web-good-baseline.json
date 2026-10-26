@@ -1,0 +1,105 @@
+{
+ "items": {
+  "G1": "found",
+  "G2": "missed",
+  "G3": "found",
+  "G4": "missed",
+  "G5": "found",
+  "G6": "missed",
+  "G7": "found",
+  "G8": "found"
+ },
+ "blockers": 2,
+ "extra": [
+  {
+   "finding": "C2 Invalid tax or tip silently counts as 0",
+   "verdict": "real",
+   "why": "Tested: invalid tax gives tax $0.00 and a normal total; Copy stays enabled"
+  },
+  {
+   "finding": "H1 Live validation errors on partial input like '12.'",
+   "verdict": "real",
+   "why": "Tax and tip validate on each input; the regex rejects a trailing point"
+  },
+  {
+   "finding": "H2 Phone result about 3,000 px down the page",
+   "verdict": "real",
+   "why": "Single-column layout puts the result last"
+  },
+  {
+   "finding": "H3 No editing of people or items",
+   "verdict": "real",
+   "why": "No edit affordance in the source"
+  },
+  {
+   "finding": "H4 Sticky desktop panel hides its bottom (Copy) with many people",
+   "verdict": "real",
+   "why": "Measured 14 people: .out is 1584 px tall in an 800 px viewport; Copy at y=1483"
+  },
+  {
+   "finding": "M2 Undo disappears on any edit",
+   "verdict": "real",
+   "why": "save() clears the toast"
+  },
+  {
+   "finding": "M3 Placeholders look like real values",
+   "verdict": "real",
+   "why": "Placeholder uses --muted at 7.3:1; the '0.00' placeholder reads as filled; minor"
+  },
+  {
+   "finding": "M5 Spare-cents explanation long and technical",
+   "verdict": "real",
+   "why": "Long paragraph in renderResult"
+  },
+  {
+   "finding": "M6 Tip presets are toggle buttons acting as single-select",
+   "verdict": "real",
+   "why": "aria-pressed buttons can't be unpressed; radio semantics would fit; minor"
+  },
+  {
+   "finding": "L1 Remove vs Delete verbs",
+   "verdict": "real",
+   "why": "Inconsistent verbs in the source"
+  },
+  {
+   "finding": "L2 Chips read 'Ana Remove', a wall of 'Remove'",
+   "verdict": "real",
+   "why": "Visible 'Remove' word on every chip; polish"
+  },
+  {
+   "finding": "L3 Everyone has no state or clear",
+   "verdict": "real",
+   "why": "Handler only assigns all; there is no clear"
+  },
+  {
+   "finding": "L4 Always-visible hints are clutter",
+   "verdict": "wrong",
+   "why": "Persistent hints are good form practice, not a defect"
+  },
+  {
+   "finding": "L5 Duplicate item names allowed",
+   "verdict": "real",
+   "why": "itemForm has no duplicate check; spare-cent text can be ambiguous"
+  },
+  {
+   "finding": "L6 Start over placed next to the title",
+   "verdict": "wrong",
+   "why": "Taste; the action is undoable"
+  },
+  {
+   "finding": "L7 Restored bill not flagged",
+   "verdict": "real",
+   "why": "load() silently restores localStorage"
+  },
+  {
+   "finding": "L8 Copied summary lacks per-person breakdown",
+   "verdict": "real",
+   "why": "summary() lists only totals per person"
+  },
+  {
+   "finding": "L10 Border contrast borderline",
+   "verdict": "wrong",
+   "why": "Passes 3:1, as the review itself admits"
+  }
+ ]
+}

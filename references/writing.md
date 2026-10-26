@@ -1,6 +1,12 @@
+<!-- contents -->
+Contents: Every message type · Labels and buttons · Titles and headings · Errors · Empty states · Confirmations and destructive actions · Success and feedback · Onboarding · Permissions · Notifications · AI feature copy · Settings descriptions · Tooltips · Loading copy · Voice · Conflicts resolved · Measurable checks
+<!-- /contents -->
+
+
 Covers: UI copy and microcopy by message type, product voice, conflicts between writing sources, and string checks. Apple first, then humanizing-writing and the interface-writing literature.
 Loaded by: content
 Snapshot: 2026-10-23
+Licence: Contains public sector information licensed under the Open Government Licence v3.0.
 
 Tags: [MUST] Apple writes must/never/always/don't (in the guideline body too), or App Review enforces it; anti-fabrication is our own rule and the one unconditional MUST. [SHOULD] avoid, prefer, use, make sure, "in general" hedges and plain imperatives. [CONSIDER] depends on context or the product profile. Apple MUSTs bind on native Apple targets; on web they are the default, and a profile can waive one only through `waivers` with a reason. Anti-fabrication is the one rule that never yields, on any target, under any profile.
 

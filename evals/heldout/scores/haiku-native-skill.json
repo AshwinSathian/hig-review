@@ -1,0 +1,41 @@
+{
+ "items": {
+  "N1": "found",
+  "N2": "found",
+  "N3": "found",
+  "N4": "found",
+  "N5": "found",
+  "N6": "found",
+  "N7": "found",
+  "N8": "found",
+  "U1": "found",
+  "U2": "found",
+  "U3": "partly",
+  "U4": "found",
+  "U5": "found",
+  "U6": "partly"
+ },
+ "blockers": 2,
+ "extra": [
+  {
+   "finding": "'Taken' label .green ~2.2:1 on white in light mode",
+   "verdict": "real",
+   "why": "TodayView.swift:53-54; system green #34C759 on white is 2.22:1"
+  },
+  {
+   "finding": "Times and notes entered on Add are never displayed",
+   "verdict": "real",
+   "why": "MedicinesView shows name/strength only; notes unused"
+  },
+  {
+   "finding": "Add form time uses 24h format vs locale format on Today",
+   "verdict": "real",
+   "why": "%02d:%02d in Add vs style: .time in Today"
+  },
+  {
+   "finding": "Medicine added after its time gets a past pending dose",
+   "verdict": "real",
+   "why": "add() sets hour on .now regardless of current time"
+  }
+ ]
+}

@@ -20,7 +20,7 @@ Then any assumptions (inferred profile keys, including `register`), and Run note
 - Under the table: `waived: N` (findings matched by profile waivers, not listed).
 
 **Impact**
-- Blocker: needs one of: a measured or source-confirmed WCAG A/AA failure (1.4.3 text contrast; 1.4.11 non-text contrast 3:1 for component boundaries, counted only when the boundary is the component's sole visual identifier, with no fill, visible label or other cue marking the field; 2.5.8 targets after the spacing exception; 4.1.2 name/role/value, such as an icon button with no accessible name), an Apple MUST on a native Apple target whose breach makes the task fail, blocks an accessibility need, or risks App Review rejection, data loss, a Trust-gate item, or a task that cannot be completed in a release-stage build. Every other MUST caps at Major. On web, a native Apple rule with no WCAG criterion behind it shows Web in the Apple column and caps at Major. Judged issues (such as placeholder-only labels where an accessible name still exists) cap at Major. With `release_stage: development`, a dead control (no handler, no visible effect) is Major plus an Unverified line saying it may be unfinished; Blocker only when `release_stage` is `release`.
+- Blocker: needs one of: a measured or source-confirmed WCAG A/AA failure (1.4.3 text contrast; 1.4.11 non-text contrast 3:1 for component boundaries, counted only when the boundary is the component's sole visual identifier, with no fill, visible label or other cue marking the field; 2.5.8 targets after the spacing exception; 4.1.2 name/role/value, such as an icon button with no accessible name; a name that exists but is unhelpful, like a glyph read as "white star", is Major), an Apple MUST on a native Apple target whose breach makes the task fail, blocks an accessibility need, or risks App Review rejection, data loss, a Trust-gate item, or a task that cannot be completed in a release-stage build. Every other MUST caps at Major. On web, a native Apple rule with no WCAG criterion behind it shows Web in the Apple column and caps at Major. Judged issues (such as placeholder-only labels where an accessible name still exists) cap at Major. With `release_stage: development`, a dead control (no handler, no visible effect) is Major plus an Unverified line saying it may be unfinished; Blocker only when `release_stage` is `release`.
 - Major: feels wrong, non-native, or generic.
 - Minor: noticeable roughness that does not hurt the task.
 - Polish: refinement; first to be grouped.
@@ -39,14 +39,14 @@ Examples (illustrative only, fictional "Trailhead" hiking app):
 
 | # | Finding | Where | Impact | Apple | Fix |
 |---|---|---|---|---|---|
-| 1 (example) | "Delete route" confirm button sits exactly under the trigger and the sheet has no Cancel; one tap deletes a saved route with no undo | Route detail, overflow menu | Blocker | MUST | Move the destructive confirm away from the trigger, add Cancel, offer Undo for 8 s |
+| 1 (example) | "Delete route" is the sheet's primary (default) button, sits exactly under the trigger, and the sheet has no Cancel; one tap deletes a saved route with no undo. Breaks Apple's Buttons rule "Don't assign the primary role to a button that performs a destructive action" | Route detail, overflow menu | Blocker | MUST | Give "Delete route" the destructive role, not primary; move it away from the trigger; add Cancel; offer Undo after the delete |
 | 2 (example) | First tab is a "Home" feed repeating Routes and Saved as cards | Tab bar, Home | Major | SHOULD | Remove Home; make Routes the first tab, surface recent items there |
 | 3 (example) | Section footers at 11 px on desktop web | Settings, footers | Minor | Web | Raise to 12 px, set in rem |
 | 4 (example) | Two spellings in one screen: "Colour" label, "Favorite" button | Settings, Appearance | Minor | Taste | Pick profile spelling (british): "Favourite" |
 
 ## 3. Trust
 
-Deceptive design, Blockers only: confirmshaming, fake urgency or scarcity, fake social proof, hidden costs, dark-pattern consent, invented counts or durations in copy. Each entry names element, screen, and the honest rewrite. If none: "No deceptive patterns found in what was seen."
+Deceptive design, Blockers only: confirmshaming, fake urgency or scarcity, fake social proof, hidden costs, dark-pattern consent, invented counts or durations in copy. Placeholder or sample figures in a development build are not deceptive design: list them in Unverified. Each entry names element, screen, and the honest rewrite. If none: "No deceptive patterns found in what was seen."
 
 ## 4. Landscape
 

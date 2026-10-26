@@ -1,0 +1,25 @@
+name: Outdated or wrong rule
+description: A reference file says something Apple's guidance or another cited source no longer says
+labels: [rule]
+body:
+  - type: input
+    id: file
+    attributes:
+      label: File and line
+      description: For example references/apple/visual.md:120
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source page
+      description: The URL of the Apple page (or other cited source) that disagrees.
+    validations:
+      required: true
+  - type: textarea
+    id: now
+    attributes:
+      label: What the source says now
+      description: A short quote or summary, and the date you checked it.
+    validations:
+      required: true

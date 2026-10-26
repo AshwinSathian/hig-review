@@ -1,6 +1,9 @@
 # 13 · Distinctiveness: how an interface earns its own identity and stays usable
 
-Digest for the `hig-review` skill. Compiled 2026-10-23.
+Sources: Published design case studies and essays (Linear, Stripe, Panic, Airbnb via It's Nice That), the pixelslop tool (pixelslop@0.3.8), prg.sh and Canatselis on generated-page signatures, and Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23. Compiled 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
+Digest for the `loupe` skill. Compiled 2026-10-23.
 
 **Ground rule (from the user, binding):** Apple HIG is the base. Everything here augments it. A distinctiveness finding never asks a product to break HIG clarity, hierarchy, consistency, platform conventions or accessibility. Identity is a layer of brand expression on top of a correct HIG base. It is not a license to replace system controls, invent navigation, or trade legibility for mood.
 
@@ -405,5 +408,5 @@ Single items are often legitimate. Flag clusters, and always check whether the p
 5. **Trend list maintenance.** The catalog will age (today's authored choice is next year's tell). Dated catalog file with a review cadence? Version stamp in findings?
 6. **Praised-product references in user briefs.** If a user says "make it feel like Linear", should the skill translate to the mechanism (hierarchy discipline, parametric themes) and refuse the look, or follow the brief as frontend-design does ("the brief's own words always win")?
 7. **Fame proxy.** Repetition across surfaces is the only fame proxy a reviewer has. Is it worth asking teams for real recognition data (e.g., a quick logo-off survey) on big products?
-8. **Which installed taste skills to reference.** Recommend that hig-review cite frontend-design's process and pixelslop's combination rule, and explicitly not invoke high-end-visual-design or minimalist-ui, since they generate catalogued looks.
+8. **Which installed taste skills to reference.** Recommend that loupe cite frontend-design's process and pixelslop's combination rule, and explicitly not invoke high-end-visual-design or minimalist-ui, since they generate catalogued looks.
 9. **Apple principle names.** The coordinator lists clarity, deference, hierarchy, consistency; WWDC25 framed Liquid Glass around hierarchy, harmony, consistency. The skill should use whichever the HIG digest established as current and cite it consistently.

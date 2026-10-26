@@ -1,0 +1,77 @@
+{
+ "items": {
+  "D1": "found",
+  "D2": "found",
+  "D3": "found",
+  "D4": "found",
+  "D5": "found",
+  "D6": "found",
+  "D7": "found",
+  "D8": "found",
+  "D9": "found",
+  "D10": "found",
+  "U1": "partly",
+  "U2": "missed",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found"
+ },
+ "blockers": 6,
+ "extra": [
+  {
+   "finding": "Hero text white on #2f8f65 4.01:1 fails AA",
+   "verdict": "wrong",
+   "why": "Pixel-measured worst 4.55:1; passes"
+  },
+  {
+   "finding": "Dialog doesn't return focus to Reserve on close",
+   "verdict": "wrong",
+   "why": "Native dialog close restores focus; invoking button not re-rendered"
+  },
+  {
+   "finding": "Toast 3s too short, fails WCAG 2.2.1",
+   "verdict": "wrong",
+   "why": "2.2.1 covers time limits on user tasks; role=status already announces"
+  },
+  {
+   "finding": "No dark mode / increased-contrast support",
+   "verdict": "wrong",
+   "why": "Style choice, not a defect"
+  },
+  {
+   "finding": "Out-of-stock dead end; no waitlist",
+   "verdict": "real",
+   "why": "Disabled button only"
+  },
+  {
+   "finding": "Hard-coded min date; closed days not blocked",
+   "verdict": "real",
+   "why": "min literal"
+  },
+  {
+   "finding": "Search lacks visible label",
+   "verdict": "wrong",
+   "why": "Key: aria-label + role=search is acceptable"
+  },
+  {
+   "finding": "Star and nav targets under 44px",
+   "verdict": "real",
+   "why": "32px / 18px; pass 2.5.8, minor"
+  },
+  {
+   "finding": "Nav: no skip link, aria-current or sticky header",
+   "verdict": "real",
+   "why": "Static header, in-page anchors only; minor"
+  },
+  {
+   "finding": "Dialog title lacks 'a/the'",
+   "verdict": "wrong",
+   "why": "'Reserve Cordless drill' is acceptable title copy"
+  },
+  {
+   "finding": "Duplicate same tool/date reservations allowed",
+   "verdict": "real",
+   "why": "No duplicate check in onsubmit (part of U3)"
+  }
+ ]
+}

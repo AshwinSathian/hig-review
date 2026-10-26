@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: Layout: visual hierarchy · Layout: adaptability and size classes · Typography: legibility and hierarchy · Typography: Dynamic Type layout behavior · Typography: iOS/iPadOS Dynamic Type table · Typography: macOS table · Typography: tracking values · Color: best practices · Color: Liquid Glass color (26+) · Color: management and wide color · Dark Mode · Materials: Liquid Glass (26+) · Materials: standard materials and vibrancy · Motion · Depth and spatial principles · Images · Cross-cutting principles
+<!-- /contents -->
+
+
 Covers: layout, typography (full type and tracking tables), color, Dark Mode, materials and Liquid Glass, motion, images, and depth/immersion principles that transfer.
 Loaded by: visual, interaction and motion
 Snapshot: 2026-10-23
@@ -12,7 +17,7 @@ People read top to bottom, leading to trailing. Alignment, indentation and group
 - [SHOULD] Align to shared edges. Use indentation only to mean subordination (indented = child of the item above).
 - [SHOULD] Group related items with negative space, container shapes, or separators. Pick one grouping device per level; don't stack all three.
 - [SHOULD] Use progressive disclosure (disclosure triangles, menus, nested views, scrollable sections) instead of showing every option at once.
-- [SHOULD] (26+) Instead of applying a solid or semi-opaque background color beneath controls, use a scroll edge effect to elevate them above content. Make controls distinct from content with Liquid Glass.
+- [SHOULD] (26+) Separate controls from the content scrolling beneath them with a scroll edge effect, not a solid or semi-opaque backing color, and let Liquid Glass set them apart from content.
 - [SHOULD] (26+) Extend full-screen background content under sidebars, toolbars and tab bars to the window edge.
 - [CONSIDER] (26+) If a sidebar or inspector would cover key parts of a full-bleed image, use a background extension effect (mirrored, blurred continuation), not a cropped image or hard edge.
 **Platform deltas**
@@ -254,7 +259,7 @@ Liquid Glass is a separate functional layer (controls, navigation) floating over
 Motion conveys status, feedback and instruction. It is purposeful, brief, cancelable, optional and physically plausible.
 **Checks**
 - [MUST] Don't add motion for its own sake; gratuitous motion distracts and can cause physical discomfort.
-- [SHOULD] Make motion optional: it's essential to avoid using it as the only way to communicate important info; pair with haptics, audio or text.
+- [SHOULD] Make motion optional: never let it be the only carrier of important information; pair it with haptics, audio or text.
 - [SHOULD] Make feedback motion follow the gesture: a view revealed by sliding down dismisses by sliding up, not sideways.
 - [SHOULD] Keep feedback animations brief and precise.
 - [SHOULD] Avoid adding custom motion to frequent interactions (the system already animates standard ones).

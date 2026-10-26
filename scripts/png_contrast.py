@@ -11,11 +11,12 @@ fg the colour covering >= 1% of the box that is furthest in luminance from bg.
 Anti-aliased edges blend fg and bg, so pick a box that includes solid glyph strokes.
 Supports 8-bit RGB/RGBA, non-interlaced PNGs; RGBA is composited over white.
 """
-import json, struct, sys, zlib
+import json, math, struct, sys, zlib
 from collections import Counter
 
 
-def decode(path):
+def decode(path, stop=None):
+    """Unfilter rows 0..stop-1 only; rows below the box are never decoded."""
     with open(path, "rb") as f:
         data = f.read()
     if data[:8] != b"\x89PNG\r\n\x1a\n":
@@ -40,7 +41,7 @@ def decode(path):
     bpp = 3 if ctype == 2 else 4
     raw, stride = zlib.decompress(idat), w * bpp
     rows, prev = [], bytearray(stride)
-    for y in range(h):
+    for y in range(h if stop is None else min(h, stop)):
         ft, line = raw[y * (stride + 1)], bytearray(raw[y * (stride + 1) + 1:(y + 1) * (stride + 1)])
         if ft > 4:
             sys.exit(f"corrupt PNG: filter type {ft} on row {y}")
@@ -71,8 +72,11 @@ def lum(c):
 def main(argv):
     if len(argv) != 6:
         sys.exit(__doc__)
-    w, h, bpp, rows = decode(argv[1])
-    x1, y1, x2, y2 = map(int, argv[2:])
+    try:
+        x1, y1, x2, y2 = map(int, argv[2:])
+    except ValueError:
+        sys.exit(f"x1 y1 x2 y2 must be integers (image pixels), got {' '.join(argv[2:])}")
+    w, h, bpp, rows = decode(argv[1], max(y2, 0))
     x1, y1, x2, y2 = max(x1, 0), max(y1, 0), min(x2, w), min(y2, h)
     if x1 >= x2 or y1 >= y2:
         sys.exit(f"empty box for a {w}x{h} image")
@@ -91,7 +95,11 @@ def main(argv):
     fg = max(cands, key=lambda c: abs(lum(c) - lum(bg)))
     hi, lo = sorted((lum(fg), lum(bg)), reverse=True)
     hexc = lambda c: "#%02x%02x%02x" % c
-    print(json.dumps({"fg": hexc(fg), "bg": hexc(bg), "ratio": round((hi + 0.05) / (lo + 0.05), 2), "pixels": total}))
+    ratio = (hi + 0.05) / (lo + 0.05)
+    shown = round(ratio, 2)
+    if any(shown >= t > ratio for t in (3, 4.5, 7)):  # never round up onto a threshold the pair misses
+        shown = math.floor(ratio * 100) / 100
+    print(json.dumps({"fg": hexc(fg), "bg": hexc(bg), "ratio": shown, "pixels": total}))
 
 
 if __name__ == "__main__":

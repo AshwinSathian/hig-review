@@ -1,0 +1,61 @@
+{
+ "items": {
+  "N1": "found",
+  "N2": "found",
+  "N3": "found",
+  "N4": "found",
+  "N5": "found",
+  "N6": "found",
+  "N7": "found",
+  "N8": "found",
+  "U1": "found",
+  "U2": "found",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found",
+  "U6": "partly"
+ },
+ "blockers": 3,
+ "extra": [
+  {
+   "finding": "'Taken' green label fails contrast on white (~2.3:1)",
+   "verdict": "real",
+   "why": "System green #34C759 on white is 2.22:1"
+  },
+  {
+   "finding": "Taken time darker than pending .secondary in light mode",
+   "verdict": "real",
+   "why": "#4B5563 vs secondary ~3.4:1; taken reads more prominent"
+  },
+  {
+   "finding": "'8:5' parses, '8.00' silently fails",
+   "verdict": "real",
+   "why": "Split on ':' with Int(); '5' becomes minute 5"
+  },
+  {
+   "finding": "Outer .borderless may override Take's .borderedProminent",
+   "verdict": "wrong",
+   "why": "Innermost buttonStyle wins; Take stays prominent"
+  },
+  {
+   "finding": "Empty UILaunchScreen causes white flash in dark mode",
+   "verdict": "wrong",
+   "why": "Empty UILaunchScreen uses adaptive system background"
+  },
+  {
+   "finding": "Notes never shown; no dose amount field",
+   "verdict": "real",
+   "why": "notes stored but no view reads it"
+  },
+  {
+   "finding": "History Clear button too easy to hit",
+   "verdict": "wrong",
+   "why": "Key F2: confirmed destructive action is correct"
+  },
+  {
+   "finding": "No app icon or accent colour",
+   "verdict": "real",
+   "why": "No asset catalog in project"
+  }
+ ]
+}

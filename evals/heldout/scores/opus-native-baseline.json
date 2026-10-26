@@ -1,0 +1,71 @@
+{
+ "items": {
+  "N1": "found",
+  "N2": "found",
+  "N3": "found",
+  "N4": "found",
+  "N5": "found",
+  "N6": "found",
+  "N7": "found",
+  "N8": "found",
+  "U1": "found",
+  "U2": "found",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found",
+  "U6": "found"
+ },
+ "blockers": 4,
+ "extra": [
+  {
+   "finding": "Missed doses never reach History (pending excluded, Today filters to today)",
+   "verdict": "real",
+   "why": "history filters status != .pending; today uses isDateInToday"
+  },
+  {
+   "finding": "Added times shown as hard-coded 24h %02d:%02d",
+   "verdict": "real",
+   "why": "AddMedicineView.swift:26 String(format:)"
+  },
+  {
+   "finding": "resolvedAt stored but never shown",
+   "verdict": "real",
+   "why": "Set in resolve(), never read by any view"
+  },
+  {
+   "finding": "Today rows omit strength; notes never shown anywhere",
+   "verdict": "real",
+   "why": "DoseRow shows name and time only; notes unused in views"
+  },
+  {
+   "finding": "Name accepts whitespace-only; no autocap/submit flow",
+   "verdict": "real",
+   "why": "Validation is name.isEmpty only"
+  },
+  {
+   "finding": "Dose rows not combined for VoiceOver",
+   "verdict": "real",
+   "why": "No accessibilityElement on DoseRow"
+  },
+  {
+   "finding": "History Clear button too exposed in nav bar",
+   "verdict": "wrong",
+   "why": "Key F2: destructive role plus confirmationDialog is the correct pattern"
+  },
+  {
+   "finding": "Tab icons mismatched (pills on Today, cross.vial on Medicines)",
+   "verdict": "real",
+   "why": "Taste-level but accurate to RootView"
+  },
+  {
+   "finding": "Schedule model daily-only (no weekdays, PRN, end date)",
+   "verdict": "real",
+   "why": "Medicine has only times; scope gap"
+  },
+  {
+   "finding": "Placeholder bundle ID com.example.dosewise; no accent/icon",
+   "verdict": "real",
+   "why": "pbxproj PRODUCT_BUNDLE_IDENTIFIER; no asset catalog"
+  }
+ ]
+}

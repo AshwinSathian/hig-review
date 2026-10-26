@@ -41,6 +41,10 @@ Unverified by default: static mockups cannot show dismissal, stacking, or progre
 
 # A. Presentation
 
+<!-- contents -->
+Contents: Presentation & input decision guide · Cross-cutting rules · Action sheets · Alerts · Page controls · Panels · Popovers · Scroll views · Sheets · Windows · Color wells · Combo boxes · Image wells · Pickers · Segmented controls · Sliders · Steppers · Text fields · Toggles · Virtual keyboards · Progress indicators · Gauges · Rating indicators · Activity rings · Widgets · Live Activities · Notifications · Controls · App Shortcuts · Snippets · Status bars · Transferable principles from watch and TV surfaces
+<!-- /contents -->
+
 ## Action sheets
 - **Intent**: Modal list of choices tied to an action the person just deliberately started (cancel a draft: Delete Draft / Save Draft).
 **Checks**:
@@ -237,7 +241,7 @@ Unverified by default: static mockups cannot show dismissal, stacking, or progre
 ## Text fields
 - **Intent**: Short, specific text (name, email). Long text uses a text view.
 **Checks**:
-- [SHOULD] Placeholder hints plus a separate persistent label, because the placeholder disappears on input.
+- [CONSIDER] Add a separate label beside placeholder text, because the placeholder disappears on input (Apple: "it can also be useful to include a separate label"). Apple's own example uses placeholders such as "Email" and "Password".
 - [SHOULD] Use a secure field for passwords and other sensitive data.
 - [SHOULD] Field width matches the expected length of input.
 - [SHOULD] Even spacing; stack vertically; consistent widths per field group (first/last name one width, address/city another).

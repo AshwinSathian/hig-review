@@ -1,5 +1,8 @@
 # 08 — Beyond the HIG: Apple's other first-party design literature
 
+Sources: Apple WWDC session videos and transcripts, developer.apple.com/videos; App Store Review Guidelines, developer.apple.com/app-store/review/guidelines; App Store Connect Help (Accessibility Nutrition Labels), developer.apple.com/help/app-store-connect; Apple Design Awards, developer.apple.com/design/awards; Apple Style Guide, support.apple.com/guide/applestyleguide; WebKit blog, webkit.org/blog. Fetched 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Compiled 2026-10-23. Scope: WWDC design sessions (2017–2026), App Store Connect Accessibility Nutrition Label criteria, App Review Guidelines §4 (and nearby rules), Apple Design Awards 2026 category criteria, Apple Style Guide, and WebKit/Safari guidance for web.
 
 **Provenance.** Unless marked otherwise, everything below was read from first-party text fetched today:
@@ -482,7 +485,7 @@ What the 2026 citations praise (use as positive exemplars):
 
 **Web translation:** For PWAs and web wrappers, 4.2 is the bar: a WKWebView wrapper of a website gets rejected. For the review skill, a "repackaged website" smell (web-style nav, no native gestures, hamburger menu, pull-to-refresh missing) is a store risk as well as a UX issue.
 
-**Slop tells:** Template-generated apps with an interchangeable brand skin (4.2.6 / 4.3 risk). A login wall before any value. No account-deletion path.
+**Slop tells:** Template-looking apps with an interchangeable brand skin (4.3 risk at most; 4.2.6 applies only when a commercialized template or app-generation service submits for a client, which a look cannot show). A login wall before any value. No account-deletion path.
 
 ---
 
@@ -517,7 +520,7 @@ Sources: "Designing Websites for iPhone X" (https://webkit.org/blog/7929/, 2017)
 - **Apple Design Resources tracking tables** (per-size tracking numbers) weren't fetched. They're downloadable assets; the HIG Typography page may already include them (check digest 0x).
 - **WebKit "Safari 26" Home Screen web app post**: content confirmed via secondary sources quoting it; the original webkit.org post wasn't fetched.
 - **Archived Safari Web Content Guide** ("Configuring Web Applications") wasn't fetched; legacy meta-tag details are from memory.
-- Transcripts fetched but **not digested** (available in scratchpad `wwdc/` if needed): WWDC25 248 prompt design & safety, 220 app icons, 361 Icon Composer, 255/303 visionOS; WWDC24 10086/10096 visionOS, 10112 CarPlay, 10098 Watch Live Activities, 10151 visual effects; WWDC26 234 immersive environments, 321/322 SwiftUI, 8012 Icon Composer lab, 382 special presentation.
+- Transcripts fetched but **not digested** (raw transcripts were not kept; refetch from developer.apple.com/videos if needed): WWDC25 248 prompt design & safety, 220 app icons, 361 Icon Composer, 255/303 visionOS; WWDC24 10086/10096 visionOS, 10112 CarPlay, 10098 Watch Live Activities, 10151 visual effects; WWDC26 234 immersive environments, 321/322 SwiftUI, 8012 Icon Composer lab, 382 special presentation.
 
 ## Open questions for skill design
 

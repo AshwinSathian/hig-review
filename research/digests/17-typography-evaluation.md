@@ -1,6 +1,9 @@
 # 17 — Typography and font-face evaluation: fit, roles, web delivery, distinctiveness, a test procedure
 
-Scope: how hig-review judges whether a product's typefaces fit their roles (UI text, reading, data, code, display) and how it evaluates candidate faces when it proposes a theme. Covers measurable legibility proxies, Apple's system type and custom-font rules, 2025–2026 web font delivery and Baseline status, which faces now read as defaults, how respected products chose custom faces (the mechanism, not the look), and a step-by-step specimen test with a verdict format. Compiled 2026-10-26.
+Sources: Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23 (typography) and developer.apple.com font documentation; Butterick, practicaltypography.com; HTTP Archive Web Almanac; web.dev; W3C; legibility research on PubMed Central; Adobe Research; type foundry and design press pages named per line. Compiled 2026-10-26.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
+Scope: how loupe judges whether a product's typefaces fit their roles (UI text, reading, data, code, display) and how it evaluates candidate faces when it proposes a theme. Covers measurable legibility proxies, Apple's system type and custom-font rules, 2025–2026 web font delivery and Baseline status, which faces now read as defaults, how respected products chose custom faces (the mechanism, not the look), and a step-by-step specimen test with a verdict format. Compiled 2026-10-26.
 
 **Framing rule:** On Apple platforms the system fonts (SF, New York) are the HIG-correct default and need no justification. A custom face has to earn its place: it must match system legibility at the platform minimum sizes and support Dynamic Type and Bold Text. On the web there is no neutral default. Every face is a choice, and "everyone uses it" is a fact about distinctiveness, not about quality. Legibility and role fit come before identity. A distinctive face that fails the confusables test at 12 px is a finding, not a brand asset.
 

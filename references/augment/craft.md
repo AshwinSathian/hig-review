@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: Measure and text settings (Bringhurst, Butterick, Every Layout) · Typeface choice and the type system (Butterick, Lupton, Tschichold, Every Layout, Utopia) · Grids and intrinsic layout (Müller-Brockmann, Every Layout) · Rams: honesty and thoroughness checks · Tufte: density and honesty in data marks · Gestalt vocabulary for grouping · Refactoring UI: borders, space, hierarchy · Web interaction hygiene (Vercel Web Interface Guidelines) · Interaction craft (Rauno Freiberg) · Motion rules of thumb (Emil Kowalski, NN/g, Paco Coursey) · Shadows and elevation on custom surfaces (Josh Comeau) · Color systems (Stripe, Linear) · Motion canon: Disney, Material, Apple springs · What Apple misses (synthesis)
+<!-- /contents -->
+
+
 Covers non-Apple craft literature: typography canon, grids, Rams, Tufte, Refactoring UI, Vercel web guidelines, Rauno, Emil, shadows, color systems, motion canon.
 Loaded by: visual, interaction and motion, distinctiveness
 Snapshot: 2026-10-23
@@ -6,17 +11,17 @@ Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule
 ## Measure and text settings (Bringhurst, Butterick, Every Layout)
 **Intent**: Most measure, leading and rhythm rules on the web trace to Bringhurst. Apple gives readable-width guides but no character count, and its Dynamic Type sets leading only for system styles.
 **Checks**
-- [MUST] Reading text runs 45 to 75 characters per line in a single column; 66 is the classic ideal (counting spaces); multi-column work averages 40 to 50. (Bringhurst via Rutter; Butterick allows 45 to 90, two to three alphabets per line.) — adds to Apple
+- [SHOULD] Reading text runs 45 to 75 characters per line in a single column; 66 is the classic ideal (counting spaces); multi-column work averages 40 to 50. (Bringhurst via Rutter; Butterick allows 45 to 90, two to three alphabets per line.) — adds to Apple
 - [SHOULD] Cap measure at about 60ch (Every Layout: `--measure: 60ch`, `max-inline-size`; Rutter's elastic example: a column 33em wide at about 0.5em per character gives 66 characters). Size it in font-relative units so it holds when the user changes text size; `1ch` tracks the font's `0` width. Exempt `html, body, div, header, nav, main, footer` (`max-inline-size: none`). — adds to Apple
-- [MUST] Body size is 15 to 25 px on the web (Butterick; 10 to 12 pt in print) — CONFLICT: Butterick's 15 to 25 px body vs the dense-tool web scale of 13 to 14 px (and the 16 px mobile web floor); resolution: Butterick's range applies to reading text; on web, comfortable products take 16 to 17 px body per the profile's density measure, dense tools 13 to 14 px, and the 16 px mobile-input floor still governs; native Apple targets follow Apple's type styles
-- [MUST] Line spacing is 120 to 145% of point size, set as a unitless `line-height` (about 1.2 to 1.45). (custom text settings) — adds to Apple
+- [SHOULD] Body size is 15 to 25 px on the web (Butterick; 10 to 12 pt in print) — CONFLICT: Butterick's 15 to 25 px body vs the dense-tool web scale of 13 to 14 px (and the 16 px mobile web floor); resolution: Butterick's range applies to reading text; on web, comfortable products take 16 to 17 px body per the profile's density measure, dense tools 13 to 14 px, and the 16 px mobile-input floor still governs; native Apple targets follow Apple's type styles
+- [SHOULD] Line spacing is 120 to 145% of point size, set as a unitless `line-height` (about 1.2 to 1.45). (custom text settings) — CONFLICT: Apple's own small styles sit below this range (Caption 2 is 11 pt on 13 pt leading, about 118%); resolution: Apple's type styles win on native targets; apply the range to custom reading text.
 - [SHOULD] Use bold or italic as little as possible, and not together. — adds to Apple
 - [SHOULD] All caps only for less than one line, with 5 to 12% extra letterspacing (`letter-spacing` 0.05em to 0.12em) on caps and small caps. Lowercase at large sizes (headlines) often has its letterspacing removed. — adds to Apple
 - [SHOULD] Use centered text sparingly; whole text blocks should not be centered. Butterick: "Centered text is overused. It's the typographic equivalent of vanilla ice cream: safe but boring." — adds to Apple
 - [SHOULD] Headings: at most three levels (two is better). Emphasize by space above and below. Use the smallest size increment that shows a difference (12 pt body, try 12.5 or 13, not 14 or 15). — adds to Apple
 - [SHOULD] Headings avoid Title Case ("Always Avoid Title Case, Because Your Headings Aren't Titles") — CONFLICT: Butterick rejects Title Case in headings vs Apple's title-style capitalization on control labels (references/apple/components-structure.md); resolution: capitalization is a house choice per element type, checked for consistency not correctness; native Apple targets follow Apple's fixed rules, web defaults to sentence case when the profile is silent.
 - [SHOULD] Paragraph separation by first-line indent of one to four times the point size, or 4 to 10 points of space between paragraphs; not both. — adds to Apple
-- [MUST] Curly quotes, a real ellipsis character, real dashes, one space between sentences, kerning on (`font-kerning: normal`). — adds to Apple
+- [SHOULD] Curly quotes, a real ellipsis character, real dashes, one space between sentences, kerning on (`font-kerning: normal`). — adds to Apple
 - [SHOULD] Space between blocks comes from multiples of the body leading (Bringhurst, Every Layout: 1rem at line-height 1.5 gives 1.5rem; larger harmonious gaps 3rem or 4.5rem). Spacing belongs to the parent context (`.stack > * + * { margin-block-start: 1.5rem }`), not to each component. (unverified for Bringhurst's own wording.) — Apple silent
 - [SHOULD] Real typographic features: true small caps (use `font-variant-caps: small-caps` only when the font has them; Butterick: "If you don't have real small caps, don't use them at all."), old-style figures in running text, lining or tabular figures in tables, hanging punctuation where possible (unverified for Bringhurst's wording). — Apple silent
 - [SHOULD] `font-variant-numeric: oldstyle-nums proportional-nums` for prose, `lining-nums tabular-nums` for tables. SwiftUI `.monospacedDigit()`; keep custom faces on Dynamic Type with `Font.custom(_:size:relativeTo:)`; reading columns via `.frame(maxWidth:)`. SwiftUI has no `ch` unit, so derive the point measure from the face (unverified). — Apple silent
@@ -88,7 +93,7 @@ Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule
 ## Refactoring UI: borders, space, hierarchy
 **Intent**: Mostly adds to Apple for custom web UI. Only the landing-page quote was verified; the rest is secondary or memory. Use its reasons (fewer borders, systematic spacing), not its sample palettes or card styles.
 **Checks**
-- [SHOULD] "Borders are a great way to distinguish two elements from one another, but using too many of them can make your design feel busy and cluttered. Instead, try adding a box shadow, using contrasting background colors, or simply adding more space between elements." — adds to Apple
+- [SHOULD] Use fewer borders: too many make a design busy, so separate elements with a shadow, a contrasting background or more space instead (paraphrasing Wathan and Schoger, Refactoring UI). — adds to Apple
 - [SHOULD] Start with too much white space, then remove (section wording unverified). — Apple silent
 - [SHOULD] Establish a spacing and sizing system: a limited scale from a practical base (16 px reported) where no two adjacent values sit closer than about 25% (secondary source, unverified). — Apple silent
 - [SHOULD] Hierarchy through weight and color, not only size; de-emphasize secondary text with lighter color rather than shrinking it (unverified). Apple's semantic label colors (primary, secondary, tertiary) encode the same idea. — adds to Apple
@@ -98,7 +103,8 @@ Tags: [MUST]/[SHOULD]/[CONSIDER] = the source's own strength; [Taste] = our rule
 ## Web interaction hygiene (Vercel Web Interface Guidelines)
 **Intent**: The densest checkable list of web interaction craft. Take the universal checks only: Vercel marks its copy rules (Title Case, "&" over "and", numerals for counts) as Vercel-specific, "They aren't universal guidelines", so do not import them.
 **Checks**
-- [MUST] Hit targets: if the visual target is under 24 px, expand its hit target to 24 px or more; on mobile the minimum is 44 px. Agrees with Apple's 44 pt. (the 24 px minimum) — adds to Apple
+- [MUST] Hit targets: if the visual target is under 24 px, expand its hit target to 24 px or more (WCAG 2.5.8 minimum). — adds to Apple
+- [SHOULD] On touch, aim for 44 px (Vercel's mobile figure; matches Apple's 44 pt default control size, whose minimum is 28 pt). — adds to Apple
 - [MUST] `<input>` font size is 16 px or more on mobile to prevent iOS Safari auto-zoom on focus. Never disable browser zoom. — Apple silent
 - [SHOULD] Loading states get a short show-delay (about 150 to 300 ms) and a minimum visible time (about 300 to 500 ms) to avoid flicker. — adds to Apple
 - [SHOULD] Network latency budget: `POST`/`PATCH`/`DELETE` complete in under 500 ms. (no perceptible latency on any interaction) — adds to Apple

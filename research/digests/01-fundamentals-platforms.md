@@ -1,5 +1,8 @@
 # HIG Digest 01: Fundamentals & Platforms
 
+Sources: Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23 (design principles and the iOS, iPadOS, macOS, iPhone Duo, visionOS, watchOS, tvOS and games pages).
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Scope: human-interface-guidelines, getting-started, design-principles, designing-for-{ios, ipados, macos, iphone-duo, visionos, watchos, tvos, games}.
 Severity key: [MUST] = Apple says must / don't / be sure; [SHOULD] = imperative best practice or "prioritize"; [CONSIDER] = "consider", "can", "might".
 "Web translation" and "Slop tells" are **our inference**, not Apple text.

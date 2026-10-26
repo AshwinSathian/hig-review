@@ -1,10 +1,13 @@
 # 12 — Craft canon: typography, grids, visual principles, interaction, motion
 
+Sources: Bringhurst, The Elements of Typographic Style (via Rutter, webtypography.net); Butterick, practicaltypography.com; Every Layout, every-layout.dev; Utopia, utopia.fyi; Dieter Rams (Vitsoe); Tufte; Wathan and Schoger, Refactoring UI; Vercel Web Interface Guidelines; Rauno Freiberg, rauno.me; Emil Kowalski, emilkowal.ski; Josh Comeau, joshwcomeau.com; Nielsen Norman Group. Compiled 2026-10-23.
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Scope: non-Apple craft literature that can give a product its own typographic, spatial and motion character. Compiled 2026-10-23.
 
-**Framing rule (per coordinator):** Apple HIG is the base of hig-review. Everything below either **adds to Apple** (more detail, evidence or numbers where the HIG agrees in spirit), covers ground where **Apple is silent**, or is a **conflict** with Apple. Conflicts are flagged, not resolved against Apple. On Apple platforms the HIG rule wins unless the skill has a stated reason to deviate.
+**Framing rule (per coordinator):** Apple HIG is the base of loupe. Everything below either **adds to Apple** (more detail, evidence or numbers where the HIG agrees in spirit), covers ground where **Apple is silent**, or is a **conflict** with Apple. Conflicts are flagged, not resolved against Apple. On Apple platforms the HIG rule wins unless the skill has a stated reason to deviate.
 
-**Provenance:** "(fetched)" means the text or number was read from the live page during this session. "(unverified, from memory)" means recalled, not confirmed. Quotes are verbatim only when marked as quotes. Raw page dumps are in `scratchpad/hig/raw12/`.
+**Provenance:** "(fetched)" means the text or number was read from the live page during this session. "(unverified, from memory)" means recalled, not confirmed. Quotes are verbatim only when marked as quotes. Raw page dumps were not kept in the repo.
 
 Tags: [MUST] = a review should fail without it. [SHOULD] = strong default. [CONSIDER] = a lever for character, applied with judgement.
 
@@ -390,7 +393,7 @@ Each item is something Apple's HIG is silent on or thin on, which these sources 
 
 Today's AI slop is largely these sources' *surface looks*, copied without their reasons. The skill should take the reasons and actively avoid steering toward the looks. For each item: what became generic, then how the skill should handle it.
 
-| Pattern (source) | Generic form now | How hig-review should handle it |
+| Pattern (source) | Generic form now | How loupe should handle it |
 |---|---|---|
 | Inter / Geist + tight negative tracking on headlines (Linear, Vercel) | Default "modern SaaS" headline | Never recommend a specific face. Check *fit*: does the face's character match the product? Flag Inter/Geist/system-sans-only stacks as **convergence risk [CONSIDER]**, not as errors. Butterick: "Steal from better sources." |
 | Dark, low-chroma UI with one violet/blue accent and glow gradients (Linear marketing look) | The "Linear style" landing page | Take the method (perceptual theme generation, restrained chrome, contrast param). Flag glow borders, radial-gradient orbs and noise overlays as decoration without information (Rams *honest* / *long-lasting*). |

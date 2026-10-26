@@ -1,3 +1,8 @@
+<!-- contents -->
+Contents: Generative AI · Machine learning · Keyboards · Pointing devices · Gestures · Focus and selection · Apple Pencil and Scribble · Action button · Camera Control · Gyroscope and accelerometer · Sign in with Apple · Apple In-App Purchase and paywalls · Apple Pay · Mac Catalyst · iCloud · Siri and App Intents · Maps · Live Photos · Photo editing · SharePlay · Augmented reality · Skimmed technologies · Cross-cutting principles
+<!-- /contents -->
+
+
 Covers: generative AI, machine learning, keyboards (with the standard macOS shortcut table), pointing devices, gestures, focus and selection, Pencil and Scribble, hardware controls, sign-in, purchases and paywalls, Apple Pay, Mac Catalyst, sync, Siri, maps, media and collaboration features, plus skim-only technologies.
 Loaded by: interaction and motion, platform fit, content
 Snapshot: 2026-10-23
@@ -23,7 +28,7 @@ Tags: MUST = Apple says must/never/always/don't, or App Review enforces it. SHOU
 - [SHOULD] Ask for confirmation before significant actions taken on someone's behalf. Do not automate destructive actions (deleting photos) or hard-to-undo ones (purchases).
 - [CONSIDER] Offer several meaningfully different results to pick from (Image Playground). Near-duplicates do not count.
 - [SHOULD] Feedback is voluntary, placed where it does not interrupt: a quick thumbs up/down plus an optional detailed path.
-- [SHOULD] Privacy: tell people if data leaves the device, show what is shared, say whether it is stored off-device or used for training. Ask permission before using personal or usage data and give an opt-out. Kids' apps have stricter rules.
+- [SHOULD] Privacy: tell people if data leaves the device, show what is shared, say whether it is kept off the device or used to train models. Get permission before using personal or usage data, and offer an opt-out. Kids' apps have stricter rules.
 - [SHOULD] Inclusion: when generating images or descriptions of people, ask for attributes instead of inferring gender, culture or relationship type.
 - [SHOULD] Copyright: build on models with protections, curate inputs, consider pre-approved prompts.
 - [CONSIDER] Keep the model separable from the UX so it can be swapped later.
@@ -57,7 +62,7 @@ Tags: MUST = Apple says must/never/always/don't, or App Review enforces it. SHOU
 - [SHOULD] Explicit feedback: Act on feedback immediately and persist it: hidden content disappears everywhere in the app, not just in this list.
 - [SHOULD] Explicit feedback: Favorites and social reactions count as implicit feedback, not explicit.
 - [SHOULD] Implicit feedback: Tell people how data flows across apps and let them restrict it.
-- [MUST] Implicit feedback: Do not let it narrow exploration (filter bubble); beware confirmation bias.
+- [SHOULD] Implicit feedback: Don't let it reduce people's chances to explore, since it tends to reinforce existing behavior; beware of confirmation bias and avoid relying only on implicit feedback for results.
 - [SHOULD] Implicit feedback: Withhold suggestions on private or sensitive topics, because devices are shared.
 - [SHOULD] Implicit feedback: Weight recent signals over older ones.
 - [SHOULD] Implicit feedback: Update cadence matches the mental model: typing suggestions update instantly; song recommendations should not reshuffle continuously.
@@ -325,7 +330,8 @@ Tags: MUST = Apple says must/never/always/don't, or App Review enforces it. SHOU
 - [SHOULD] Avoid asking for a personal email when the person chose a private relay address.
 - [SHOULD] Show "Using Sign in with Apple" in account settings.
 - [CONSIDER] Account linking when the email matches.
-- [MUST] The button is no smaller than other sign-in buttons and never requires scrolling to reach it.
+- [MUST] The button is no smaller than other sign-in buttons.
+- [SHOULD] Avoid making people scroll to see the button.
 - [SHOULD] Sizes: minimum 140×30pt; margin at least 1/10 of button height. Custom buttons: title-to-right-edge margin at least 8% of width; title font about 43% of button height; PNG logos only at 44pt height (44×44 for logo-only); logo-only is 1:1.
 - [MUST] Titles are only "Sign in with Apple", "Sign up with Apple" or "Continue with Apple".
 - [MUST] Logo and text are both black or both white; no custom colors; text buttons are rectangular.
@@ -399,7 +405,7 @@ Tags: MUST = Apple says must/never/always/don't, or App Review enforces it. SHOU
 - [SHOULD] Validation: lenient parsing (drop Zip+4 extra digits; accept phones with or without dashes or country code). Specific errors ("Zip code doesn't match city"): noun phrase, sentence case, no final period, 128 characters or fewer.
 - [SHOULD] Subscriptions: show trial amount ($0), regular amount and start date as line items; show the sheet only when a change adds cost.
 - [SHOULD] Donations: preset $25/$50/$100 plus Other.
-- [MUST] Sizes: Apple Pay button minimum 100×30pt; captioned buttons (Buy, Book, Check Out, Donate, Subscribe, Set Up) minimum 140×30pt; margins 1/10 of height; mark clear space 1/10 of height; mark height at least that of other payment marks.
+- [SHOULD] Sizes (Apple gives these values "for guidance"): Apple Pay button minimum 100×30pt; captioned buttons (Buy, Book, Check Out, Donate, Subscribe, Set Up) minimum 140×30pt; margins 1/10 of height; mark clear space 1/10 of height; mark height at least that of other payment marks.
 - [SHOULD] Placement: right of "Add to Cart" side by side, above it when stacked; no smaller than other payment buttons; no scrolling needed.
 - [SHOULD] Website icon 60×60pt (120px @2x, 180px @3x).
 - [MUST] Text: "Apple Pay", never plural, possessive or translated; never use the Apple logo to stand for the name; a text-only listing only if every payment option is text-only.

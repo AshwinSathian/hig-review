@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Static assets only: the site is a Next.js static export (out/), no Worker script.
+  "name": "loupe-site",
+  "compatibility_date": "2026-10-26",
+  "assets": {
+    "directory": "./out",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  "routes": [{ "pattern": "loupe.ashwinsathian.com", "custom_domain": true }]
+}

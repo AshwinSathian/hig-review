@@ -1,0 +1,248 @@
+{
+ "pair01": {
+  "prefer": "A",
+  "reason": "Both reports find the same core defects: focus removed, date wiped by the re-render, no stock decrement, the table overflowing on mobile, the ticker, the 2.21:1 meta text and the 88vh hero. A's numbers match the source and my measurements: star 31.9x32, #tools at y=845 at 800 px and about 933 at 900 px, scrollWidth 664. A ties its Blockers to WCAG failures and adds dark mode, rem sizing and a date-first rework. B makes a few factual errors and gives Critical to items that have no WCAG basis and do not block the task.",
+  "wrong": {
+   "A": [],
+   "B": [
+    "#9 says the star hit area is about 20x24 px, below 2.5.8. It measures 31.9x32 px, so it passes 2.5.8.",
+    "#5 says out-of-stock status is shown by colour alone (WCAG 1.4.1). The card also shows the text 'Out on loan', so colour is not the only cue.",
+    "#9 says the star has no accessible name. It does have one, the glyph '\u2606' ('white star'). The real problem is that the name doesn't say what the button does and the button has no pressed state."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "#4 save star rated Blocker. The name 'white star' is weak and there is no aria-pressed, but the glyph-based name does change with state, and the control does nothing. Major is the most it deserves.",
+    "#16 slop-cluster rated Major. This is a taste judgement with no effect on users.",
+    "#13 px-only type rated Major. Zoom works and 1.4.4 passes, so Minor is enough."
+   ],
+   "B": [
+    "#3 inventory not decremented rated Critical. This is a prototype with no backend, and the reserve task still completes.",
+    "#1 date wipe rated Critical. The user can re-enter the date and submit. It is a real Major bug, not Critical.",
+    "#4 table overflow rated Critical. The page scrolls sideways, but Cancel can still be reached, so High is enough."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": [
+    "#1 Critical, date wipe: no WCAG A/AA failure, and the task can still be completed by re-entering the date.",
+    "#3 Critical, inventory/double-booking: no WCAG failure, the task completes, and it is a prototype data-model gap."
+   ]
+  }
+ },
+ "pair02": {
+  "prefer": "B",
+  "reason": "B's measurements are accurate. It pixel-sampled the hero (passes), got the star size right (32x32), and correctly says the nav targets pass 2.5.8 through spacing. Its Blockers are mostly tied to WCAG failures. A makes several wrong WCAG claims (placeholder colour, hero paragraph contrast, 2.5.8) and puts the membership and hero items in its Blocker/High tier. B's one weak spot is rating the placeholder stats a Blocker.",
+  "wrong": {
+   "A": [
+    "#7 says the search placeholder uses #a9b0ab. There is no ::placeholder rule; the placeholder uses the browser's default colour, not --faint.",
+    "#7 says the hero paragraph fails at 4.01:1. That figure is the gradient's end stop. The text sits over the darker part, and pixel sampling gives about 5.2:1 or more, so it passes.",
+    "#18 says the nav links fail WCAG 2.5.8. They are 18 px tall but pass under the spacing exception (the 16 px margins satisfy it); only the 44 px goal is missed."
+   ],
+   "B": []
+  },
+  "inflated": {
+   "A": [
+    "#9 missing membership/sign-in story is placed in the 'Blocker / High' tier. It is a product question for a prototype, not a defect that harms users.",
+    "#18 nav target size is presented as a WCAG failure. It only misses the 44 px guideline, so it is Low/Minor."
+   ],
+   "B": [
+    "#4 invented or placeholder stats rated Blocker. This is a development build with placeholder data. It is a trust note, Minor until release."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": [
+    "#4 Blocker, placeholder figures in the hero and ticker: no WCAG failure, no blocked task, and no App Store relevance (web)."
+   ]
+  }
+ },
+ "pair08": {
+  "prefer": "B",
+  "reason": "B is measured (tab walk, scrollWidth 664, star 32x32, a correct 2.5.8 spacing pass) and ties most of its Blockers to WCAG 2.4.7, 1.4.3, 2.2.2 and 4.1.2. A puts unbacked items in Critical (validation/feedback, cancel without undo), gets the star size wrong, and calls the disabled styling the browser default. B has its own errors: hero contrast, the disabled colour, a misapplied 2.2.1, and the date wipe rated Blocker. On balance B is still the more reliable report.",
+  "wrong": {
+   "A": [
+    "#11 says the star is a ~20px glyph button. It measures 31.9x32 px.",
+    "#12 says disabled buttons 'may be low contrast (browser default)'. .btn styles them exactly like the enabled ones (brand green, opacity 1). The real problem is that they look enabled."
+   ],
+   "B": [
+    "#5 says the hero paragraph and stat labels are under 4.5:1. 4.01:1 is only the gradient's end-stop colour, and the text sits over darker pixels that sample at 4.67:1 or more. B itself admits it did not pixel-sample.",
+    "#14 says the disabled colour is the browser default. The disabled Reserve keeps the brand-green .btn style, identical to the enabled buttons.",
+    "#22 cites WCAG 2.2.1 for the 3 s toast. 2.2.1 is about time limits on tasks the user must complete; a toast that clears itself is not a 2.2.1 failure."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "#3 validation and feedback rated Critical. The task completes; it is copy and validation friction (Medium/High).",
+    "#4 cancel without undo rated Critical. It is destructive friction, High at most.",
+    "#2 date wipe rated Critical. Re-entering the date completes the task, so Major/High is enough."
+   ],
+   "B": [
+    "#2 dialog focus listed as a separate Blocker. It is a duplicate of #1 with the same cause.",
+    "#11 star rated Blocker. The glyph name 'white star' changes with state and the control does nothing. Major at most.",
+    "#3 date wipe rated Blocker. The input can be re-entered and the task completes."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [
+    "#2 Critical, date wipe: no WCAG failure, and the task completes after re-entering the date.",
+    "#3 Critical, validation and feedback: no WCAG failure, and the task completes.",
+    "#4 Critical, cancel without undo: no WCAG failure, and the task completes."
+   ],
+   "B": [
+    "#3 Blocker, date wipe in the dialog: no WCAG A/AA failure, and the reservation can still be submitted after re-entering the date."
+   ]
+  }
+ },
+ "pair04": {
+  "prefer": "B",
+  "reason": "Both reports catch the same core problems: invalid tax or tip silently counts as 0, the results sit far down the page on phones, the sticky panel overflows, nothing can be edited after it is added, and focus is lost after re-renders. I confirmed each in Chromium. B's measurements are more accurate. It describes the sticky overflow correctly: Copy is only reachable near the end of the scroll, not never. B also finds things A misses. 'Check total' leaves out unassigned items, which breaks the lede's 'exact total' promise. Invalid tax text comes back after a reload with no error shown. Focus drops to <body> after Undo and Dismiss. Comma decimals get an unhelpful message. A has a few overstatements.",
+  "wrong": {
+   "A": [
+    "#3 says the lower part of the sticky panel 'can never scroll into view'. With 17 people at 1280x800, Copy moved from y=1818 to y=587 once the page was scrolled to its end, so it is reachable. When the left column is shorter, the panel does not stick at all.",
+    "#5 says tip presets lose focus 'after refresh'. The preset buttons are static markup that refresh() does not re-render, so focus stays on them. Only the 'Everyone' button loses focus."
+   ],
+   "B": []
+  },
+  "inflated": {
+   "A": [
+    "#3 is rated High on the basis of 'can never scroll into view'. Copy is reachable at the end of the scroll, so this is an annoyance on large groups, not a hidden control. Medium at most."
+   ],
+   "B": []
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": []
+  }
+ },
+ "pair05": {
+  "prefer": "A",
+  "reason": "A covers more of what actually goes wrong in use, and I verified its key claims. Unassigned items drop out of the subtotal while the whole receipt tax is spread over the assigned items: with Pizza unassigned, one person carried all $5 tax. Typing '12.' in Tax shows an error, and the total is then computed with $0 tax. Validation fires on half-typed input such as '12.', '17.' and '1,0'. Focus is lost after Everyone and after Undo. B also finds the unassigned-tax bug, and adds the forced-colours preset issue (confirmed: the pressed preset differs only by border) and RTL padding. But B misses the silent zeroing of invalid tax or tip and the false errors while typing, and it spends much of its length on theming directions. A's weakness is calling two findings Critical.",
+  "wrong": {
+   "A": [],
+   "B": [
+    "#7 says screen readers may read 'e.g.' as 'egg'. Mainstream screen readers do not do that. At most this is a style preference, not an accessibility defect."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "C1 (unassigned items and tax) is rated Critical. It is a real money error, but a red 'Not included' warning is shown, and the task completes once items are assigned. High fits.",
+    "C2 (invalid tax counted as 0) is rated Critical. An inline error is shown at the field, so High fits.",
+    "M3 (placeholders look like real values) is rated Medium. It is a taste judgement with no measured failure, so Low.",
+    "M6 (tip presets use aria-pressed instead of a radio group) is rated Medium. That pattern is acceptable, so Low."
+   ],
+   "B": [
+    "#4 (layout at 200% text) is rated Major even though the report itself says WCAG 1.4.4 passes and nothing is lost. Minor.",
+    "#13 leans on WCAG 2.4.12, which is AAA. Minor is fine, but the cited failure is not an AA failure."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [
+    "C1 is rated Critical without a WCAG A/AA failure, a task that cannot be completed, or a likely store rejection. Totals are provisional and flagged, and assigning the items resolves it.",
+    "C2 is rated Critical on the same grounds. The error is shown at the field, and fixing the input restores correct totals."
+   ],
+   "B": []
+  }
+ },
+ "pair09": {
+  "prefer": "A",
+  "reason": "Both lead with the silent zeroing of invalid tax or tip, which I confirmed. A goes further. It flags validation firing on half-typed numbers (true). It finds focus lost after both Everyone and Undo (both verified as BODY), and focus sent to #iName after a delete (true). It notes that every item's legend reads 'Who had it?' without the item name, and that there is no live region for results (true). It also covers undo lifetime, the assignment UI not scaling, and silent persistence. B is accurate but thin. It misses Undo focus, the legend and live-region gaps, and edit and persistence issues, and its #9 is not a finding. B's pseudo-localisation overflow is plausible: my +40% non-breaking-text test overflowed at 390 px. Neither report notices the unassigned-item tax misallocation.",
+  "wrong": {
+   "A": [
+    "L3 says a tall sticky panel 'cannot be fully read'. The bottom of the panel comes into view at the end of the page scroll, so it can be read, just late."
+   ],
+   "B": [
+    "#9 is listed as a finding but reports nothing to fix."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "H4 (no live region, generic legend) is rated High. Neither is a measured WCAG A/AA failure: the checkbox names are present, and the item is in the surrounding context. Medium.",
+    "H2 (validation fires on half-typed numbers) is rated High. It is irritating, but nothing breaks once the user finishes typing. Medium."
+   ],
+   "B": []
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": []
+  }
+ },
+ "pair03": {
+  "prefer": "A",
+  "reason": "A correctly puts the app's functional failures at the top: no reminders are ever scheduled, nothing persists, and doses are only generated for the day a medicine is added, so Today is empty from day 2 (Models.swift:43-51). B never reports that day-2 failure; its finding 13 only covers same-day past-due doses. B also rates reminders and persistence as Major. B is better on measured contrast: #4B5563 on #1C1C1E is 2.25:1 and system green on white is 2.22:1, both of which I confirmed. A misses the green failure, and over-escalates B4 and B5 to Blocker. Even so, A is the report an owner should act on.",
+  "wrong": {
+   "A": [
+    "'What is working' says the portrait-only lock (Info.plist) has nothing wrong with it. Locking orientation with no essential reason fails WCAG 1.3.4 Orientation (AA).",
+    "It says project.pbxproj was not in the folder. It is there, and it states iOS 17.0, Xcode 26 and iPhone only."
+   ],
+   "B": []
+  },
+  "inflated": {
+   "A": [
+    "B5 (Take/Skip available early, no undo) is rated Blocker. It is a real correction-and-undo gap, but High at most: no WCAG failure and no blocked task.",
+    "B4 (missed doses vanish from History) is rated Blocker. It is a real gap in the record, but not a blocked task or an accessibility failure. High fits."
+   ],
+   "B": [
+    "Finding 2 (swipe-delete removes dose history without confirmation) is rated Blocker. The data loss is real, but the task completes and nothing fails WCAG. High fits."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [
+    "B4 missed doses not recorded",
+    "B5 early take / no undo"
+   ],
+   "B": [
+    "Finding 2 swipe-delete erases history (data loss, but no WCAG failure, no blocked task, no review risk)"
+   ]
+  }
+ },
+ "pair06": {
+  "prefer": "A",
+  "reason": "Both reports cover the same core failures: no reminders, schedule ends after day 1, no persistence, delete wipes history. A also measures both WCAG 1.4.3 failures correctly (green 2.22:1 on white, #4B5563 at 2.25:1 on #1C1C1E), and its Rework 1 ties the schedule failures to one cause. B ranks the functional failures better as Critical, but misses the green 'Taken' contrast failure. It also says the Taken/Skipped labels rely partly on colour, when both carry text. A underrates the reminder and recurrence failures as Major and adds slop/distinctiveness noise, but its findings are more complete and more accurate.",
+  "wrong": {
+   "A": [
+    "It records build_sdk as unknown and skips the iOS 26 checks. project.pbxproj states 'Xcode 26 (iOS 26 SDK)' and XCODE_VERSION_ACTUAL = 2600."
+   ],
+   "B": [
+    "M2 says the Taken and Skipped status labels on Today rely partly on colour. Both are Labels with the text 'Taken' or 'Skipped', so colour is not carrying the meaning."
+   ]
+  },
+  "inflated": {
+   "A": [
+    "Finding 19 is a slop cluster rated Major. It is a taste and distinctiveness judgment that re-counts other findings, with no user-task impact of its own."
+   ],
+   "B": [
+    "C4 is rated Critical. Missed doses dropping out of History and delete wiping history are real record-integrity problems, but High fits."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": [
+    "C4 (missed doses vanish, delete erases history): no WCAG failure, no blocked task, no review risk"
+   ]
+  }
+ },
+ "pair07": {
+  "prefer": "B",
+  "reason": "B's contrast numbers are correct and measured: 2.25:1 for #4B5563 in dark mode, and green at 2.22:1 on white for text with the icon under 3:1. Its first action is a schedule-first rework that fixes persistence, recurrence, reminders and history together. It also finds gaps A misses: strength is missing from the Today and History rows, the Clear dialog gives no count, and every pending row has its own prominent Take. A's ranking of reminders and rollover as Critical is better than B's Major. But A puts contrast at High despite measured failures, and its M6 is a wrong technical claim.",
+  "wrong": {
+   "A": [
+    "M6 claims the outer .buttonStyle(.borderless) may override Take's .borderedProminent depending on modifier order. In SwiftUI the button style closest to the button wins, so Take renders prominent.",
+    "H3 is titled 'Status relies on colour'. On Today the Taken and Skipped states carry text labels; only History is glyph-only."
+   ],
+   "B": []
+  },
+  "inflated": {
+   "A": [],
+   "B": [
+    "Finding 2 (swipe-delete erases dose history without confirmation) is rated Blocker. It is real data loss, but the task completes and nothing fails WCAG. High fits."
+   ]
+  },
+  "unbacked_blockers": {
+   "A": [],
+   "B": [
+    "Finding 2 swipe-delete data loss: no measured WCAG failure, no blocked task, no review risk"
+   ]
+  }
+ }
+}

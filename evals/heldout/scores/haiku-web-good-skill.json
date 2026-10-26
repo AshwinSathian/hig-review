@@ -1,0 +1,50 @@
+{
+ "items": {
+  "G1": "found",
+  "G2": "missed",
+  "G3": "partly",
+  "G4": "missed",
+  "G5": "missed",
+  "G6": "missed",
+  "G7": "missed",
+  "G8": "missed"
+ },
+ "blockers": 0,
+ "extra": [
+  {
+   "finding": "#1 Invalid tax or tip silently counted as 0 in totals and copy",
+   "verdict": "real",
+   "why": "model() uses cents||0; tested: 'abc' tax shows tax $0.00 and a final-looking total"
+  },
+  {
+   "finding": "#2 On a phone the result is far below the inputs",
+   "verdict": "real",
+   "why": "Single column under 900 px puts the result after all items"
+  },
+  {
+   "finding": "#4 Pseudo-localised text overflows horizontally at 390",
+   "verdict": "wrong",
+   "why": "No overflow with +40% text; only with artificial space-free strings"
+  },
+  {
+   "finding": "#5 Blank tip doesn't press 'No tip'",
+   "verdict": "real",
+   "why": "renderTip requires non-empty tipText"
+  },
+  {
+   "finding": "#6 Spare-cents paragraph is jargon",
+   "verdict": "real",
+   "why": "The text says 'largest leftover fraction'"
+  },
+  {
+   "finding": "#7 Trailing '12.' rejected with an unhelpful message",
+   "verdict": "real",
+   "why": "The regex needs digits after the point; the generic message is shown"
+  },
+  {
+   "finding": "#8 Undo silently cleared by any later edit",
+   "verdict": "real",
+   "why": "save() calls toast('') on every refresh"
+  }
+ ]
+}

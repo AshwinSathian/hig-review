@@ -1,0 +1,57 @@
+{
+ "items": {
+  "D1": "found",
+  "D2": "found",
+  "D3": "found",
+  "D4": "found",
+  "D5": "found",
+  "D6": "found",
+  "D7": "found",
+  "D8": "found",
+  "D9": "found",
+  "D10": "found",
+  "U1": "found",
+  "U2": "missed",
+  "U3": "found",
+  "U4": "found",
+  "U5": "found"
+ },
+ "blockers": 4,
+ "extra": [
+  {
+   "finding": "Invented hero/ticker figures (181 tools vs 6 shown) rated Blocker",
+   "verdict": "real",
+   "why": "Mismatch exists but is placeholder copy; Blocker badly over-rated"
+  },
+  {
+   "finding": "No dark mode (Major)",
+   "verdict": "wrong",
+   "why": "Light-only is a style choice, not a defect"
+  },
+  {
+   "finding": "All font sizes in px ignore user root font setting",
+   "verdict": "real",
+   "why": "px throughout; zoom still works, minor"
+  },
+  {
+   "finding": "Star and nav targets under 44px",
+   "verdict": "real",
+   "why": "32px star, 18px links; pass 2.5.8, minor"
+  },
+  {
+   "finding": "Star overlaps long card titles",
+   "verdict": "real",
+   "why": "Absolute star, h3 has no right padding; only with longer names"
+  },
+  {
+   "finding": "Physical CSS properties, no RTL mirroring",
+   "verdict": "wrong",
+   "why": "RTL not a requirement for this en-GB site"
+  },
+  {
+   "finding": "Hard-coded min date",
+   "verdict": "real",
+   "why": "min literal in renderDlg()"
+  }
+ ]
+}

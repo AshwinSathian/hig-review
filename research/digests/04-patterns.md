@@ -1,5 +1,8 @@
 # 04 — Patterns (behavior & flow) digest
 
+Sources: Apple Human Interface Guidelines, developer.apple.com/design/human-interface-guidelines, snapshot 2026-10-23 (the Patterns pages).
+Paraphrased digest for review purposes. Short quotations are attributed; consult the sources for the authoritative text.
+
 Severity key: [MUST] = Apple says must/never/always/essential/crucial; [SHOULD] = bold imperative / "avoid" / "prefer"; [CONSIDER] = "consider"/"when it makes sense". "Inference" lines are ours, not Apple's.
 Scope: iOS, iPadOS, macOS (+ web translation). tvOS/visionOS/watchOS noted only when the rule carries over.
 `patterns` (index page) only lists topics; it adds no guidance.
@@ -144,7 +147,7 @@ Scope: iOS, iPadOS, macOS (+ web translation). tvOS/visionOS/watchOS noted only 
 - **Slop tells (inference)**: Netflix-clone home pages where live and VOD tiles look identical; detail page → play button → pre-roll interstitial; a red "LIVE" badge on everything.
 
 ## Loading (source: loading)
-- **Intent**: "The best content-loading experience finishes before people become aware of it." An empty screen looks broken.
+- **Intent**: Ideally loading is done before people notice it is happening. An empty screen looks broken.
 - **Checks**:
   - [SHOULD] Show something right away: placeholder text, graphics, or animation, replaced as content arrives.
   - [SHOULD] Let people keep using other parts of the app while content loads in the background.

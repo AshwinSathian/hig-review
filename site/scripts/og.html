@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- Source for public/og.png: node scripts/og.mjs -->
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;800&family=Atkinson+Hyperlegible+Mono:wght@600&display=block" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1200px; height: 630px; background: #eae9e6; color: #1a1d23; font-family: 'Atkinson Hyperlegible Next', sans-serif; padding: 60px 72px; position: relative; overflow: hidden; }
+  .top { display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 800; letter-spacing: -0.03em; }
+  .top span { margin-left: auto; font-family: 'Atkinson Hyperlegible Mono', monospace; font-size: 20px; font-weight: 600; color: #575b62; letter-spacing: 0.04em; text-transform: uppercase; }
+  h1 { margin-top: 64px; font-size: 84px; line-height: 0.98; letter-spacing: -0.04em; font-weight: 800; max-width: 640px; }
+  p { margin-top: 28px; font-size: 26px; color: #575b62; max-width: 600px; line-height: 1.35; }
+  .frame { position: absolute; right: 72px; top: 150px; width: 380px; height: 400px; background: #fdfcfb; border: 1px solid #cececb; padding: 28px; }
+  .frame::before, .frame::after { content: ''; position: absolute; width: 20px; height: 20px; }
+  .frame::before { top: -10px; left: -10px; border-top: 1.5px solid #1a1d23; border-left: 1.5px solid #1a1d23; }
+  .frame::after { bottom: -10px; right: -10px; border-bottom: 1.5px solid #1a1d23; border-right: 1.5px solid #1a1d23; }
+  .row { height: 14px; background: #e3e2df; margin-bottom: 14px; }
+  .meta { color: #a9b0ab; font-size: 17px; margin: 18px 0 22px; }
+  .ring { position: absolute; left: 120px; top: 110px; width: 220px; height: 220px; border-radius: 50%; border: 3px solid #1a1d23; box-shadow: 0 0 0 9px #fdfcfb, 0 0 0 10px #cececb; background: #fdfcfb; display: grid; place-items: center; overflow: hidden; }
+  .ring .meta { font-size: 40px; margin: 0; white-space: nowrap; }
+  .val { position: absolute; left: 140px; top: 352px; font-family: 'Atkinson Hyperlegible Mono', monospace; font-weight: 600; font-size: 34px; color: #c52f0f; }
+  .val small { font-size: 20px; color: #575b62; margin-left: 10px; }
+</style>
+<div class="top">
+  <svg width="34" height="34" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="#1a1d23" stroke-width="2.5"/><path d="M12 7v3M12 14v3M7 12h3M14 12h3" stroke="#c52f0f" stroke-width="1.5"/></svg>
+  loupe <span>A Claude Code skill</span>
+</div>
+<h1>A design review that shows its measurements.</h1>
+<p>Grounded in Apple’s Human Interface Guidelines. For iOS, macOS and the web.</p>
+<div class="frame">
+  <div class="row" style="width: 60%"></div>
+  <div class="row" style="width: 85%"></div>
+  <div class="meta">Power · 18V, two batteries</div>
+  <div class="row" style="width: 70%"></div>
+  <div class="row" style="width: 40%"></div>
+  <div class="ring"><div class="meta">Power · 18V</div></div>
+  <div class="val">2.21 : 1 <small>needs 4.5</small></div>
+</div>
