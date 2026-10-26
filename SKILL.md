@@ -1,9 +1,9 @@
 ---
-name: hig-review
+name: loupe
 description: Use when asked for a UI or UX review, design review, design pass, or design critique; to audit a screen, component, flow, whole app, or design system (tokens, components, DESIGN.md); to check work against Apple's Human Interface Guidelines; when someone asks whether an interface looks generic, templated, or AI-made; when someone wants redesign, rework, branding or theming ideas, a competitive UX teardown, or to make UI best-in-class; or before shipping UI. Covers iOS, iPadOS, macOS, iPhone Duo and web, in SwiftUI, UIKit, React, Next.js, React Native, Expo, Angular, Vue, or plain HTML/CSS/JS. Not for building new UI from scratch unless a review is also asked, and not for visionOS, watchOS, tvOS, visual regression, or pixel diffing.
 ---
 
-# hig-review
+# loupe
 
 Review an interface against Apple's Human Interface Guidelines and Apple's other design literature, find what is wrong or generic, research what the best products in its category do now, and propose how to raise it: fixes, enhancements, and reworks where the evidence demands them. Other literature only augments Apple. The skill applies Apple's reasoning to the product's own brand; it never makes the product look like Apple's, a peer's, or anything else.
 
@@ -44,7 +44,7 @@ If either is unclear from the request, ask once, together with the profile quest
 
 ## 1. Profile
 
-Look for `.hig-review.md` at the reviewed repo root. If it exists, read it and obey it. If it lacks keys that `references/profile-template.md` defines, infer them for this run and offer to add them at the end.
+Look for `.loupe.md` at the reviewed repo root. If it exists, read it and obey it. If it lacks keys that `references/profile-template.md` defines, infer them for this run and offer to add them at the end.
 
 If it does not exist, bootstrap it:
 
@@ -56,7 +56,7 @@ If it does not exist, bootstrap it:
    - Bare React Native: `platform :ios, '…'` in `ios/Podfile`, and `project.pbxproj` under `ios/`.
 4. Fill every key in `references/profile-template.md` that the sources answer, and note the source for each.
 5. Ask every remaining gap in one batch (use AskUserQuestion when available), including any deployment target not found and the scope proposal for large apps. Typical gaps: purpose in one sentence, the feeling it should leave, audience and usage frequency, register, motion personality, humor, the product category and the competitors or products the team measures itself against (`category`, `peers`). Do not ask for `direction`; if it is empty, the distinctiveness pass proposes options. If a deployment target is still unknown after asking, skip the `(26+)` checks and add an Unverified line naming them.
-6. Show the drafted file. Write `.hig-review.md` only after the user confirms its contents. If they decline, run with the draft in memory and say so in the report summary.
+6. Show the drafted file. Write `.loupe.md` only after the user confirms its contents. If they decline, run with the draft in memory and say so in the report summary.
 
 **Existing design audit.** If the repo has one, cite the prior finding IDs a new finding overlaps, flag regressions of items it marks fixed, and do not re-file items it lists as fixed or open. Report new findings separately from confirmations of prior ones.
 

@@ -1,6 +1,6 @@
-# hig-review
+# loupe
 
-hig-review is a Claude Code skill that reviews UI and UX against Apple's Human Interface Guidelines and Apple's other design literature (WWDC sessions, the Apple Style Guide, App Review rules, WebKit guidance). Other research (NN/g, Baymard, GOV.UK, WCAG, Material, Fluent and the craft canon) only adds to Apple's position, and each such check says whether it adds to an Apple rule, covers ground Apple leaves open, or conflicts with Apple.
+loupe is a Claude Code skill that reviews UI and UX against Apple's Human Interface Guidelines and Apple's other design literature (WWDC sessions, the Apple Style Guide, App Review rules, WebKit guidance). Other research (NN/g, Baymard, GOV.UK, WCAG, Material, Fluent and the craft canon) only adds to Apple's position, and each such check says whether it adds to an Apple rule, covers ground Apple leaves open, or conflicts with Apple.
 
 It reviews a screen, a flow, a whole app, or a design system, for iOS, iPadOS, macOS, iPhone Duo and the web, in SwiftUI, UIKit, React, Next.js, React Native, Expo, Angular, Vue or plain HTML/CSS/JS. It looks hardest for the template look that AI-built and copied UI converges on, and it does not push a house look in its place, Apple's included: any concrete theme it proposes is derived from the product itself. It reviews as a red team: it attacks the premise, the flows and its own draft as well as the pixels, and argues for structural reworks when the evidence clears a stated bar, saying "no rework warranted" when it does not. Before judging, it researches the product's category and 3 to 6 peers (with sources) so its proposals reflect what the best products do now, and it uses that landscape to steer the product away from what every peer already looks like.
 
@@ -11,18 +11,18 @@ Findings carry two tags: user impact, and how strongly Apple states the rule. Af
 Inside Claude Code:
 
 ```
-/plugin marketplace add AshwinSathian/hig-review
-/plugin install hig-review@hig-review
+/plugin marketplace add AshwinSathian/loupe
+/plugin install loupe@loupe
 ```
 
 Or clone and symlink it into your skills folder, so pulling the repo updates the live skill:
 
 ```bash
-git clone https://github.com/AshwinSathian/hig-review.git
-ln -s "$(pwd)/hig-review" ~/.claude/skills/hig-review
+git clone https://github.com/AshwinSathian/loupe.git
+ln -s "$(pwd)/loupe" ~/.claude/skills/loupe
 ```
 
-To try it without installing: `claude --plugin-dir /path/to/hig-review`.
+To try it without installing: `claude --plugin-dir /path/to/loupe`.
 
 Running web apps are measured through the Playwright MCP server (the `playwright` plugin, or any server exposing `browser_*` tools). Without it, the skill works from screenshots and source and marks measured checks as unverified. Native screenshots use `xcrun simctl` when a simulator is booted.
 
@@ -36,7 +36,7 @@ Ask in plain words, from the repo you want reviewed:
 - "Whole-app design review of this Expo app. A simulator is running it."
 - "Does this landing page look AI-made?" (with a screenshot)
 
-On the first run in a repo, the skill drafts a `.hig-review.md` profile from your design docs, tokens and manifests (purpose, audience, platforms, deployment targets, density, brand, voice, waivers), asks about the gaps in one batch, and writes the file only after you confirm it. Later runs reuse it. Edit it by hand whenever you like; `references/profile-template.md` documents every key.
+On the first run in a repo, the skill drafts a `.loupe.md` profile from your design docs, tokens and manifests (purpose, audience, platforms, deployment targets, density, brand, voice, waivers), asks about the gaps in one batch, and writes the file only after you confirm it. Later runs reuse it. Edit it by hand whenever you like; `references/profile-template.md` documents every key.
 
 ## Refreshing the HIG snapshot
 
@@ -64,7 +64,7 @@ references/augment/     non-Apple literature, one file per area, each check labe
 references/slop-catalog.md     anti-pattern catalog, dated, separate from Apple-derived rules
 references/writing.md   UI copy rules, voice method, string checks
 references/web-mapping.md      how Apple rules translate to the web
-references/profile-template.md the .hig-review.md profile and how each key is used
+references/profile-template.md the .loupe.md profile and how each key is used
 references/report-template.md  report sections, tags, caps
 scripts/measure.js      in-page measurement (contrast, targets, type, motion, template tells)
 scripts/measure-runner.js  one Playwright call measuring every width, color scheme and motion setting

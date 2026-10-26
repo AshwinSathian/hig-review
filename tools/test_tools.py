@@ -13,17 +13,6 @@ def test_check_numbers_passes_when_present(tmp):
     assert run(f"{T}/check_numbers.py", w(tmp, "d.md", s), w(tmp, "r.md", s)).returncode == 0
 def test_check_numbers_ignores_small_bare_ints(tmp):
     assert run(f"{T}/check_numbers.py", w(tmp, "d.md", "step 3"), w(tmp, "r.md", "")).returncode == 0
-def test_docc2md_paragraph_and_list(tmp):
-    src, dst = os.path.join(tmp, "s"), os.path.join(tmp, "d"); os.makedirs(src)
-    t = lambda x: {"type": "text", "text": x}
-    doc = {"metadata": {"title": "Title"}, "abstract": [t("Abs")], "primaryContentSections": [{"content": [
-        {"type": "heading", "level": 2, "text": "H"},
-        {"type": "paragraph", "inlineContent": [t("para")]},
-        {"type": "unorderedList", "items": [{"content": [{"type": "paragraph", "inlineContent": [t("item")]}]}]}]}]}
-    w(src, "x.json", json.dumps(doc))
-    r = run(f"{T}/docc2md.py", src, dst); assert r.returncode == 0, r.stderr
-    md = open(os.path.join(dst, "x.md")).read()
-    for k in ("# Title", "## H", "- item"): assert k in md, md
 def test_diff_snapshot(tmp):
     o, n = os.path.join(tmp, "o"), os.path.join(tmp, "n"); os.makedirs(o); os.makedirs(n)
     w(o, "a.md", "a"); w(o, "b.md", "b"); w(n, "b.md", "b2"); w(n, "c.md", "c")

@@ -1,5 +1,5 @@
 {
-  "name": "hig-review",
+  "name": "loupe",
   "private": true,
   "type": "module",
   "scripts": { "test": "node --test && python3 -I test/test_png_contrast.py && python3 -I test/test_contrast.py" },

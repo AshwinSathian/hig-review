@@ -1,4 +1,4 @@
-# Profile template: `.hig-review.md`
+# Profile template: `.loupe.md`
 
 Lives at the reviewed repo root. The skill infers what it can on first run, asks only for the rest, writes the file, and reuses it. Edit freely; later runs obey it. Brand expression follows the profile on display-only surfaces; Apple wins in task flows.
 

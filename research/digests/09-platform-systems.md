@@ -2,7 +2,7 @@
 
 Scope: Google Material Design 3 including M3 Expressive (May 2025), Microsoft Fluent 2, Windows 11 app design, and the Microsoft Inclusive Design toolkit. Fetched 2026-10-23.
 
-**How to read this.** Apple's HIG is the base of hig-review. Nothing here replaces it. Each item is tagged with how it relates to Apple:
+**How to read this.** Apple's HIG is the base of loupe. Nothing here replaces it. Each item is tagged with how it relates to Apple:
 - **ADDS** = Apple says something similar; this source supplies the number, the mechanism, or the evidence.
 - **SILENT** = Apple doesn't address this; the source fills the gap.
 - **CONFLICT** = a real disagreement. The skill should flag it to the reviewer, not pick a winner over Apple.

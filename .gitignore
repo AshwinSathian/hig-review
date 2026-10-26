@@ -1,4 +1,12 @@
 node_modules/
-.hig-snapshots/
+.loupe-snapshots/
 .superpowers/
 .playwright-mcp/
+maintainer/
+.DS_Store
+__pycache__/
+test-results/
+.loupe.md
+site/node_modules/
+site/out/
+site/.next/

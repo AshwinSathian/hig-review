@@ -1,6 +1,6 @@
 # 16 — Landscape and frontier: platform capabilities, category playbooks, AI-native UX, identity mechanisms
 
-Scope: what best-in-class looks like right now, so hig-review can (1) research a product's category and peers before judging it and (2) propose enhancements and reworks, not only fixes. Covers Apple 26/27 platform capabilities, web Baseline 2025–2026, eleven category playbooks, AI-native UX patterns, and brand/identity mechanisms. Compiled 2026-10-26.
+Scope: what best-in-class looks like right now, so loupe can (1) research a product's category and peers before judging it and (2) propose enhancements and reworks, not only fixes. Covers Apple 26/27 platform capabilities, web Baseline 2025–2026, eleven category playbooks, AI-native UX patterns, and brand/identity mechanisms. Compiled 2026-10-26.
 
 **Framing rule:** Apple HIG stays the base. This file is a lever list, not a rule list. A frontier move earns a recommendation only when it serves the product's job and its users. "Everyone in the category does X" is evidence of a convention to keep or a cliché to avoid, never a reason on its own. On Apple platforms, HIG rules win over category fashion.
 

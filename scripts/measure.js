@@ -1,5 +1,5 @@
-// Also loadable as a <script> (page.addScriptTag): the assignment defines window.__higMeasure.
-window.__higMeasure = () => {
+// Also loadable as a <script> (page.addScriptTag): the assignment defines window.__loupeMeasure.
+window.__loupeMeasure = () => {
   const CAP = 400;
   let sampled = false;
   const cs = (el) => getComputedStyle(el);

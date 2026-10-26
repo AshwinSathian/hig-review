@@ -12,7 +12,7 @@ python3 -m http.server 8765 --directory evals/fixtures/sloppy-app
 
 Reviewer URL: `http://localhost:8765/index.html`. The planted problems and expected findings are in evals/keys/sloppy-app.md (10 planted problems P1-P10, plus 3 bonus items).
 
-Case C setup: copy sloppy-app to a temp directory containing no `.hig-review.md` and no brand docs (no README, DESIGN.md, tokens), and run the reviewer from that directory:
+Case C setup: copy sloppy-app to a temp directory containing no `.loupe.md` and no brand docs (no README, DESIGN.md, tokens), and run the reviewer from that directory:
 
 ```
 T=$(mktemp -d) && cp evals/fixtures/sloppy-app/index.html "$T"/ && cd "$T"
@@ -32,7 +32,7 @@ T=$(mktemp -d) && cp evals/fixtures/sloppy-app/index.html "$T"/ && cd "$T"
 
 ## Case C: no profile, no brand docs
 
-- Input: "Review this page and tell me if it looks generic", run from the temp copy created in Setup (no `.hig-review.md`, no brand docs).
+- Input: "Review this page and tell me if it looks generic", run from the temp copy created in Setup (no `.loupe.md`, no brand docs).
 - Run: baseline, then with the skill.
 - Pass: asks only the gaps, in one batch; then proposes 2 to 3 directions that differ on at least 2 channels (accent color, neutrals, typeface treatment, shape and radius, icon style, imagery, motion, copy voice, layout idiom, signature interaction).
 

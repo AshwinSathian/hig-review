@@ -1,6 +1,6 @@
 # 15 — Interface writing: merged rules for the copy pass
 
-Compiled 2026-10-23 for the `hig-review` skill's writing and microcopy pass.
+Compiled 2026-10-23 for the `loupe` skill's writing and microcopy pass.
 
 **Precedence (decided by the user).** Apple's writing guidance is the base layer. The `humanizing-writing` skill and the non-Apple literature add to it. When Apple and another source conflict, the conflict is flagged in §3, and Apple wins on native Apple targets (iOS, iPadOS, macOS). The humanizing-writing rules apply to all UI copy. Each product's voice is defined in its project profile (§4). The user's personal voice traits apply only when a product opts in. Spelling (en-US or en-GB) is set per product, and the skill flags any mixing.
 
@@ -324,7 +324,7 @@ Already decided: British spelling is not inherited from the profile. Spelling is
 3. **Default humor policy** when a profile doesn't set one: `none`, or `success-only`?
 4. **Reading level.** Report-only by default, or a default target (Polaris's about 7th grade, or the reading age of 9 cited for GOV.UK)?
 5. **Rewrite vs flag.** Should the copy pass propose replacement strings, or only flag? Rewrites of errors often need the real cause, which the strings don't contain.
-6. **How the skill uses humanizing-writing.** Load SKILL.md at review time as a dependency (it stays in sync), or copy the rules into hig-review (stable, but drifts)?
+6. **How the skill uses humanizing-writing.** Load SKILL.md at review time as a dependency (it stays in sync), or copy the rules into loupe (stable, but drifts)?
 7. **Tells-catalog maintenance.** Keep §2 as a dated, separately versioned file with a recheck cadence, like `claude-tics.md`?
 8. **Confirmshaming and fabricated social proof.** These overlap with dark-pattern and legal review. Report them as [MUST] (fabrication) or route them to a separate "trust and ethics" section?
 
