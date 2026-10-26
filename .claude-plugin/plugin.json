@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "loupe",
-  "displayName": "Loupe",
+  "displayName": "loupe",
   "version": "1.0.0",
   "description": "Design review for Claude Code: checks UI and UX against Apple's Human Interface Guidelines and the research around them, measures contrast, targets, type and motion in the running app, and flags template-made interfaces. iOS, iPadOS, macOS and the web. Independent; not affiliated with Apple.",
   "author": {

@@ -61,7 +61,13 @@ Text that loupe reads from your pages and from the web reaches the model as evid
 
 `npm install && npx playwright install chromium && npm test` runs the measurement scripts against fixtures in Chromium, plus the contrast scripts and the maintenance tools. CI runs the same on every pull request.
 
-How the review itself was tested, with every pair a judge compared and the losses, is in [evals/heldout/](evals/heldout/) and on [the testing page](https://loupe.ashwinsathian.com/testing).
+The review itself was tested in a pre-registered blind round on three fixtures written by model instances that never saw loupe's rules: a flawed web page, a well-built web app, and a SwiftUI app. Claude Haiku, Sonnet and Opus each reviewed every fixture with and without loupe, and three Claude judges compared the pairs without being told which was which.
+
+- Judges preferred loupe's review in 6 of 9 pairs.
+- Both conditions found nearly every planted defect. loupe did not find more; the round's recall rule failed by half a defect with Haiku, so the round failed one of its four rules.
+- loupe's reviews had fewer findings judged wrong (24 against 38) or inflated (40 against 52), and no Blockers on the well-built app, where the reviews without it put 10 findings in their top severity tier.
+
+Everything is in [evals/heldout/](evals/heldout/): the pre-registration, fixtures, all 18 reports, the judges' answers, the keys, and [notes on the result](evals/heldout/notes.md). The `evals/cases.md` cases are earlier development tests on fixtures the rules were tuned against.
 
 ## What's in here
 

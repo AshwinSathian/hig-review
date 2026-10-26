@@ -9,7 +9,7 @@ The round failed one of its four pre-registered rules, so by its own terms it fa
 - **Preference: passed, at the threshold.** Judges preferred loupe's report in 6 of 9 pairs (2 or more of 3 judges). The 3 losses were Haiku on the native app, Opus on the control, and Haiku on the control, which all three judges gave to the review written without the skill.
 - **Over-reporting on the control: passed.** On the well-built split-the-check app, the median judge flagged 2, 3 and 1 of loupe's findings as wrong or inflated (Sonnet, Opus, Haiku), against 3, 3 and 3 for the reviews without it.
 - **Recall: failed.** Summed over the flawed web page and the SwiftUI app, loupe's reports found 27, 27 and 29 of the 29 key items (Haiku, Sonnet, Opus); the reviews without it found 27.5, 26.5 and 27. Haiku with loupe missed by half an item, one "partly" found. Every report, with or without the skill, found all 10 planted defects on the flawed page, so this fixture measured almost nothing about recall.
-- **Restraint: passed.** On the control, loupe reported no Blocker and "no rework warranted" with all three models. The reviews without it rated 10 findings Critical or top severity across the three models on the same app.
+- **Restraint: passed.** On the control, loupe reported no Blocker and "no rework warranted" with all three models. The reviews without it put 10 findings in their top severity tier across the three models on the same app.
 
 Across all 9 pairs and 3 judges, findings judged wrong numbered 24 for loupe and 38 without it, inflated 40 and 52, and top-severity findings judged unbacked 29 and 44.
 

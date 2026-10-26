@@ -5,7 +5,7 @@ description: Reviews UI and UX against Apple's Human Interface Guidelines and re
 
 # loupe
 
-Loupe is independent and not affiliated with Apple.
+loupe is independent and not affiliated with Apple.
 
 Review an interface against Apple's Human Interface Guidelines and Apple's other design literature, find what is wrong or generic, research what the best products in its category do now, and propose how to raise it: fixes, enhancements, and reworks where the evidence demands them. Other literature only augments Apple. Apply Apple's reasoning to the product's own brand; never make the product look like Apple's, a peer's, or anything else.
 
